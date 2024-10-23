@@ -1,43 +1,48 @@
 import { Button } from "@/components/ui/button";
 import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
 } from "@/components/ui/card";
 import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormMessage,
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { loginSchema } from "@/features/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { HeartPulse } from "lucide-react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { useLogin } from "../api/use-login";
 
-const formSchema = z.object({
-  email: z.string().trim().min(1, "Campo obligatorio").email(),
-  password: z.string().min(1, "Ingresa la contraseña"),
-});
+// const formSchema = z.object({
+//   email: z.string().trim().min(1, "Campo obligatorio").email(),
+//   password: z.string().min(1, "Ingresa la contraseña"),
+// });
 
 export const SignInCard = () => {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const { mutate } = useLogin();
+
+  const form = useForm<z.infer<typeof loginSchema>>({
+    resolver: zodResolver(loginSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log({values});
+  const onSubmit = (values: z.infer<typeof loginSchema>) => {
+    mutate({ json: values });
   };
+
   return (
     <>
       <Card className="w-full h-full md:w-[487px] border-none shadow-none">
@@ -49,7 +54,12 @@ export const SignInCard = () => {
             Ingresa a Hospicare
           </CardTitle>
           <CardDescription className="text-center">
-            por Hospice Madre Teresa
+            por{" "}
+            <Link
+              href={"https://hospicemadreteresa.org.ar/"}
+              className="hover:underline">
+              Hospice Madre Teresa
+            </Link>
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -71,7 +81,6 @@ export const SignInCard = () => {
                   </FormItem>
                 )}
               />
-
               <FormField
                 name="password"
                 control={form.control}
@@ -88,7 +97,6 @@ export const SignInCard = () => {
                   </FormItem>
                 )}
               />
-
               <Button disabled={false} size={"lg"} className="w-full">
                 Ingresar
               </Button>
