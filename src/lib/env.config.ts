@@ -5,7 +5,7 @@ export const env = {
 
   // Información del proyecto
   projectId: process.env.NEXT_PUBLIC_PROJECT_ID || "",
-  apiKey: process.env.API_KEY || "",
+  apiKey: process.env.NEXT_API_KEY || "",
   endpoint: process.env.NEXT_PUBLIC_ENDPOINT || "",
 
   // IDs de la base de datos
