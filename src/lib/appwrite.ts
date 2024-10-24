@@ -1,3 +1,5 @@
+import "server-only";
+
 import { Account, Client } from "node-appwrite";
 import { env } from "./env.config";
 
