@@ -65,9 +65,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
-        className={cn(plusJakartaSans.className, "antialiased min-h-screen")}>
+        className={cn(
+          plusJakartaSans.className,
+          "antialiased min-h-screen text-lg"
+        )}>
         <QueryProvider>
           <ThemeProvider
             attribute="class"

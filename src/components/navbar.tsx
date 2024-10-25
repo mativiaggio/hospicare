@@ -4,7 +4,8 @@ import Link from "next/link";
 import React, { useState } from "react";
 import NavbarMenuButton from "./buttons/navbar-menu-button";
 import { ModeToggle } from "./buttons/theme-toggle";
-import UserDropdown from "./dropdowns/user-dropdown";
+
+import { UserDropdown } from "./dropdowns/user-dropdown";
 import { Button } from "./ui/button";
 import { Menu } from "./ui/navbar-menu";
 
@@ -25,7 +26,7 @@ const Navbar: React.FC = () => {
     <div className="relative z-10">
       <div className="flex h-fit max-h-[10vh] items-center justify-between border-b px-4 py-2 sm:px-6 md:px-8 lg:px-10">
         <div className="flex w-1/6">
-          <Link className="flex items-center justify-center" href="/inicio">
+          <Link className="flex items-center justify-center" href="/">
             <HeartPulse className="text-primary h-6 w-6" />
             <span className="text-primary ml-2 text-2xl font-bold">
               Hospicare
@@ -36,7 +37,7 @@ const Navbar: React.FC = () => {
           <div className="hidden w-full lg:flex">
             <ul className="flex items-center justify-between gap-6">
               <li>
-                <Link href={"/inicio"}>Inicio</Link>
+                <Link href={"/"}>Inicio</Link>
               </li>
               <li>
                 <Link href={"/huespedes"}>Huéspedes</Link>
@@ -54,7 +55,7 @@ const Navbar: React.FC = () => {
           </div>
         </Menu>
 
-        <div className="hidden w-1/6 lg:block">
+        <div className="hidden w-1/6 lg:flex justify-end">
           <UserDropdown />
         </div>
         <div className="block lg:hidden">
@@ -103,9 +104,9 @@ const Navbar: React.FC = () => {
           <div className="mt-6 flow-root text-black dark:text-white">
             <div className="-my-6 divide-y divide-gray-500/10">
               <div className="flex flex-col">
-                <ul className="items-left mb-6 flex flex-col gap-6 text-2xl">
+                <ul className="navbar-ul items-left mb-6 flex flex-col gap-6 text-2xl">
                   <li>
-                    <Link onClick={() => handleCloseNavbar()} href={"/inicio"}>
+                    <Link onClick={() => handleCloseNavbar()} href={"/"}>
                       Inicio
                     </Link>
                   </li>
@@ -130,15 +131,15 @@ const Navbar: React.FC = () => {
                       Obras Sociales
                     </Link>
                   </li>
-                  <li>
+                  <li className="hover:!bg-transparent">
                     <ModeToggle
-                      buttonClasses="justify-start"
+                      buttonClasses="justify-start hover:!bg-transparent"
                       iconSize="h-[1.8rem] w-[1.8rem]"
                     />
                   </li>
                 </ul>
               </div>
-              <div className="block">
+              <div>
                 <UserDropdown />
               </div>
             </div>

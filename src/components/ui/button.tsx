@@ -22,6 +22,8 @@ const buttonVariants = cva(
         muted: "bg-neutral-200 text--neutral-600 hover:bg-neutral-200/80",
         teritary:
           "bg-blue-100 text-blue-600 border-transparent hover:bg-blue-200 shadow-none",
+        inherit:
+          "!p-0 !border-none !ourline-none !m-0 !bg-transparent !h-fit font-normal",
       },
       size: {
         default: "h-10 px-4 py-2",
