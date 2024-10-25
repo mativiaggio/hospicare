@@ -4,6 +4,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import NavbarMenuButton from "./buttons/navbar-menu-button";
 import { ModeToggle } from "./buttons/theme-toggle";
+import UserDropdown from "./dropdowns/user-dropdown";
 import { Button } from "./ui/button";
 import { Menu } from "./ui/navbar-menu";
 
@@ -53,7 +54,9 @@ const Navbar: React.FC = () => {
           </div>
         </Menu>
 
-        <div className="hidden w-1/6 lg:block">User component</div>
+        <div className="hidden w-1/6 lg:block">
+          <UserDropdown />
+        </div>
         <div className="block lg:hidden">
           <Button
             variant={"ghost"}
@@ -135,7 +138,9 @@ const Navbar: React.FC = () => {
                   </li>
                 </ul>
               </div>
-              <div className="block">User component</div>
+              <div className="block">
+                <UserDropdown />
+              </div>
             </div>
           </div>
         </div>
