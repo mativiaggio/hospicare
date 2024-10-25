@@ -13,7 +13,7 @@ import {
   type Users as UsersType,
 } from "node-appwrite";
 import "server-only";
-import { env } from "./env.config";
+import { env } from "../env.config";
 
 type AditionalContext = {
   Variables: {
@@ -28,8 +28,8 @@ type AditionalContext = {
 export const sessionMiddleware = createMiddleware<AditionalContext>(
   async (c, next) => {
     const client = new Client()
-      .setEndpoint(env.endpoint)
-      .setProject(env.projectId);
+      .setEndpoint(env.ENDPOINT)
+      .setProject(env.PROJECT_ID);
 
     const session = getCookie(c, AUTH_COOKIE);
 

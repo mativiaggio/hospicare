@@ -18,19 +18,16 @@ import {
 import { Input } from "@/components/ui/input";
 import { loginSchema } from "@/features/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { HeartPulse } from "lucide-react";
+import { HeartPulse, Loader } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useLogin } from "../api/use-login";
 
-// const formSchema = z.object({
-//   email: z.string().trim().min(1, "Campo obligatorio").email(),
-//   password: z.string().min(1, "Ingresa la contraseña"),
-// });
-
 export const SignInCard = () => {
   const { mutate } = useLogin();
+  const [submitting, setSubmitting] = useState<boolean>(false);
 
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -41,12 +38,13 @@ export const SignInCard = () => {
   });
 
   const onSubmit = (values: z.infer<typeof loginSchema>) => {
+    setSubmitting(true);
     mutate({ json: values });
   };
 
   return (
     <>
-      <Card className="w-full h-full md:w-[487px] border-none shadow-none">
+      <Card className="w-full h-full md:w-[487px] border border-transparent dark:border-neutral-800 shadow-none">
         <CardHeader className="space-y-1">
           <div className="flex items-center justify-center mb-4">
             <HeartPulse size={42} />
@@ -98,8 +96,17 @@ export const SignInCard = () => {
                   </FormItem>
                 )}
               />
-              <Button disabled={false} size={"lg"} className="w-full">
-                Ingresar
+              <Button
+                disabled={submitting ? true : false}
+                size={"lg"}
+                className="w-full">
+                {(submitting && (
+                  <>
+                    <Loader className="animate-spin" />
+                    Cargando...
+                  </>
+                )) ||
+                  "Ingresar"}
               </Button>
             </form>
           </Form>
