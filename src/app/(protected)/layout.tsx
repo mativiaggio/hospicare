@@ -1,15 +1,21 @@
 import Navbar from "@/components/navbar";
+import { getCurrent } from "@/features/auth/actions";
+import { redirect } from "next/navigation";
 import React from "react";
 
-export default function ProtectedLayout({
+export default async function ProtectedLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const user = await getCurrent();
+
+  if (!user) redirect("/sign-in");
+
   return (
     <>
       <Navbar />
-      <div className="px-4 py-2 sm:px-6 md:px-8 lg:px-10">{children}</div>
+      <div>{children}</div>
     </>
   );
 }

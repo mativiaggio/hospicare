@@ -9,7 +9,9 @@ export default async function Home() {
 
   return (
     <>
-      <Welcome user={user} />
+      <div className="page-wrapper">
+        <Welcome user={user} />
+      </div>
     </>
   );
 }
