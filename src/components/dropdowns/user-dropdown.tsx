@@ -1,4 +1,11 @@
-import { Github, LifeBuoy, Loader, Settings, User } from "lucide-react";
+import {
+  Github,
+  LifeBuoy,
+  Loader,
+  Loader2,
+  Settings,
+  User,
+} from "lucide-react";
 
 import {
   DropdownMenu,
@@ -31,7 +38,7 @@ export function UserDropdown() {
   }
 
   return (
-    <DropdownMenu>
+    <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <Avatar className="select-none cursor-pointer">
           <AvatarImage
@@ -45,7 +52,7 @@ export function UserDropdown() {
           {isLoading ? (
             <>
               <span className="flex items-center gap-2">
-                <Loader size={20} className="animate-spin" /> Cargando
+                <Loader2 size={20} className="animate-spin" /> Cargando
               </span>
             </>
           ) : (

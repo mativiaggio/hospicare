@@ -18,7 +18,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { loginSchema } from "@/features/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { HeartPulse, Loader } from "lucide-react";
+import { HeartPulse, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -102,7 +102,7 @@ export const SignInCard = () => {
                 className="w-full">
                 {(submitting && (
                   <>
-                    <Loader className="animate-spin" />
+                    <Loader2 className="animate-spin" />
                     Cargando...
                   </>
                 )) ||
