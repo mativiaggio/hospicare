@@ -1,3 +1,4 @@
+import { DataTableDemo } from "@/components/data-tables/data-table";
 import { Welcome } from "@/components/welcome";
 import { getCurrent } from "@/features/auth/actions";
 import { redirect } from "next/navigation";
@@ -11,6 +12,7 @@ export default async function Home() {
     <>
       <div className="page-wrapper">
         <Welcome user={user} />
+        <DataTableDemo />
       </div>
     </>
   );
