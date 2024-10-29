@@ -139,7 +139,7 @@ export interface Guest {
   doctors?: Doctor[];
   cognitive_evaluation?: CognitiveEvaluation;
   physical_evaluation?: PhysicalEvaluation[];
-  status: "active" | "pending" | "inactive";
+  status?: "active" | "pending" | "inactive";
 }
 
 export interface GuestsApiResponse {
