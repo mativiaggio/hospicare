@@ -43,7 +43,7 @@ import {
 } from "@/components/ui/table";
 import { Guest, GuestsApiResponse } from "@/lib/appwrite-types";
 import { cn, formatPhoneNumber } from "@/lib/utils";
-import { Copy } from "lucide-react";
+import { Copy, Plus } from "lucide-react";
 
 export const columns: ColumnDef<Guest>[] = [
   {
@@ -413,71 +413,76 @@ export function GuestsDataTable({ guestsData }: GuestsDataTableProps) {
             className="max-w-sm"
           />
         </div>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline">
-              {selectedFilter} <ChevronDownIcon className="ml-2 h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {["Todos", "Activo", "Pendiente", "Inactivo"].map((status) => {
-              const status2 = statusMapping[status];
+        <div className="flex items-center gap-2">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline">
+                {selectedFilter} <ChevronDownIcon className="ml-2 h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              {["Todos", "Activo", "Pendiente", "Inactivo"].map((status) => {
+                const status2 = statusMapping[status];
 
-              const currentFilters = table
-                .getColumn("status")
-                ?.getFilterValue() as string[] | undefined;
+                const currentFilters = table
+                  .getColumn("status")
+                  ?.getFilterValue() as string[] | undefined;
 
-              console.log(currentFilters);
-              if (status === "Todos") {
-                const isChecked =
-                  !currentFilters || currentFilters.length === 0;
+                console.log(currentFilters);
+                if (status === "Todos") {
+                  const isChecked =
+                    !currentFilters || currentFilters.length === 0;
+                  return (
+                    <DropdownMenuCheckboxItem
+                      key={status}
+                      className="capitalize"
+                      checked={isChecked}
+                      onCheckedChange={(value) => {
+                        if (value) {
+                          table.getColumn("status")?.setFilterValue(undefined);
+                        }
+                      }}>
+                      {status}
+                    </DropdownMenuCheckboxItem>
+                  );
+                }
+
+                const isChecked = currentFilters
+                  ? currentFilters.includes(status2!)
+                  : false;
+
                 return (
                   <DropdownMenuCheckboxItem
-                    key={status}
+                    key={status2}
                     className="capitalize"
                     checked={isChecked}
                     onCheckedChange={(value) => {
+                      let newFilters: string[] = [];
+
                       if (value) {
+                        if (!newFilters.includes(status2!)) {
+                          newFilters.push(status2!);
+                        }
+                      } else {
+                        newFilters = newFilters.filter((s) => s !== status2);
+                      }
+
+                      if (newFilters.length > 0) {
+                        table.getColumn("status")?.setFilterValue(newFilters);
+                      } else {
                         table.getColumn("status")?.setFilterValue(undefined);
                       }
                     }}>
                     {status}
                   </DropdownMenuCheckboxItem>
                 );
-              }
-
-              const isChecked = currentFilters
-                ? currentFilters.includes(status2!)
-                : false;
-
-              return (
-                <DropdownMenuCheckboxItem
-                  key={status2}
-                  className="capitalize"
-                  checked={isChecked}
-                  onCheckedChange={(value) => {
-                    let newFilters: string[] = [];
-
-                    if (value) {
-                      if (!newFilters.includes(status2!)) {
-                        newFilters.push(status2!);
-                      }
-                    } else {
-                      newFilters = newFilters.filter((s) => s !== status2);
-                    }
-
-                    if (newFilters.length > 0) {
-                      table.getColumn("status")?.setFilterValue(newFilters);
-                    } else {
-                      table.getColumn("status")?.setFilterValue(undefined);
-                    }
-                  }}>
-                  {status}
-                </DropdownMenuCheckboxItem>
-              );
-            })}
-          </DropdownMenuContent>
-        </DropdownMenu>
+              })}
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <Button>
+            <Plus />
+          </Button>
+        </div>
       </div>
       <div className="rounded-md border">
         <Table>
