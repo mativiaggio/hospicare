@@ -139,7 +139,7 @@ const Navbar: React.FC = () => {
                   </li>
                 </ul>
               </div>
-              <div>
+              <div className="p-2">
                 <UserDropdown />
               </div>
             </div>

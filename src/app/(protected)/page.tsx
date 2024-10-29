@@ -1,6 +1,6 @@
 import { Welcome } from "@/components/welcome";
 import { getCurrent } from "@/features/auth/actions";
-import { GuestsDataTable } from "@/features/guests/components/guests-data-table";
+import GuestsDataContainer from "@/features/guests/components/guests-data-container";
 import { redirect } from "next/navigation";
 
 export default async function Home() {
@@ -12,7 +12,7 @@ export default async function Home() {
     <>
       <div className="page-wrapper">
         <Welcome user={user} />
-        <GuestsDataTable />
+        <GuestsDataContainer />
       </div>
     </>
   );

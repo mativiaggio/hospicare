@@ -1,4 +1,3 @@
-// src/components/GuestsDataTable.tsx
 "use client";
 
 import {
@@ -20,6 +19,7 @@ import {
 } from "@tanstack/react-table";
 import * as React from "react";
 
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -41,8 +41,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useGetGuests } from "@/features/guests/api/use-get-guests";
-import { Guest } from "@/lib/appwrite-types";
+import { Guest, GuestsApiResponse } from "@/lib/appwrite-types";
+import { cn, formatPhoneNumber } from "@/lib/utils";
+import { Copy } from "lucide-react";
 
 export const columns: ColumnDef<Guest>[] = [
   {
@@ -73,14 +74,16 @@ export const columns: ColumnDef<Guest>[] = [
       return (
         <Button
           variant="ghost"
-          className="pl-0"
+          className="pl-0 hover:bg-transparent"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
           Nombre
           <CaretSortIcon className="ml-2 h-4 w-4" />
         </Button>
       );
     },
-    cell: ({ row }) => <div>{row.getValue("name")}</div>,
+    cell: ({ row }) => (
+      <div className="whitespace-nowrap">{row.getValue("name")}</div>
+    ),
   },
   {
     accessorKey: "age",
@@ -88,7 +91,7 @@ export const columns: ColumnDef<Guest>[] = [
       return (
         <Button
           variant="ghost"
-          className="pl-0"
+          className="pl-0 hover:bg-transparent"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
           Edad
           <CaretSortIcon className="ml-2 h-4 w-4" />
@@ -103,7 +106,7 @@ export const columns: ColumnDef<Guest>[] = [
       return (
         <Button
           variant="ghost"
-          className="pl-0"
+          className="pl-0 hover:bg-transparent"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
           Fecha de Admisión
           <CaretSortIcon className="ml-2 h-4 w-4" />
@@ -116,12 +119,48 @@ export const columns: ColumnDef<Guest>[] = [
     },
   },
   {
+    accessorKey: "status",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          className="pl-0 hover:bg-transparent"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+          Estado
+          <CaretSortIcon className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => (
+      <div>
+        <StatusBadge status={row.getValue("status")} />
+      </div>
+    ),
+  },
+  {
+    accessorKey: "contact_name",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          className="pl-0 hover:bg-transparent"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+          Contacto
+          <CaretSortIcon className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => (
+      <div className="whitespace-nowrap">{row.getValue("contact_name")}</div>
+    ),
+  },
+  {
     accessorKey: "contact_email",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
-          className="pl-0"
+          className="pl-0 hover:bg-transparent"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
           Email de contacto
           <CaretSortIcon className="ml-2 h-4 w-4" />
@@ -129,16 +168,75 @@ export const columns: ColumnDef<Guest>[] = [
       );
     },
     cell: ({ row }) => (
-      <div className="lowercase">{row.getValue("contact_email")}</div>
+      <div className="lowercase whitespace-nowrap">
+        {row.getValue("contact_email")}
+      </div>
     ),
   },
   {
-    accessorKey: "phone",
-    header: "Teléfono de contacto",
-    cell: ({ row }) => <div>{row.getValue("phone")}</div>,
+    accessorKey: "contact_phone",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          className="pl-0 hover:bg-transparent"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+          Teléfono de contacto
+          <CaretSortIcon className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => (
+      <div className="lowercase whitespace-nowrap">
+        {formatPhoneNumber(row.getValue("contact_phone"))}
+      </div>
+    ),
+  },
+  {
+    accessorKey: "address",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          className="pl-0 hover:bg-transparent"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+          Dirección
+          <CaretSortIcon className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      const address = row.getValue<string>("address");
+
+      if (typeof address === "string") {
+        const displayAddress =
+          address.length > 30 ? `${address.substring(0, 30)}...` : address;
+        return <div className="whitespace-nowrap">{displayAddress}</div>;
+      } else {
+        return;
+      }
+    },
+  },
+  {
+    accessorKey: "referring_person",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          className="pl-0 hover:bg-transparent"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+          Quien lo refirió
+          <CaretSortIcon className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => (
+      <div className="lowercase whitespace-nowrap">
+        {row.getValue("referring_person")}
+      </div>
+    ),
   },
 
-  // Agrega más columnas según sea necesario
   {
     id: "actions",
     enableHiding: false,
@@ -154,13 +252,42 @@ export const columns: ColumnDef<Guest>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuLabel>Acciones</DropdownMenuLabel>
+            <DropdownMenuItem>Pasar a inactivo</DropdownMenuItem>
+            <DropdownMenuSeparator />
             <DropdownMenuItem
               onClick={() => navigator.clipboard.writeText(guest.$id)}>
-              Copy Guest ID
+              <span className="flex items-center gap-1">
+                ID
+                <Copy size={12} />
+              </span>
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() =>
+                navigator.clipboard.writeText(
+                  guest.contact_email ? guest.contact_email : ""
+                )
+              }>
+              <span className="flex items-center gap-1">
+                Email
+                <Copy size={12} />
+              </span>
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() =>
+                navigator.clipboard.writeText(
+                  guest.contact_phone
+                    ? formatPhoneNumber(guest.contact_phone)
+                    : ""
+                )
+              }>
+              <span className="flex items-center gap-1">
+                Teléfono
+                <Copy size={12} />
+              </span>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View Details</DropdownMenuItem>
+            <DropdownMenuItem>Ver más</DropdownMenuItem>
             {/* Agrega más acciones según sea necesario */}
           </DropdownMenuContent>
         </DropdownMenu>
@@ -169,8 +296,43 @@ export const columns: ColumnDef<Guest>[] = [
   },
 ];
 
-// src/components/GuestsDataTable.tsx
-export function GuestsDataTable() {
+const statusMapping: { [key: string]: string | null } = {
+  Todos: null,
+  Activo: "alive",
+  Pendiente: "pending",
+  Inactivo: "dead",
+};
+
+const statusMappingInverse: { [key: string]: string | null } = {
+  null: "Todos",
+  alive: "Activo",
+  pending: "Pendiente",
+  dead: "Inactivo",
+};
+
+const StatusBadge = ({ status }: { status: string }) => {
+  return (
+    <Badge
+      variant="outline"
+      className={cn(
+        "",
+        status === "alive" &&
+          "bg-active border-active dark:bg-active-dark dark:border-active-dark text-white dark:text-active-text-dark",
+        status === "pending" &&
+          "bg-pending border-pending dark:bg-pending-dark dark:border-pending-dark text-white dark:text-pending-text-dark",
+        status === "dead" &&
+          "bg-inactive border-inactive dark:bg-inactive-dark dark:border-inactive-dark text-white dark:text-inactive-text-dark"
+      )}>
+      {statusMappingInverse[status]}
+    </Badge>
+  );
+};
+
+interface GuestsDataTableProps {
+  guestsData?: GuestsApiResponse;
+}
+
+export function GuestsDataTable({ guestsData }: GuestsDataTableProps) {
   // Declaraciones de estado
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -180,14 +342,15 @@ export function GuestsDataTable() {
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
 
+  const [selectedFilter, setSelectedFilter] = React.useState<string>("Todos");
+
   // Llamada al hook personalizado
-  const { data: guestsData } = useGetGuests();
+  // const { data: guestsData } = useGetGuests();
+
+  const guests = guestsData;
 
   // Uso de useMemo para memoizar los datos
-  const data = React.useMemo(
-    () => guestsData?.guests.documents ?? [],
-    [guestsData]
-  );
+  const data = React.useMemo(() => guests?.guests.documents ?? [], [guests]);
 
   // Inicializar la tabla
   const table = useReactTable<Guest>({
@@ -208,6 +371,21 @@ export function GuestsDataTable() {
       rowSelection,
     },
   });
+
+  React.useEffect(() => {
+    const currentFilters = table.getColumn("status")?.getFilterValue() as
+      | string[]
+      | undefined;
+
+    if (!currentFilters || currentFilters.length === 0) {
+      setSelectedFilter("Todos");
+    } else {
+      const mapped = currentFilters
+        .map((s) => statusMappingInverse[s] || s)
+        .join(", ");
+      setSelectedFilter(mapped);
+    }
+  }, [columnFilters, table]);
 
   return (
     <div className="w-full">
@@ -238,26 +416,66 @@ export function GuestsDataTable() {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline">
-              Columnas <ChevronDownIcon className="ml-2 h-4 w-4" />
+              {selectedFilter} <ChevronDownIcon className="ml-2 h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => {
+            {["Todos", "Activo", "Pendiente", "Inactivo"].map((status) => {
+              const status2 = statusMapping[status];
+
+              const currentFilters = table
+                .getColumn("status")
+                ?.getFilterValue() as string[] | undefined;
+
+              console.log(currentFilters);
+              if (status === "Todos") {
+                const isChecked =
+                  !currentFilters || currentFilters.length === 0;
                 return (
                   <DropdownMenuCheckboxItem
-                    key={column.id}
+                    key={status}
                     className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }>
-                    {column.id.replace("_", " ")}
+                    checked={isChecked}
+                    onCheckedChange={(value) => {
+                      if (value) {
+                        table.getColumn("status")?.setFilterValue(undefined);
+                      }
+                    }}>
+                    {status}
                   </DropdownMenuCheckboxItem>
                 );
-              })}
+              }
+
+              const isChecked = currentFilters
+                ? currentFilters.includes(status2!)
+                : false;
+
+              return (
+                <DropdownMenuCheckboxItem
+                  key={status2}
+                  className="capitalize"
+                  checked={isChecked}
+                  onCheckedChange={(value) => {
+                    let newFilters: string[] = [];
+
+                    if (value) {
+                      if (!newFilters.includes(status2!)) {
+                        newFilters.push(status2!);
+                      }
+                    } else {
+                      newFilters = newFilters.filter((s) => s !== status2);
+                    }
+
+                    if (newFilters.length > 0) {
+                      table.getColumn("status")?.setFilterValue(newFilters);
+                    } else {
+                      table.getColumn("status")?.setFilterValue(undefined);
+                    }
+                  }}>
+                  {status}
+                </DropdownMenuCheckboxItem>
+              );
+            })}
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

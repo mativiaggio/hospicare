@@ -135,14 +135,11 @@ export interface Guest {
   opioid_treatment?: boolean;
   opioid_name?: string | null;
   other_medications?: string;
-
-  // Relaciones
   social_security?: SocialSecurity;
-  doctors?: Doctor[]; // Asegúrate de que esto sea un array si la API lo devuelve así
-
-  // Otros campos
+  doctors?: Doctor[];
   cognitive_evaluation?: CognitiveEvaluation;
   physical_evaluation?: PhysicalEvaluation[];
+  status: "active" | "pending" | "inactive";
 }
 
 export interface GuestsApiResponse {
