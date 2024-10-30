@@ -19,7 +19,6 @@ import {
 } from "@tanstack/react-table";
 import * as React from "react";
 
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -41,11 +40,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Guest, GuestsApiResponse } from "@/lib/appwrite-types";
-import { cn, formatPhoneNumber } from "@/lib/utils";
+import { Medications, MedicationsApiResponse } from "@/lib/appwrite-types";
 import { Copy, Plus } from "lucide-react";
 
-export const columns: ColumnDef<Guest>[] = [
+export const columns: ColumnDef<Medications>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -85,163 +83,12 @@ export const columns: ColumnDef<Guest>[] = [
       <div className="whitespace-nowrap">{row.getValue("name")}</div>
     ),
   },
-  {
-    accessorKey: "age",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          className="pl-0 hover:bg-transparent"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-          Edad
-          <CaretSortIcon className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => <div className="lowercase">{row.getValue("age")}</div>,
-  },
-  {
-    accessorKey: "admission_date",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          className="pl-0 hover:bg-transparent"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-          Fecha de Admisión
-          <CaretSortIcon className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => {
-      const date = new Date(row.getValue("admission_date"));
-      return <div>{date.toLocaleDateString()}</div>;
-    },
-  },
-  {
-    accessorKey: "status",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          className="pl-0 hover:bg-transparent"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-          Estado
-          <CaretSortIcon className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => (
-      <div>
-        <StatusBadge status={row.getValue("status")} />
-      </div>
-    ),
-  },
-  {
-    accessorKey: "contact_name",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          className="pl-0 hover:bg-transparent"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-          Contacto
-          <CaretSortIcon className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => (
-      <div className="whitespace-nowrap">{row.getValue("contact_name")}</div>
-    ),
-  },
-  {
-    accessorKey: "contact_email",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          className="pl-0 hover:bg-transparent"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-          Email de contacto
-          <CaretSortIcon className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => (
-      <div className="lowercase whitespace-nowrap">
-        {row.getValue("contact_email")}
-      </div>
-    ),
-  },
-  {
-    accessorKey: "contact_phone",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          className="pl-0 hover:bg-transparent"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-          Teléfono de contacto
-          <CaretSortIcon className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => (
-      <div className="lowercase whitespace-nowrap">
-        {formatPhoneNumber(row.getValue("contact_phone"))}
-      </div>
-    ),
-  },
-  {
-    accessorKey: "address",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          className="pl-0 hover:bg-transparent"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-          Dirección
-          <CaretSortIcon className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => {
-      const address = row.getValue<string>("address");
-
-      if (typeof address === "string") {
-        const displayAddress =
-          address.length > 30 ? `${address.substring(0, 30)}...` : address;
-        return <div className="whitespace-nowrap">{displayAddress}</div>;
-      } else {
-        return;
-      }
-    },
-  },
-  {
-    accessorKey: "referring_person",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          className="pl-0 hover:bg-transparent"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-          Quien lo refirió
-          <CaretSortIcon className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => (
-      <div className="lowercase whitespace-nowrap">
-        {row.getValue("referring_person")}
-      </div>
-    ),
-  },
 
   {
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const guest = row.original;
+      const medication = row.original;
 
       return (
         <DropdownMenu>
@@ -256,33 +103,9 @@ export const columns: ColumnDef<Guest>[] = [
             <DropdownMenuItem>Pasar a inactivo</DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(guest.$id)}>
+              onClick={() => navigator.clipboard.writeText(medication.$id)}>
               <span className="flex items-center gap-1">
                 ID
-                <Copy size={12} />
-              </span>
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() =>
-                navigator.clipboard.writeText(
-                  guest.contact_email ? guest.contact_email : ""
-                )
-              }>
-              <span className="flex items-center gap-1">
-                Email
-                <Copy size={12} />
-              </span>
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() =>
-                navigator.clipboard.writeText(
-                  guest.contact_phone
-                    ? formatPhoneNumber(guest.contact_phone)
-                    : ""
-                )
-              }>
-              <span className="flex items-center gap-1">
-                Teléfono
                 <Copy size={12} />
               </span>
             </DropdownMenuItem>
@@ -310,29 +133,13 @@ const statusMappingInverse: { [key: string]: string | null } = {
   dead: "Inactivo",
 };
 
-const StatusBadge = ({ status }: { status: string }) => {
-  return (
-    <Badge
-      variant="outline"
-      className={cn(
-        "",
-        status === "alive" &&
-          "bg-active border-active dark:bg-active-dark dark:border-active-dark text-white dark:text-active-text-dark",
-        status === "pending" &&
-          "bg-pending border-pending dark:bg-pending-dark dark:border-pending-dark text-white dark:text-pending-text-dark",
-        status === "dead" &&
-          "bg-inactive border-inactive dark:bg-inactive-dark dark:border-inactive-dark text-white dark:text-inactive-text-dark"
-      )}>
-      {statusMappingInverse[status]}
-    </Badge>
-  );
-};
-
-interface GuestsDataTableProps {
-  guestsData?: GuestsApiResponse;
+interface MedicationsDataTableProps {
+  medicationsData?: MedicationsApiResponse;
 }
 
-export function GuestsDataTable({ guestsData }: GuestsDataTableProps) {
+export function MedicationsDataTable({
+  medicationsData,
+}: MedicationsDataTableProps) {
   // Declaraciones de estado
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -344,16 +151,16 @@ export function GuestsDataTable({ guestsData }: GuestsDataTableProps) {
 
   const [selectedFilter, setSelectedFilter] = React.useState<string>("Todos");
 
-  // Llamada al hook personalizado
-  // const { data: guestsData } = useGetGuests();
-
-  const guests = guestsData;
+  const medications = medicationsData;
 
   // Uso de useMemo para memoizar los datos
-  const data = React.useMemo(() => guests?.guests.documents ?? [], [guests]);
+  const data = React.useMemo(
+    () => medications?.medications.documents ?? [],
+    [medications]
+  );
 
   // Inicializar la tabla
-  const table = useReactTable<Guest>({
+  const table = useReactTable<Medications>({
     data,
     columns,
     onSortingChange: setSorting,
