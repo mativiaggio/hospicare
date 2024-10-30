@@ -1,5 +1,6 @@
 import auth from "@/features/auth/server/route";
 import guests from "@/features/guests/server/route";
+import medications from "@/features/medications/server/route";
 import users from "@/features/users/server/route";
 import { Hono } from "hono";
 import { handle } from "hono/vercel";
@@ -9,7 +10,8 @@ const app = new Hono().basePath("/api");
 const routes = app
   .route("/auth", auth)
   .route("/users", users)
-  .route("/guests", guests);
+  .route("/guests", guests)
+  .route("/medications", medications);
 
 export const GET = handle(app);
 export const POST = handle(app);

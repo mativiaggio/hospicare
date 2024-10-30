@@ -1,40 +1,46 @@
 export interface SocialSecurity {
-  name: string;
-  private: boolean;
   $id: string;
   $createdAt: string;
   $updatedAt: string;
   $permissions: string[];
   $databaseId: string;
   $collectionId: string;
+  name: string;
+  private: boolean;
 }
 
 export interface Doctor {
-  name: string;
-  phone_number: string;
   $id: string;
   $createdAt: string;
   $updatedAt: string;
   $permissions: string[];
   $databaseId: string;
   $collectionId: string;
+  name: string;
+  phone_number: string;
 }
 
 export interface CognitiveEvaluation {
+  $id: string;
+  $createdAt: string;
+  $updatedAt: string;
+  $permissions: string[];
+  $databaseId: string;
+  $collectionId: string;
   guest_id: string;
   fluctuating_course: boolean;
   attention_disturbance: boolean;
   disorganized_thinking: boolean;
   altered_consciousness_level: boolean;
-  $id: string;
-  $createdAt: string;
-  $updatedAt: string;
-  $permissions: string[];
-  $databaseId: string;
-  $collectionId: string;
 }
 
 export interface PhysicalEvaluation {
+  $id: string;
+  $collectionId: string;
+  $databaseId: string;
+  $createdAt: string;
+  $updatedAt: string;
+  $permissions: string[];
   guest_id: string;
   heart_rate: number;
   blood_pressure: string;
@@ -91,12 +97,18 @@ export interface PhysicalEvaluation {
   ostomy_type: string;
   other_disorders: string;
   care_plan: string;
+}
+
+export interface Medications {
   $id: string;
+  $collectionId: string;
+  $databaseId: string;
   $createdAt: string;
   $updatedAt: string;
   $permissions: string[];
-  $databaseId: string;
-  $collectionId: string;
+  name?: string;
+  route_of_administration?: string;
+  manufacturer?: string;
 }
 
 export interface Guest {
@@ -140,10 +152,17 @@ export interface Guest {
   cognitive_evaluation?: CognitiveEvaluation;
   physical_evaluation?: PhysicalEvaluation[];
   status?: "active" | "pending" | "inactive";
+  medications?: Medications[];
 }
 
 export interface GuestsApiResponse {
   guests: {
     documents: Guest[];
+  };
+}
+
+export interface MedicationsApiResponse {
+  medications: {
+    documents: Medications[];
   };
 }
