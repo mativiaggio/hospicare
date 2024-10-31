@@ -6,7 +6,7 @@ type WelcomeProps = {
 
 export function Welcome({ user }: WelcomeProps) {
   return (
-    <div className="prose mb-12">
+    <div className="prose py-8">
       <h1 className="text-4xl font-semibold">
         Hola, {user?.name || "Invitado"}
         👋

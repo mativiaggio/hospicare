@@ -5,8 +5,8 @@ export interface SocialSecurity {
   $permissions: string[];
   $databaseId: string;
   $collectionId: string;
-  name: string;
-  private: boolean;
+  name?: string;
+  private?: boolean;
 }
 
 export interface Doctor {
@@ -164,5 +164,11 @@ export interface GuestsApiResponse {
 export interface MedicationsApiResponse {
   medications: {
     documents: Medications[];
+  };
+}
+
+export interface SocialSecurityApiResponse {
+  social_security: {
+    documents: SocialSecurity[];
   };
 }
