@@ -1,3 +1,4 @@
+import Footer from "@/components/footer";
 import Navbar from "@/components/navbar";
 import { getCurrent } from "@/features/auth/actions";
 import { redirect } from "next/navigation";
@@ -16,6 +17,7 @@ export default async function ProtectedLayout({
     <>
       <Navbar />
       <div>{children}</div>
+      <Footer />
     </>
   );
 }

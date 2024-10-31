@@ -35,10 +35,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Medications, MedicationsApiResponse } from "@/lib/appwrite-types";
+import {
+  SocialSecurity,
+  SocialSecurityApiResponse,
+} from "@/lib/appwrite-types";
 import { Copy, Plus } from "lucide-react";
 
-export const columns: ColumnDef<Medications>[] = [
+export const columns: ColumnDef<SocialSecurity>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -78,29 +81,12 @@ export const columns: ColumnDef<Medications>[] = [
       <div className="whitespace-nowrap">{row.getValue("name")}</div>
     ),
   },
-  {
-    accessorKey: "manufacturer",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          className="pl-0 hover:bg-transparent"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-          Laboratorio
-          <CaretSortIcon className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => (
-      <div className="whitespace-nowrap">{row.getValue("manufacturer")}</div>
-    ),
-  },
 
   {
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const medication = row.original;
+      const social_security = row.original;
 
       return (
         <DropdownMenu>
@@ -115,7 +101,9 @@ export const columns: ColumnDef<Medications>[] = [
             <DropdownMenuItem>Pasar a inactivo</DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(medication.$id)}>
+              onClick={() =>
+                navigator.clipboard.writeText(social_security.$id)
+              }>
               <span className="flex items-center gap-1">
                 ID
                 <Copy size={12} />
@@ -131,13 +119,13 @@ export const columns: ColumnDef<Medications>[] = [
   },
 ];
 
-interface MedicationsDataTableProps {
-  medicationsData?: MedicationsApiResponse;
+interface SocialSecurityDataTableProps {
+  socialSecurityData?: SocialSecurityApiResponse;
 }
 
-export function MedicationsDataTable({
-  medicationsData,
-}: MedicationsDataTableProps) {
+export function SocialSecurityDataTable({
+  socialSecurityData,
+}: SocialSecurityDataTableProps) {
   // Declaraciones de estado
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -147,16 +135,16 @@ export function MedicationsDataTable({
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
 
-  const medications = medicationsData;
+  const social_security = socialSecurityData;
 
   // Uso de useMemo para memoizar los datos
   const data = React.useMemo(
-    () => medications?.medications.documents ?? [],
-    [medications]
+    () => social_security?.social_security.documents ?? [],
+    [social_security]
   );
 
   // Inicializar la tabla
-  const table = useReactTable<Medications>({
+  const table = useReactTable<SocialSecurity>({
     data,
     columns,
     onSortingChange: setSorting,
@@ -184,19 +172,6 @@ export function MedicationsDataTable({
             value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
             onChange={(event) =>
               table.getColumn("name")?.setFilterValue(event.target.value)
-            }
-            className="max-w-sm"
-          />
-          <Input
-            placeholder="Filtrar por laboratorio..."
-            value={
-              (table.getColumn("manufacturer")?.getFilterValue() as string) ??
-              ""
-            }
-            onChange={(event) =>
-              table
-                .getColumn("manufacturer")
-                ?.setFilterValue(event.target.value)
             }
             className="max-w-sm"
           />

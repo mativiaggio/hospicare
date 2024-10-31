@@ -43,7 +43,7 @@ import {
 } from "@/components/ui/table";
 import { Guest, GuestsApiResponse } from "@/lib/appwrite-types";
 import { cn, formatPhoneNumber } from "@/lib/utils";
-import { Copy, Plus } from "lucide-react";
+import { Copy, UserPlus } from "lucide-react";
 
 export const columns: ColumnDef<Guest>[] = [
   {
@@ -400,14 +400,14 @@ export function GuestsDataTable({ guestsData }: GuestsDataTableProps) {
             className="max-w-sm"
           />
           <Input
-            placeholder="Filtrar por email..."
+            placeholder="Filtrar por contacto..."
             value={
-              (table.getColumn("contact_email")?.getFilterValue() as string) ??
+              (table.getColumn("contact_name")?.getFilterValue() as string) ??
               ""
             }
             onChange={(event) =>
               table
-                .getColumn("contact_email")
+                .getColumn("contact_name")
                 ?.setFilterValue(event.target.value)
             }
             className="max-w-sm"
@@ -428,7 +428,6 @@ export function GuestsDataTable({ guestsData }: GuestsDataTableProps) {
                   .getColumn("status")
                   ?.getFilterValue() as string[] | undefined;
 
-                console.log(currentFilters);
                 if (status === "Todos") {
                   const isChecked =
                     !currentFilters || currentFilters.length === 0;
@@ -480,7 +479,8 @@ export function GuestsDataTable({ guestsData }: GuestsDataTableProps) {
             </DropdownMenuContent>
           </DropdownMenu>
           <Button>
-            <Plus />
+            <UserPlus className="mr-2 h-4 w-4" />
+            Agregar Huésped
           </Button>
         </div>
       </div>
@@ -506,13 +506,13 @@ export function GuestsDataTable({ guestsData }: GuestsDataTableProps) {
           </TableHeader>
           <TableBody>
             {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row, index) => (
+              table.getRowModel().rows.map((row) => (
                 <TableRow
-                  key={index}
+                  key={row.id}
                   data-state={row.getIsSelected() ? "selected" : undefined}>
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
-                      {cell.column.id === "age" && (
+                      {cell.column.id === "age" ? (
                         <div className="flex gap-1">
                           {flexRender(
                             cell.column.columnDef.cell,
@@ -520,8 +520,7 @@ export function GuestsDataTable({ guestsData }: GuestsDataTableProps) {
                           )}{" "}
                           años
                         </div>
-                      )}
-                      {cell.column.id !== "age" && (
+                      ) : (
                         <div>
                           {flexRender(
                             cell.column.columnDef.cell,
@@ -535,8 +534,8 @@ export function GuestsDataTable({ guestsData }: GuestsDataTableProps) {
               ))
             ) : (
               <TableRow>
-                {columns.map((column) => (
-                  <TableCell key={column.id}>
+                {columns.map((column, index) => (
+                  <TableCell key={index}>
                     <Skeleton className="h-5" />
                   </TableCell>
                 ))}

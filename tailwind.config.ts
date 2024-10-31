@@ -70,6 +70,7 @@ const config: Config = {
         inactive: "#f37877",
         "inactive-dark": "#3e1716",
         "inactive-text-dark": "#ffdbc3",
+        main: "hsl(var(--bg-primary-foreground))",
       },
       borderRadius: {
         lg: "var(--radius)",
