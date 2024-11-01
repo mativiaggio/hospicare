@@ -44,6 +44,7 @@ import {
 import { Guest, GuestsApiResponse } from "@/lib/appwrite-types";
 import { cn, formatPhoneNumber } from "@/lib/utils";
 import { Copy, UserPlus } from "lucide-react";
+import Link from "next/link";
 
 export const columns: ColumnDef<Guest>[] = [
   {
@@ -478,10 +479,12 @@ export function GuestsDataTable({ guestsData }: GuestsDataTableProps) {
               })}
             </DropdownMenuContent>
           </DropdownMenu>
-          <Button>
-            <UserPlus className="mr-2 h-4 w-4" />
-            Agregar Huésped
-          </Button>
+          <Link href={"/huespedes/nuevo"}>
+            <Button>
+              <UserPlus className="mr-2 h-4 w-4" />
+              Agregar Huésped
+            </Button>
+          </Link>
         </div>
       </div>
       <div className="rounded-md border">
