@@ -42,7 +42,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Guest, GuestsApiResponse } from "@/lib/appwrite-types";
-import { cn, formatPhoneNumber } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { Copy, UserPlus } from "lucide-react";
 import Link from "next/link";
 
@@ -87,35 +87,38 @@ export const columns: ColumnDef<Guest>[] = [
     ),
   },
   {
-    accessorKey: "age",
+    accessorKey: "birthdate",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           className="pl-0 hover:bg-transparent"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-          Edad
-          <CaretSortIcon className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => <div className="lowercase">{row.getValue("age")}</div>,
-  },
-  {
-    accessorKey: "admission_date",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          className="pl-0 hover:bg-transparent"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-          Fecha de Admisión
+          Fecha de nacimiento
           <CaretSortIcon className="ml-2 h-4 w-4" />
         </Button>
       );
     },
     cell: ({ row }) => {
-      const date = new Date(row.getValue("admission_date"));
+      const date = new Date(row.getValue("birthdate"));
+      return <div>{date.toLocaleDateString()}</div>;
+    },
+  },
+  {
+    accessorKey: "$createdAt",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          className="pl-0 hover:bg-transparent"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+          Fecha de Alta
+          <CaretSortIcon className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      const date = new Date(row.getValue("$createdAt"));
       return <div>{date.toLocaleDateString()}</div>;
     },
   },
@@ -189,7 +192,7 @@ export const columns: ColumnDef<Guest>[] = [
     },
     cell: ({ row }) => (
       <div className="lowercase whitespace-nowrap">
-        {formatPhoneNumber(row.getValue("contact_phone"))}
+        {row.getValue("contact_phone")}
       </div>
     ),
   },
@@ -277,9 +280,7 @@ export const columns: ColumnDef<Guest>[] = [
             <DropdownMenuItem
               onClick={() =>
                 navigator.clipboard.writeText(
-                  guest.contact_phone
-                    ? formatPhoneNumber(guest.contact_phone)
-                    : ""
+                  guest.contact_phone ? guest.contact_phone : ""
                 )
               }>
               <span className="flex items-center gap-1">

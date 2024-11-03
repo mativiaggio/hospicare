@@ -1,5 +1,6 @@
 "use client";
 
+import CustomFormField, { FormFieldType } from "@/components/custom-formfield";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -8,83 +9,74 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
+import { Form } from "@/components/ui/form";
+import { SelectItem } from "@/components/ui/select";
 import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+  Ecog,
+  Information_Level,
+  Religion,
+  Specific_OT,
+  Status,
+} from "@/constants/appwrite";
+import { guestSchema } from "@/features/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-
-const guestSchema = z.object({
-  name: z.string().min(1, "Name is required"),
-  age: z.number().min(0).max(150),
-  dni: z.string().min(1, "DNI is required"),
-  address: z.string().optional(),
-  phone: z.string().optional(),
-  contact_name: z.string().optional(),
-  contact_phone: z.number().optional(),
-  contact_email: z.string().email().optional(),
-  relation_with_guest: z.string().optional(),
-  referring_person: z.string().optional(),
-  information_level: z.enum(["full", "partial", "none"]),
-  religion: z.string().optional(),
-  funeral_service: z.boolean(),
-  tumor: z.string().optional(),
-  metastasis: z.boolean(),
-  metastasis_location: z.string().optional(),
-  personal_history: z.string().optional(),
-  ecog: z.enum(["0", "1", "2", "3", "4"]),
-  specific_oncological_treatment: z.string().optional(),
-  surgery: z.string().optional(),
-  radiotherapy: z.string().optional(),
-  chemotherapy: z.string().optional(),
-  hemotherapy: z.string().optional(),
-  opioid_treatment: z.boolean(),
-  opioid_name: z.string().optional(),
-  other_medications: z.string().optional(),
-  status: z.enum(["active", "pending", "inactive"]),
-});
+import { useNewGuest } from "../api/use-new-guest";
 
 type GuestFormValues = z.infer<typeof guestSchema>;
 
 export default function AddGuestForm() {
+  const { mutate } = useNewGuest();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter();
 
   const form = useForm<GuestFormValues>({
     resolver: zodResolver(guestSchema),
     defaultValues: {
+      admission_date: new Date(),
+      name: "",
+      birthdate: new Date(),
+      dni: "",
+      contact_name: "",
+      contact_email: "",
+      contact_phone: "",
+      relation_with_guest: "",
+      information_level: "total",
+      religion: "none",
       funeral_service: false,
+      tumor: "",
       metastasis: false,
+      metastasis_location: "",
+      personal_history: "",
+      ecog: "0",
+      specific_oncological_treatment: "none",
+      surgery: "",
+      radiotherapy: "",
+      chemotherapy: "",
+      hemotherapy: "",
       opioid_treatment: false,
-      status: "pending",
+      opioid_name: "",
+      other_medications: "",
+      status: "alive",
     },
   });
 
-  async function onSubmit(data: GuestFormValues) {
+  async function onSubmit(values: GuestFormValues) {
     setIsSubmitting(true);
-    // In a real application, you would send this data to your API
-    console.log(data);
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    setIsSubmitting(false);
-    // Reset form after successful submission
-    form.reset();
+
+    const formattedValues = {
+      ...values,
+      admission_date: new Date(values.admission_date),
+      birthdate: new Date(values.birthdate),
+    };
+
+    console.log({ formattedValues });
+    await mutate({ json: formattedValues });
+
+    router.replace("/huespedes");
   }
 
   return (
@@ -97,247 +89,228 @@ export default function AddGuestForm() {
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <FormField
-                control={form.control}
+              <CustomFormField
+                fieldType={FormFieldType.INPUT}
                 name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Name</FormLabel>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
+                label="Nombre Completo"
+                placeholder="John Doe"
                 control={form.control}
-                name="age"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Edad</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        {...field}
-                        onChange={(e) =>
-                          field.onChange(parseInt(e.target.value))
-                        }
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
               />
-              <FormField
+              <CustomFormField
+                fieldType={FormFieldType.DATE_PICKER}
+                name="birthdate"
+                label="Fecha de Nacimiento"
+                placeholder="Selecciona la fecha de nacimiento"
+                iconType="calendar"
+                iconAlt="Calendar icon"
+                iconLightColor={"#a3a3a3"}
+                iconDarkColor={"#a3a3a3"}
                 control={form.control}
+                fieldCustomClasses={
+                  "flex h-12 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 shad-input undefined"
+                }
+              />
+              <CustomFormField
+                fieldType={FormFieldType.INPUT}
                 name="dni"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>DNI</FormLabel>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
+                label="DNI"
+                placeholder=""
                 control={form.control}
-                name="phone"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Teléfono</FormLabel>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
               />
-              <FormField
+              <CustomFormField
+                fieldType={FormFieldType.TEXTAREA}
+                name="address"
+                label="Dirección"
+                placeholder=""
                 control={form.control}
+              />
+              <CustomFormField
+                fieldType={FormFieldType.INPUT}
                 name="contact_name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Nombre de contacto</FormLabel>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
+                label="Nombre del contacto"
+                placeholder=""
                 control={form.control}
+              />
+              <CustomFormField
+                fieldType={FormFieldType.PHONE_INPUT}
                 name="contact_phone"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Teléfono de contacto</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        {...field}
-                        onChange={(e) =>
-                          field.onChange(parseInt(e.target.value))
-                        }
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
+                label="Teléfono"
+                placeholder=""
                 control={form.control}
+              />
+              <CustomFormField
+                fieldType={FormFieldType.EMAIL}
                 name="contact_email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email de contacto</FormLabel>
-                    <FormControl>
-                      <Input type="email" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
+                label="Correo del contacto"
+                placeholder=""
                 control={form.control}
+              />
+              <CustomFormField
+                fieldType={FormFieldType.TEXTAREA}
+                name="relation_with_guest"
+                label="Relación con el huésped"
+                placeholder=""
+                control={form.control}
+              />
+              <CustomFormField
+                fieldType={FormFieldType.INPUT}
+                name="referring_person"
+                label="Quien lo deriva"
+                placeholder=""
+                control={form.control}
+              />
+              <CustomFormField
+                fieldType={FormFieldType.SELECT}
                 name="information_level"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Information Level</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select information level" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="full">Full</SelectItem>
-                        <SelectItem value="partial">Partial</SelectItem>
-                        <SelectItem value="none">None</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
+                label="Informado"
+                control={form.control}>
+                {Information_Level.map((index, i) => (
+                  <SelectItem key={index.id + i} value={index.value}>
+                    <div className="flex cursor-pointer items-center gap-2">
+                      <p>{index.name}</p>
+                    </div>
+                  </SelectItem>
+                ))}
+              </CustomFormField>
+              <CustomFormField
+                fieldType={FormFieldType.SELECT}
+                name="religion"
+                label="Religión"
+                control={form.control}>
+                {Religion.map((index, i) => (
+                  <SelectItem key={index.id + i} value={index.value}>
+                    <div className="flex cursor-pointer items-center gap-2">
+                      <p>{index.name}</p>
+                    </div>
+                  </SelectItem>
+                ))}
+              </CustomFormField>
+              <CustomFormField
+                fieldType={FormFieldType.CHECKBOX}
                 name="funeral_service"
-                render={({ field }) => (
-                  <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
-                    <FormControl>
-                      <Checkbox
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                      />
-                    </FormControl>
-                    <div className="space-y-1 leading-none">
-                      <FormLabel>Funeral Service</FormLabel>
-                      <FormDescription>
-                        Check if funeral service is required
-                      </FormDescription>
-                    </div>
-                  </FormItem>
-                )}
-              />
-              <FormField
+                label="Servicio funerario"
+                placeholder=""
                 control={form.control}
+              />
+              <CustomFormField
+                fieldType={FormFieldType.INPUT}
                 name="tumor"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Tumor</FormLabel>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
+                label="Tumor"
+                placeholder=""
                 control={form.control}
+              />
+              <CustomFormField
+                fieldType={FormFieldType.CHECKBOX}
                 name="metastasis"
-                render={({ field }) => (
-                  <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
-                    <FormControl>
-                      <Checkbox
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                      />
-                    </FormControl>
-                    <div className="space-y-1 leading-none">
-                      <FormLabel>Metastasis</FormLabel>
-                      <FormDescription>
-                        Check if metastasis is present
-                      </FormDescription>
-                    </div>
-                  </FormItem>
-                )}
-              />
-              <FormField
+                label="Metastasis"
+                placeholder=""
                 control={form.control}
+              />
+              <CustomFormField
+                fieldType={FormFieldType.TEXTAREA}
+                name="metastasis_location"
+                label="Lugar de metastasis"
+                placeholder=""
+                control={form.control}
+              />
+              <CustomFormField
+                fieldType={FormFieldType.TEXTAREA}
+                name="personal_history"
+                label="Historial personal"
+                placeholder=""
+                control={form.control}
+              />
+              <CustomFormField
+                fieldType={FormFieldType.SELECT}
                 name="ecog"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>ECOG Performance Status</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select ECOG status" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="0">0 - Fully active</SelectItem>
-                        <SelectItem value="1">
-                          1 - Restricted in strenuous activity
-                        </SelectItem>
-                        <SelectItem value="2">
-                          2 - Ambulatory and capable of self-care
-                        </SelectItem>
-                        <SelectItem value="3">
-                          3 - Capable of only limited self-care
-                        </SelectItem>
-                        <SelectItem value="4">
-                          4 - Completely disabled
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
+                label="ECOG"
+                control={form.control}>
+                {Ecog.map((index, i) => (
+                  <SelectItem key={index.id + i} value={index.value}>
+                    <div className="flex cursor-pointer items-center gap-2">
+                      <p>{index.name}</p>
+                    </div>
+                  </SelectItem>
+                ))}
+              </CustomFormField>
+              <CustomFormField
+                fieldType={FormFieldType.SELECT}
+                name="specific_oncological_treatment"
+                label="Tratamiento oncológico específico"
+                control={form.control}>
+                {Specific_OT.map((index, i) => (
+                  <SelectItem key={index.id + i} value={index.value}>
+                    <div className="flex cursor-pointer items-center gap-2">
+                      <p>{index.name}</p>
+                    </div>
+                  </SelectItem>
+                ))}
+              </CustomFormField>
+              <CustomFormField
+                fieldType={FormFieldType.INPUT}
+                name="surgery"
+                label="Cirugía"
+                placeholder=""
                 control={form.control}
-                name="status"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Status</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select status" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="active">Active</SelectItem>
-                        <SelectItem value="pending">Pending</SelectItem>
-                        <SelectItem value="inactive">Inactive</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
               />
+              <CustomFormField
+                fieldType={FormFieldType.INPUT}
+                name="radiotherapy"
+                label="Radioterapia"
+                placeholder=""
+                control={form.control}
+              />
+              <CustomFormField
+                fieldType={FormFieldType.INPUT}
+                name="chemotherapy"
+                label="Quimioterapia"
+                placeholder=""
+                control={form.control}
+              />
+              <CustomFormField
+                fieldType={FormFieldType.INPUT}
+                name="hemotherapy"
+                label="Hemoterapia"
+                placeholder=""
+                control={form.control}
+              />
+              <CustomFormField
+                fieldType={FormFieldType.CHECKBOX}
+                name="opioid_treatment"
+                label="Tratamiento opioide"
+                placeholder=""
+                control={form.control}
+              />
+              <CustomFormField
+                fieldType={FormFieldType.INPUT}
+                name="opioid_name"
+                label="Medicación opioide"
+                placeholder=""
+                control={form.control}
+              />
+              <CustomFormField
+                fieldType={FormFieldType.TEXTAREA}
+                name="other_medications"
+                label="Otras medicaciones"
+                placeholder=""
+                control={form.control}
+              />
+              <CustomFormField
+                fieldType={FormFieldType.SELECT}
+                name="status"
+                label="Estado"
+                control={form.control}>
+                {Status.map((index, i) => (
+                  <SelectItem key={index.id + i} value={index.value}>
+                    <div className="flex cursor-pointer items-center gap-2">
+                      <p>{index.name}</p>
+                    </div>
+                  </SelectItem>
+                ))}
+              </CustomFormField>
             </div>
-            <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? "Submitting..." : "Submit"}
+            <Button disabled={isSubmitting}>
+              {isSubmitting ? "Guardando..." : "Guardar"}
             </Button>
           </form>
         </Form>
