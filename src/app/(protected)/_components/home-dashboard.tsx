@@ -1,6 +1,5 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -16,12 +15,11 @@ import {
 import React from "react";
 
 export default function HomeDashboard() {
-  const [date, setDate] = React.useState<Date | undefined>(new Date());
   const [typing, setTyping] = React.useState<boolean>(false);
 
   return (
     <div className="flex flex-col min-h-screen">
-      <main className="flex-grow container mx-auto">
+      <main className="flex-grow">
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -79,7 +77,7 @@ export default function HomeDashboard() {
           </Card>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-7 mt-6">
+        <div className="mt-6">
           <Card className="col-span-5">
             <CardHeader>
               <CardTitle>Acciones Rápidas</CardTitle>
@@ -109,19 +107,6 @@ export default function HomeDashboard() {
                   onBlur={() => setTyping(false)}
                 />
               </div>
-            </CardContent>
-          </Card>
-          <Card className="col-span-2">
-            <CardHeader>
-              <CardTitle>Calendario</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Calendar
-                mode="single"
-                selected={date}
-                onSelect={setDate}
-                className="rounded-md border"
-              />
             </CardContent>
           </Card>
         </div>

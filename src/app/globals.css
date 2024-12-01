@@ -86,6 +86,12 @@ body {
   }
 }
 
+.react-datepicker__input-container input {
+  background-color: #ffffff00 !important;
+  width: 100%;
+  outline: none;
+}
+
 @layer base {
   * {
     @apply border-border;
@@ -104,5 +110,24 @@ body {
   /* Alerts */
   .error-alert {
     @apply absolute bottom-5 right-5 w-fit border-red-200 bg-red-200 text-red-500;
+  }
+  .input-phone {
+    @apply mt-2 flex h-11 rounded-md pl-3 text-sm border !important;
+  }
+
+  .input-phone img {
+    @apply ml-0 ml-2 mr-3 h-6 w-6 fill-current;
+  }
+
+  .input-phone div {
+    @apply flex items-center justify-center;
+  }
+
+  .input-phone div select {
+    @apply hidden;
+  }
+
+  .input-phone input {
+    @apply w-full bg-transparent focus:bg-transparent active:bg-transparent focus:outline-none;
   }
 }

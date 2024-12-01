@@ -120,14 +120,14 @@ export interface Guest {
   $permissions: string[];
 
   // Propiedades del huésped
-  admission_date?: string;
+  admission_date?: Date;
   name?: string;
+  birthdate: Date;
   age?: number;
   dni?: string;
   address?: string;
-  phone?: string;
   contact_name?: string;
-  contact_phone?: number;
+  contact_phone?: string;
   contact_email?: string;
   relation_with_guest?: string;
   referring_person?: string;
