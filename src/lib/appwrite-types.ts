@@ -122,7 +122,7 @@ export interface Guest {
   // Propiedades del huésped
   admission_date?: Date;
   name?: string;
-  birthdate: Date;
+  birthdate?: Date;
   age?: number;
   dni?: string;
   address?: string;
