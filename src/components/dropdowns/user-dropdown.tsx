@@ -96,8 +96,8 @@ export function UserDropdown() {
           <LifeBuoy />
           <span>
             <Link
-              href={"https://github.com/mativiaggio/hospicare/issues/new"}
-              target="_blank">
+              // href={"https://github.com/mativiaggio/hospicare/issues/new"}
+              href={"/soporte"}>
               Soporte
             </Link>
           </span>
