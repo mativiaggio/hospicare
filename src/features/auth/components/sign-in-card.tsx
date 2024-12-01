@@ -24,10 +24,12 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useLogin } from "../api/use-login";
+import { ErrorAlert } from "@/components/alerts/error-alert";
 
 export const SignInCard = () => {
   const { mutate } = useLogin();
   const [submitting, setSubmitting] = useState<boolean>(false);
+  const [showError, setShowError] = useState<boolean>(false);
 
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -39,7 +41,16 @@ export const SignInCard = () => {
 
   const onSubmit = (values: z.infer<typeof loginSchema>) => {
     setSubmitting(true);
-    mutate({ json: values });
+    mutate(
+      { json: values },
+      {
+        onError: () => {
+          setShowError(true);
+          setSubmitting(false);
+          form.setValue("password", "");
+        },
+      }
+    );
   };
 
   return (
@@ -90,6 +101,7 @@ export const SignInCard = () => {
                         {...field}
                         type="password"
                         placeholder="Ingresa tu contraseña"
+                        autoComplete="current-password"
                       />
                     </FormControl>
                     <FormMessage />
@@ -133,6 +145,13 @@ export const SignInCard = () => {
           </p>
         </CardFooter>
       </Card>
+      {showError && (
+        <ErrorAlert
+          title="Ocurrió un error al iniciar sesión."
+          message="Revise la dirección de correo electrónico y la contraseña."
+          onClose={() => setShowError(false)}
+        />
+      )}
     </>
   );
 };
