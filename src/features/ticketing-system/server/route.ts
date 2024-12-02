@@ -1,0 +1,59 @@
+import { env } from "@/env.config";
+import { ticketSchema } from "@/features/schemas";
+import { sessionMiddleware } from "@/lib/session-middlware";
+import { zValidator } from "@hono/zod-validator";
+import { Hono } from "hono";
+import { ID, Query } from "node-appwrite";
+
+const app = new Hono()
+  .get("/", sessionMiddleware, async (c) => {
+    const database = c.get("databases");
+
+    const tickets = await database.listDocuments(
+      env.DATABASE_ID,
+      env.TICKETS_ID,
+      []
+    );
+
+    return c.json({ tickets: tickets });
+  })
+  .post(
+    "/new",
+    sessionMiddleware,
+    zValidator("json", ticketSchema),
+    async (c) => {
+      const database = c.get("databases");
+      const user = c.get("user");
+      const data = c.req.valid("json");
+
+      const userDocument = await database.listDocuments(
+        env.DATABASE_ID,
+        env.USERS_ID,
+        [Query.equal("user_id", user.$id)]
+      );
+
+      if (userDocument.documents.length === 0) {
+        return c.json(
+          { success: false, message: "User document not found" },
+          404
+        );
+      }
+
+      const userDocumentId = userDocument.documents[0].$id;
+      const ticketData = {
+        ...data,
+        users: userDocumentId,
+      };
+
+      const ticket = await database.createDocument(
+        env.DATABASE_ID,
+        env.TICKETS_ID,
+        ID.unique(),
+        ticketData
+      );
+
+      return c.json({ ticket: ticket });
+    }
+  );
+
+export default app;
