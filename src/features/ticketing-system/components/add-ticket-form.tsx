@@ -38,6 +38,7 @@ export default function AddTicketForm() {
     defaultValues: {
       title: "",
       description: "",
+      status: "open",
     },
   });
 
