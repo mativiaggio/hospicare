@@ -20,6 +20,8 @@ import { useNewTicket } from "../api/use-new-ticket";
 import { useCurrent } from "@/features/auth/api/use-current";
 import AddTicketFormSkeleton from "./add-ticket-form-skeleton";
 import { useGetUserDocument } from "@/features/users/api/use-find-user-document";
+import { SelectItem } from "@/components/ui/select";
+import { TicketStatus } from "@/constants/appwrite";
 
 type TicketFormValues = z.infer<typeof ticketSchema>;
 
@@ -89,10 +91,34 @@ export default function AddTicketForm() {
                 placeholder="Descripción"
                 control={form.control}
               />
+              <CustomFormField
+                fieldType={FormFieldType.SELECT}
+                name="status"
+                label="Estado"
+                control={form.control}
+                defaultValue="open"
+                disabled>
+                {TicketStatus.map((index, i) => (
+                  <SelectItem key={index.id + i} value={index.value}>
+                    <div className="flex cursor-pointer items-center gap-2">
+                      <p>{index.name}</p>
+                    </div>
+                  </SelectItem>
+                ))}
+              </CustomFormField>
             </div>
-            <Button disabled={isSubmitting || !userDocument?.documentId}>
-              {isSubmitting ? "Guardando..." : "Guardar"}
-            </Button>
+            <div className="flex gap-2">
+              <Button
+                type="submit"
+                disabled={isSubmitting || !userDocument?.documentId}>
+                {isSubmitting ? "Guardando..." : "Guardar"}
+              </Button>
+              <Button
+                variant={"outline"}
+                onClick={() => router.push("/soporte")}>
+                Cancelar
+              </Button>
+            </div>
           </form>
         </Form>
       </CardContent>

@@ -122,3 +122,31 @@ export const Specific_OT = [
     name: "No convencional",
   },
 ];
+
+export const TicketStatus = [
+  {
+    id: 1,
+    value: "open",
+    name: "Abierto",
+  },
+  {
+    id: 2,
+    value: "in-progress",
+    name: "En progreso",
+  },
+  {
+    id: 3,
+    value: "solved",
+    name: "Resuelto",
+  },
+  {
+    id: 4,
+    value: "closed",
+    name: "Cerrado",
+  },
+  {
+    id: 5,
+    value: "under-review",
+    name: "En revisión",
+  },
+];
