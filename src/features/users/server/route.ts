@@ -160,6 +160,32 @@ const app = new Hono()
         );
       }
     }
-  );
+  )
+  .get("/find-user-document", sessionMiddleware, async (c) => {
+    try {
+      const user = c.get("user"); // Usuario autenticado
+      const database = c.get("databases");
+
+      // Buscar el documento del usuario en la colección `users`
+      const response = await database.listDocuments(
+        env.DATABASE_ID, // ID de la base de datos
+        env.USERS_ID, // ID de la colección `users`
+        [Query.equal("user_id", user.$id)] // Buscar por `user_id`
+      );
+
+      if (response.documents.length === 0) {
+        return c.json(
+          { success: false, message: "User document not found" },
+          404
+        );
+      }
+
+      // Devolver el primer documento encontrado (asumiendo que `user_id` es único)
+      return c.json({ success: true, documentId: response.documents[0].$id });
+    } catch (error) {
+      console.error("Error fetching user document:", error);
+      return c.json({ success: false, message: (error as Error).message }, 500);
+    }
+  });
 
 export default app;

@@ -73,3 +73,9 @@ export const guestSchema = z.object({
   physical_evaluation: z.string().optional(), // Ajustar según referencia o tipo de objeto
   medications: z.string().optional(), // Ajustar si es una referencia o tipo de objeto
 });
+
+export const ticketSchema = z.object({
+  title: z.string().trim().min(1, "Campo obligatorio"),
+  description: z.string().min(1, "Campo obligatorio"),
+  solution: z.string(),
+});

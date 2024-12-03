@@ -59,6 +59,7 @@ interface CustomProps {
   iconDarkColor?: string;
   renderSkeleton?: (field: any) => React.ReactNode;
   value?: string;
+  defaultValue?: string;
 }
 
 const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
@@ -71,6 +72,7 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
     onFocus,
     onBlur,
     iconAlt,
+    disabled,
     fieldCustomClasses,
     inputCustomClasses,
     iconCustomClasses,
@@ -81,6 +83,7 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
     dateFormat,
     renderSkeleton,
     value,
+    defaultValue,
   } = props;
   switch (fieldType) {
     case FormFieldType.PASSWORD:
@@ -107,7 +110,9 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
               onFocus={onFocus}
               onBlur={onBlur}
               value={value}
+              defaultValue={defaultValue}
               className={`shad-input ${inputCustomClasses}`}
+              disabled={disabled}
             />
           </FormControl>
         </div>
