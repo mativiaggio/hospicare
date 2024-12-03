@@ -1,32 +1,30 @@
 import React from "react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function AddTicketFormSkeleton() {
   return (
     <Card className="w-full max-w-4xl mx-auto">
       <CardHeader>
-        <CardTitle>Nuevo ticket</CardTitle>
-        <CardDescription>
-          Completa el formulario para cargar un nuevo ticket
-        </CardDescription>
+        <CardTitle>Cargando...</CardTitle>
+        <div>
+          <Skeleton className="h-[14px] w-full mt-[6px]" />
+        </div>
       </CardHeader>
       <CardContent>
         <div>
           <div className="space-y-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="flex flex-col">
+            <div className="">
+              <div className="flex flex-col mb-[30px]">
                 <p className="text-sm pb-2">Título</p>
                 <Skeleton className="h-12 w-full" />
               </div>
-              <div className="flex flex-col">
+              <div className="flex flex-col mb-[30px]">
                 <p className="text-sm pb-2">Descripción</p>
+                <Skeleton className="h-12 w-full" />
+              </div>
+              <div className="flex flex-col mb-[30px]">
+                <p className="text-sm pb-2">Solución</p>
                 <Skeleton className="h-12 w-full" />
               </div>
             </div>

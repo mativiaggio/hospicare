@@ -56,7 +56,7 @@ export default function AddTicketForm() {
     console.log({ formattedValues });
     mutate({ json: formattedValues });
     setIsSubmitting(false);
-    router.replace("/soporte");
+    router.push("/soporte");
   }
 
   if (isLoadingUser || isLoadingDocument) {

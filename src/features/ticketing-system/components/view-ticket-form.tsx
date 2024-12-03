@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CustomFormField, { FormFieldType } from "@/components/custom-formfield";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,84 +13,130 @@ import {
 import { Form } from "@/components/ui/form";
 import { ticketSchema } from "@/features/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { useNewTicket } from "../api/use-new-ticket";
 import { useCurrent } from "@/features/auth/api/use-current";
 import AddTicketFormSkeleton from "./add-ticket-form-skeleton";
-import { useGetUserDocument } from "@/features/users/api/use-find-user-document";
+import { useFindTicketById } from "../api/use-find-by-id";
+import { Badge } from "@/components/ui/badge";
+import { useUpdateTicket } from "../api/use-update-ticket";
 
 type TicketFormValues = z.infer<typeof ticketSchema>;
 
 export default function ViewTicketForm() {
-  const { mutate } = useNewTicket();
+  const params = useParams<{ id: string }>();
+  const { mutate } = useUpdateTicket();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
   const { data: currentUser, isLoading: isLoadingUser } = useCurrent();
-  const { data: userDocument, isLoading: isLoadingDocument } =
-    useGetUserDocument(currentUser?.$id || null);
+  const {
+    data: ticket,
+    isLoading: isLoadingTicket,
+    isFetching: isFetchingTicket,
+  } = useFindTicketById(params.id);
 
   const form = useForm<TicketFormValues>({
     resolver: zodResolver(ticketSchema),
     defaultValues: {
       title: "",
       description: "",
+      solution: "",
     },
   });
 
+  useEffect(() => {
+    if (ticket) {
+      form.reset({
+        title: ticket.title || "",
+        description: ticket.description || "",
+        solution: ticket.solution || "",
+      });
+    }
+  }, [ticket, form]);
+
   async function onSubmit(values: TicketFormValues) {
     setIsSubmitting(true);
-
-    if (!userDocument?.documentId) {
-      console.error("User document ID not found");
-      setIsSubmitting(false);
-      return;
-    }
-
     const formattedValues = {
       ...values,
-      users: [userDocument.documentId],
     };
-
-    console.log({ formattedValues });
-    mutate({ json: formattedValues });
+    mutate({ param: { id: params.id }, json: formattedValues });
     setIsSubmitting(false);
-    router.replace("/soporte");
+    router.push("/soporte");
   }
 
-  if (isLoadingUser || isLoadingDocument) {
+  // Manejo de carga
+  if (isLoadingUser || isLoadingTicket || isFetchingTicket) {
     return <AddTicketFormSkeleton />;
   }
 
   return (
     <Card className="w-full max-w-4xl mx-auto">
       <CardHeader>
-        <CardTitle>Nuevo ticket</CardTitle>
+        <CardTitle className="flex gap-2 items-center">
+          Ticket creado por {ticket?.users?.name}{" "}
+          {currentUser?.labels.includes("admin") ||
+          currentUser?.labels.includes("developer") ? (
+            <Badge>Modo desarrollador</Badge>
+          ) : (
+            <Badge>Modo lectura</Badge>
+          )}
+        </CardTitle>
         <CardDescription>
-          Completa el formulario para cargar un nuevo ticket
+          {currentUser?.labels.includes("admin") ||
+          currentUser?.labels.includes("developer")
+            ? "Agrega la resolución si corresponse y actualiza el ticket"
+            : "No posees permisos para actualizar el formulario."}
         </CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="">
               <CustomFormField
                 fieldType={FormFieldType.INPUT}
                 name="title"
                 label="Título"
                 placeholder="Título"
                 control={form.control}
+                defaultValue={form.getValues("title")}
+                inputCustomClasses="!opacity-100"
+                disabled
               />
               <CustomFormField
-                fieldType={FormFieldType.INPUT}
+                fieldType={FormFieldType.TEXTAREA}
                 name="description"
                 label="Descripción"
                 placeholder="Descripción"
                 control={form.control}
+                defaultValue={form.getValues("description")}
+                inputCustomClasses="resize-none !opacity-100"
+                disabled
+              />
+              <CustomFormField
+                fieldType={FormFieldType.TEXTAREA}
+                name="solution"
+                label="Solución"
+                placeholder="Solución"
+                control={form.control}
+                defaultValue={form.getValues("solution")}
+                inputCustomClasses="resize-none !opacity-100"
+                disabled={
+                  isSubmitting ||
+                  isLoadingTicket ||
+                  !currentUser?.labels.includes("admin") ||
+                  !currentUser?.labels.includes("developer")
+                }
               />
             </div>
-            <Button disabled={isSubmitting || !userDocument?.documentId}>
+            <Button
+              type="submit"
+              disabled={
+                isSubmitting ||
+                isLoadingTicket ||
+                !currentUser?.labels.includes("admin") ||
+                !currentUser?.labels.includes("developer")
+              }>
               {isSubmitting ? "Guardando..." : "Guardar"}
             </Button>
           </form>

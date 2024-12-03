@@ -1,5 +1,6 @@
 import { env } from "@/env.config";
 import { ticketSchema } from "@/features/schemas";
+import { Tickets } from "@/lib/appwrite-types";
 import { sessionMiddleware } from "@/lib/session-middlware";
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
@@ -16,6 +17,17 @@ const app = new Hono()
     );
 
     return c.json({ tickets: tickets });
+  })
+  .get("/find-by-id/:id", sessionMiddleware, async (c) => {
+    const database = c.get("databases");
+    const ticketId = c.req.param("id");
+    const ticket: Tickets = await database.getDocument(
+      env.DATABASE_ID,
+      env.TICKETS_ID,
+      ticketId
+    );
+
+    return c.json({ ticket });
   })
   .post(
     "/new",
@@ -53,6 +65,34 @@ const app = new Hono()
       );
 
       return c.json({ ticket: ticket });
+    }
+  )
+  .put(
+    "/update/:id",
+    sessionMiddleware,
+    zValidator("json", ticketSchema),
+    async (c) => {
+      const database = c.get("databases");
+      const ticketId = c.req.param("id");
+      const data = c.req.valid("json");
+
+      if (!ticketId) {
+        return c.json(
+          { success: false, message: "Ticket ID is required" },
+          400
+        );
+      }
+
+      const ticketData = { ...data };
+
+      const ticket = await database.updateDocument(
+        env.DATABASE_ID,
+        env.TICKETS_ID,
+        ticketId,
+        ticketData
+      );
+
+      return c.json({ ticket });
     }
   );
 

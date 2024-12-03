@@ -179,6 +179,7 @@ export interface Tickets {
   title?: string;
   description?: string;
   users?: Users;
+  solution?: string;
 }
 
 export interface GuestsApiResponse {

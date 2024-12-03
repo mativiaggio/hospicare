@@ -1,20 +1,28 @@
 import { client } from "@/lib/rpc";
 import { useQuery } from "@tanstack/react-query";
 
-export const useFindMedicationById = () => {
+export const useFindTicketById = (id: string) => {
   const query = useQuery({
-    queryKey: ["tickets"],
+    queryKey: ["tickets", id],
     queryFn: async () => {
-      const response = await client.api.tickets.$get();
-
-      if (!response.ok) {
-        return null;
+      if (!id) {
+        throw new Error("ID is required to fetch a ticket");
       }
 
-      const { tickets } = await response.json();
+      const response = await client.api.tickets["find-by-id"][":id"].$get({
+        param: { id },
+      });
 
-      return tickets;
+      if (!response.ok) {
+        throw new Error("Failed to fetch ticket");
+      }
+
+      const { ticket } = await response.json();
+
+      return ticket;
     },
+    enabled: !!id,
+    staleTime: 0,
   });
 
   return query;

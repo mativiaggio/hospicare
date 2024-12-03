@@ -76,5 +76,6 @@ export const guestSchema = z.object({
 
 export const ticketSchema = z.object({
   title: z.string().trim().min(1, "Campo obligatorio"),
-  description: z.string().min(1, "Ingresa la contraseña"),
+  description: z.string().min(1, "Campo obligatorio"),
+  solution: z.string(),
 });
