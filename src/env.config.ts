@@ -18,6 +18,7 @@ export const env = {
     process.env.NEXT_PUBLIC_COGNITIVE_EVALUATION_ID || "",
   PHYSICAL_EVALUATION_ID: process.env.NEXT_PUBLIC_PHYSICAL_EVALUATION_ID || "",
   MEDICATIONS_ID: process.env.NEXT_PUBLIC_MEDICATIONS_ID || "",
+  TICKETS_ID: process.env.NEXT_PUBLIC_TICKETS_ID || "",
 
   // Configuración del almacenamiento (buckets)
   BUCKET_ID: process.env.NEXT_PUBLIC_BUCKET_ID || "",
