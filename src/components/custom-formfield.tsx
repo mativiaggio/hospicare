@@ -44,6 +44,7 @@ interface CustomProps {
   placeholder?: string;
   onFocus?: (event: FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   onBlur?: (event: FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  onChange?: (value: string | number | boolean | Date | null) => void;
   formItemCustomClasses?: string;
   iconType?: string;
   iconAlt?: string;
@@ -217,7 +218,6 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
           className={`flex items-center ${
             iconType ? "pl-2" : ""
           } overflow-hidden rounded-md ${fieldCustomClasses}`}>
-          ​
           {iconType && (
             <Icon
               icon={iconType}
@@ -227,8 +227,11 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
           )}
           <FormControl>
             <Select
-              onValueChange={field.onChange}
-              defaultValue={field.value || defaultValue}
+              value={field.value || ""}
+              onValueChange={(val) => {
+                field.onChange(val);
+                if (props.onChange) props.onChange(val);
+              }}
               disabled={props.disabled}>
               <FormControl>
                 <SelectTrigger>

@@ -21,6 +21,9 @@ export const useUpdateTicket = () => {
 
       return await response.json();
     },
+    onSuccess: () => {
+      window.location.replace("/soporte");
+    },
   });
 
   return mutation;

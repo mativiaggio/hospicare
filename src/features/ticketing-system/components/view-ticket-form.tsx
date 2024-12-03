@@ -37,27 +37,37 @@ export default function ViewTicketForm() {
     isLoading: isLoadingTicket,
     isFetching: isFetchingTicket,
   } = useFindTicketById(params.id);
+  const [isResetDone, setIsResetDone] = useState(false);
 
   const form = useForm<TicketFormValues>({
     resolver: zodResolver(ticketSchema),
     defaultValues: {
-      title: "",
-      description: "",
-      solution: "",
-      status: "",
+      title: ticket?.title || "",
+      description: ticket?.description || "",
+      solution: ticket?.solution || "",
+      status: ticket?.status || "open",
     },
   });
 
   useEffect(() => {
     if (ticket) {
       form.reset({
-        title: ticket.title || "",
-        description: ticket.description || "",
-        solution: ticket.solution || "",
-        status: ticket.status || "",
+        title: ticket.title,
+        description: ticket.description,
+        solution: ticket.solution,
+        status: ticket.status,
       });
+      console.log("setIsResetDone true");
+      setIsResetDone(true);
     }
   }, [ticket, form]);
+
+  useEffect(() => {
+    if (isResetDone) {
+      form.setValue("status", ticket?.status);
+      setIsResetDone(false);
+    }
+  }, [isResetDone, form, ticket]);
 
   async function onSubmit(values: TicketFormValues) {
     setIsSubmitting(true);
@@ -65,11 +75,8 @@ export default function ViewTicketForm() {
       ...values,
     };
     mutate({ param: { id: params.id }, json: formattedValues });
-    setIsSubmitting(false);
-    router.push("/soporte");
   }
 
-  // Manejo de carga
   if (isLoadingUser || isLoadingTicket || isFetchingTicket) {
     return <AddTicketFormSkeleton />;
   }
@@ -122,21 +129,23 @@ export default function ViewTicketForm() {
                 name="status"
                 label="Estado"
                 control={form.control}
-                defaultValue={form.getValues("status")}
+                value={form.watch("status")} // Aseguramos que siempre use el valor dinámico
+                onChange={(val) =>
+                  console.log("Valor seleccionado desde CustomFormField:", val)
+                }
                 disabled={
                   isSubmitting ||
                   isLoadingTicket ||
                   !currentUser?.labels.includes("admin") ||
                   !currentUser?.labels.includes("developer")
                 }>
-                {TicketStatus.map((index, i) => (
-                  <SelectItem key={index.id + i} value={index.value}>
-                    <div className="flex cursor-pointer items-center gap-2">
-                      <p>{index.name}</p>
-                    </div>
+                {TicketStatus.map((status) => (
+                  <SelectItem key={status.value} value={status.value}>
+                    {status.name}
                   </SelectItem>
                 ))}
               </CustomFormField>
+
               <CustomFormField
                 fieldType={FormFieldType.TEXTAREA}
                 name="solution"
@@ -165,6 +174,7 @@ export default function ViewTicketForm() {
                 {isSubmitting ? "Guardando..." : "Guardar"}
               </Button>
               <Button
+                type="button"
                 variant={"outline"}
                 onClick={() => router.push("/soporte")}>
                 Cancelar

@@ -21,8 +21,6 @@ export const useFindTicketById = (id: string) => {
 
       return ticket;
     },
-    enabled: !!id,
-    staleTime: 0,
   });
 
   return query;
