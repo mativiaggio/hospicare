@@ -226,7 +226,10 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
             />
           )}
           <FormControl>
-            <Select onValueChange={field.onChange} defaultValue={field.value}>
+            <Select
+              onValueChange={field.onChange}
+              defaultValue={field.value || defaultValue}
+              disabled={props.disabled}>
               <FormControl>
                 <SelectTrigger>
                   <SelectValue placeholder={props.placeholder} />

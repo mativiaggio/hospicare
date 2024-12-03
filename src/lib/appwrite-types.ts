@@ -180,6 +180,7 @@ export interface Tickets {
   description?: string;
   users?: Users;
   solution?: string;
+  status?: "open" | "in-progress" | "solved" | "closed" | "under-review";
 }
 
 export interface GuestsApiResponse {

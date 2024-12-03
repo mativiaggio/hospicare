@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
+  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
@@ -36,9 +37,11 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Tickets, TicketsApiResponse } from "@/lib/appwrite-types";
-import { Copy, Plus } from "lucide-react";
+import { ChevronDownIcon, Copy, Plus } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 
 export const columns: ColumnDef<Tickets>[] = [
   {
@@ -114,23 +117,25 @@ export const columns: ColumnDef<Tickets>[] = [
       <div className="whitespace-nowrap">{row.getValue("title")}</div>
     ),
   },
-  // {
-  //   accessorKey: "description",
-  //   header: ({ column }) => {
-  //     return (
-  //       <Button
-  //         variant="ghost"
-  //         className="pl-0 hover:bg-transparent"
-  //         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-  //         Descripción
-  //         <CaretSortIcon className="ml-2 h-4 w-4" />
-  //       </Button>
-  //     );
-  //   },
-  //   cell: ({ row }) => (
-  //     <div className="whitespace-nowrap">{row.getValue("description")}</div>
-  //   ),
-  // },
+  {
+    accessorKey: "status",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          className="pl-0 hover:bg-transparent"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+          Estado
+          <CaretSortIcon className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => (
+      <div>
+        <StatusBadge status={row.getValue("status")} />
+      </div>
+    ),
+  },
 
   {
     id: "actions",
@@ -167,6 +172,44 @@ export const columns: ColumnDef<Tickets>[] = [
   },
 ];
 
+const statusMapping: { [key: string]: string | null } = {
+  Abierto: "open",
+  "En progreso": "in-progress",
+  Resuelto: "solved",
+  Cerrado: "closed",
+  "En revisión": "under-review",
+};
+
+const statusMappingInverse: { [key: string]: string | null } = {
+  open: "Abierto",
+  "in-progress": "En progreso",
+  solved: "Resuelto",
+  closed: "Cerrado",
+  "under-review": "En revisión",
+};
+
+const StatusBadge = ({ status }: { status: string }) => {
+  return (
+    <Badge
+      variant="outline"
+      className={cn(
+        "",
+        status === "open" &&
+          "bg-active border-active dark:bg-active-dark dark:border-active-dark text-white dark:text-active-text-dark",
+        status === "in-progress" &&
+          "bg-pending border-pending dark:bg-pending-dark dark:border-pending-dark text-white dark:text-pending-text-dark",
+        status === "solved" &&
+          "bg-active border-active dark:bg-active-dark dark:border-active-dark text-white dark:text-active-text-dark",
+        status === "closed" &&
+          "bg-inactive border-inactive dark:bg-inactive-dark dark:border-inactive-dark text-white dark:text-inactive-text-dark",
+        status === "under-review" &&
+          "bg-pending border-pending dark:bg-pending-dark dark:border-pending-dark text-white dark:text-pending-text-dark"
+      )}>
+      {statusMappingInverse[status]}
+    </Badge>
+  );
+};
+
 interface TicketsDataTableProps {
   ticketsData?: TicketsApiResponse;
 }
@@ -180,7 +223,7 @@ export function TicketsDataTable({ ticketsData }: TicketsDataTableProps) {
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
-
+  const [selectedFilter, setSelectedFilter] = React.useState<string>("Todos");
   const tickets = ticketsData;
   const router = useRouter();
 
@@ -214,6 +257,21 @@ export function TicketsDataTable({ ticketsData }: TicketsDataTableProps) {
     },
   });
 
+  React.useEffect(() => {
+    const currentFilters = table.getColumn("status")?.getFilterValue() as
+      | string[]
+      | undefined;
+
+    if (!currentFilters || currentFilters.length === 0) {
+      setSelectedFilter("Todos");
+    } else {
+      const mapped = currentFilters
+        .map((s) => statusMappingInverse[s] || s)
+        .join(", ");
+      setSelectedFilter(mapped);
+    }
+  }, [columnFilters, table]);
+
   return (
     <div className="w-full">
       <div className="flex justify-between items-center py-4">
@@ -238,6 +296,76 @@ export function TicketsDataTable({ ticketsData }: TicketsDataTableProps) {
           />
         </div>
         <div className="flex items-center gap-2">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline">
+                {selectedFilter} <ChevronDownIcon className="ml-2 h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              {[
+                "Abierto",
+                "En progreso",
+                "Resuelto",
+                "Cerrado",
+                "En revisión",
+              ].map((status) => {
+                const status2 = statusMapping[status];
+
+                const currentFilters = table
+                  .getColumn("status")
+                  ?.getFilterValue() as string[] | undefined;
+
+                if (status === "Todos") {
+                  const isChecked =
+                    !currentFilters || currentFilters.length === 0;
+                  return (
+                    <DropdownMenuCheckboxItem
+                      key={status}
+                      className="capitalize"
+                      checked={isChecked}
+                      onCheckedChange={(value) => {
+                        if (value) {
+                          table.getColumn("status")?.setFilterValue(undefined);
+                        }
+                      }}>
+                      {status}
+                    </DropdownMenuCheckboxItem>
+                  );
+                }
+
+                const isChecked = currentFilters
+                  ? currentFilters.includes(status2!)
+                  : false;
+
+                return (
+                  <DropdownMenuCheckboxItem
+                    key={status2}
+                    className="capitalize"
+                    checked={isChecked}
+                    onCheckedChange={(value) => {
+                      let newFilters: string[] = [];
+
+                      if (value) {
+                        if (!newFilters.includes(status2!)) {
+                          newFilters.push(status2!);
+                        }
+                      } else {
+                        newFilters = newFilters.filter((s) => s !== status2);
+                      }
+
+                      if (newFilters.length > 0) {
+                        table.getColumn("status")?.setFilterValue(newFilters);
+                      } else {
+                        table.getColumn("status")?.setFilterValue(undefined);
+                      }
+                    }}>
+                    {status}
+                  </DropdownMenuCheckboxItem>
+                );
+              })}
+            </DropdownMenuContent>
+          </DropdownMenu>
           <Link href="soporte/nuevo">
             <Button>
               <Plus /> Nuevo ticket

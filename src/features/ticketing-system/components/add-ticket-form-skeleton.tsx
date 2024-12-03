@@ -21,15 +21,24 @@ export default function AddTicketFormSkeleton() {
               </div>
               <div className="flex flex-col mb-[30px]">
                 <p className="text-sm pb-2">Descripción</p>
-                <Skeleton className="h-12 w-full" />
+                <Skeleton className="h-[60px] w-full" />
               </div>
               <div className="flex flex-col mb-[30px]">
                 <p className="text-sm pb-2">Solución</p>
+                <Skeleton className="h-[60px] w-full" />
+              </div>
+              <div className="flex flex-col mb-[30px]">
+                <p className="text-sm pb-2">Estado</p>
                 <Skeleton className="h-12 w-full" />
               </div>
             </div>
-            <div className="pt-10">
-              <Skeleton className="h-10 w-28" />
+            <div className="flex gap-2">
+              <div className="pt-10">
+                <Skeleton className="h-10 w-28" />
+              </div>
+              <div className="pt-10">
+                <Skeleton className="h-10 w-28" />
+              </div>
             </div>
           </div>
         </div>

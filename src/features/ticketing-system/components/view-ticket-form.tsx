@@ -21,6 +21,8 @@ import AddTicketFormSkeleton from "./add-ticket-form-skeleton";
 import { useFindTicketById } from "../api/use-find-by-id";
 import { Badge } from "@/components/ui/badge";
 import { useUpdateTicket } from "../api/use-update-ticket";
+import { SelectItem } from "@/components/ui/select";
+import { TicketStatus } from "@/constants/appwrite";
 
 type TicketFormValues = z.infer<typeof ticketSchema>;
 
@@ -42,6 +44,7 @@ export default function ViewTicketForm() {
       title: "",
       description: "",
       solution: "",
+      status: "",
     },
   });
 
@@ -51,6 +54,7 @@ export default function ViewTicketForm() {
         title: ticket.title || "",
         description: ticket.description || "",
         solution: ticket.solution || "",
+        status: ticket.status || "",
       });
     }
   }, [ticket, form]);
@@ -114,6 +118,26 @@ export default function ViewTicketForm() {
                 disabled
               />
               <CustomFormField
+                fieldType={FormFieldType.SELECT}
+                name="status"
+                label="Estado"
+                control={form.control}
+                defaultValue={form.getValues("status")}
+                disabled={
+                  isSubmitting ||
+                  isLoadingTicket ||
+                  !currentUser?.labels.includes("admin") ||
+                  !currentUser?.labels.includes("developer")
+                }>
+                {TicketStatus.map((index, i) => (
+                  <SelectItem key={index.id + i} value={index.value}>
+                    <div className="flex cursor-pointer items-center gap-2">
+                      <p>{index.name}</p>
+                    </div>
+                  </SelectItem>
+                ))}
+              </CustomFormField>
+              <CustomFormField
                 fieldType={FormFieldType.TEXTAREA}
                 name="solution"
                 label="Solución"
@@ -129,16 +153,23 @@ export default function ViewTicketForm() {
                 }
               />
             </div>
-            <Button
-              type="submit"
-              disabled={
-                isSubmitting ||
-                isLoadingTicket ||
-                !currentUser?.labels.includes("admin") ||
-                !currentUser?.labels.includes("developer")
-              }>
-              {isSubmitting ? "Guardando..." : "Guardar"}
-            </Button>
+            <div className="flex gap-2">
+              <Button
+                type="submit"
+                disabled={
+                  isSubmitting ||
+                  isLoadingTicket ||
+                  !currentUser?.labels.includes("admin") ||
+                  !currentUser?.labels.includes("developer")
+                }>
+                {isSubmitting ? "Guardando..." : "Guardar"}
+              </Button>
+              <Button
+                variant={"outline"}
+                onClick={() => router.push("/soporte")}>
+                Cancelar
+              </Button>
+            </div>
           </form>
         </Form>
       </CardContent>
