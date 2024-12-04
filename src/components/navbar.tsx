@@ -1,18 +1,20 @@
 "use client";
 import { HeartPulse, X } from "lucide-react";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import NavbarMenuButton from "./buttons/navbar-menu-button";
 import { ModeToggle } from "./buttons/theme-toggle";
 
 import { UserDropdown } from "./dropdowns/user-dropdown";
 import { Button } from "./ui/button";
 import { Menu } from "./ui/navbar-menu";
+import { usePathname } from "next/navigation";
 
 const Navbar: React.FC = () => {
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [active, setActive] = useState<string | null>(null);
+  const pathname = usePathname();
 
   const handleToggleNavbar = () => {
     setIsNavbarOpen(!isNavbarOpen);
@@ -21,6 +23,11 @@ const Navbar: React.FC = () => {
   const handleCloseNavbar = () => {
     setIsNavbarOpen(false);
   };
+
+  useEffect(() => {
+    // Cierra el menú cada vez que la ruta cambia
+    setIsNavbarOpen(false);
+  }, [pathname]); // Escucha cambios en pathname
 
   return (
     <div className="relative z-10">

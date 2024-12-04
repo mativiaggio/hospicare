@@ -183,7 +183,7 @@ export default function ProfileSettingsForm({ data }: Props) {
 
         <Separator />
 
-        <Button type="submit" className="w-full" disabled={formIsLoading}>
+        <Button variant={!form.getValues("password") ? "outline" : "primary"} type="submit" className="w-full" disabled={formIsLoading || !form.getValues("password")}>
           {formIsLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
           {formIsLoading ? "Guardando..." : "Guardar Cambios"}
         </Button>

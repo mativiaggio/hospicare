@@ -172,7 +172,7 @@ export default function ProfilePasswordForm() {
 
         <Separator />
 
-        <Button type="submit" className="w-full" disabled={disabled}>
+        <Button variant={disabled ? "outline" : "primary"} type="submit" className="w-full" disabled={disabled}>
           {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
           {isLoading ? "Guardando..." : "Guardar Cambios"}
         </Button>

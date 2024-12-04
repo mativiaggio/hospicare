@@ -1,11 +1,4 @@
-import {
-  Github,
-  LifeBuoy,
-  Loader,
-  Loader2,
-  Settings,
-  User,
-} from "lucide-react";
+import { Github, LifeBuoy, Loader, Loader2, Lock, User } from "lucide-react";
 
 import {
   DropdownMenu,
@@ -21,9 +14,19 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useCurrent } from "@/features/auth/api/use-current";
 import Link from "next/link";
 import { Logout } from "../buttons/logout-button";
+import { useState } from "react";
 
 export function UserDropdown() {
   const { data, isLoading } = useCurrent();
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleOpenChange = (open: boolean) => {
+    setIsOpen(open);
+  };
+
+  const handleLinkClick = () => {
+    setIsOpen(false);
+  };
 
   if (isLoading) {
     return (
@@ -38,7 +41,7 @@ export function UserDropdown() {
   }
 
   return (
-    <DropdownMenu modal={false}>
+    <DropdownMenu open={isOpen} onOpenChange={handleOpenChange} modal={false}>
       <DropdownMenuTrigger asChild>
         <Avatar className="select-none cursor-pointer">
           <AvatarImage
@@ -50,11 +53,9 @@ export function UserDropdown() {
       <DropdownMenuContent className="w-56">
         <DropdownMenuLabel>
           {isLoading ? (
-            <>
-              <span className="flex items-center gap-2">
-                <Loader2 size={20} className="animate-spin" /> Cargando
-              </span>
-            </>
+            <span className="flex items-center gap-2">
+              <Loader2 size={20} className="animate-spin" /> Cargando
+            </span>
           ) : (
             <>
               <p className="text-lg">{data?.name}</p>
@@ -67,16 +68,22 @@ export function UserDropdown() {
           <DropdownMenuItem>
             <User />
             <span className="w-full flex">
-              <Link className="!w-full" href={"/settings/profile"}>
+              <Link
+                className="!w-full"
+                href={"/settings/profile"}
+                onClick={handleLinkClick}>
                 Perfil
               </Link>
             </span>
           </DropdownMenuItem>
           <DropdownMenuItem>
-            <Settings />
+            <Lock />
             <span className="w-full flex">
-              <Link className="!w-full" href={"/settings"}>
-                Configuración
+              <Link
+                className="!w-full"
+                href={"/settings/security"}
+                onClick={handleLinkClick}>
+                Seguridad
               </Link>
             </span>
           </DropdownMenuItem>
@@ -87,7 +94,8 @@ export function UserDropdown() {
           <span>
             <Link
               href={"https://github.com/mativiaggio/hospicare"}
-              target="_blank">
+              target="_blank"
+              onClick={handleLinkClick}>
               GitHub
             </Link>
           </span>
@@ -95,15 +103,13 @@ export function UserDropdown() {
         <DropdownMenuItem>
           <LifeBuoy />
           <span>
-            <Link
-              // href={"https://github.com/mativiaggio/hospicare/issues/new"}
-              href={"/soporte"}>
+            <Link href={"/soporte"} onClick={handleLinkClick}>
               Soporte
             </Link>
           </span>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={handleLinkClick}>
           <Logout />
         </DropdownMenuItem>
       </DropdownMenuContent>
