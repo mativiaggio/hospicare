@@ -3,6 +3,7 @@
 "use client";
 import {
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -42,6 +43,7 @@ interface CustomProps {
   name: string;
   label?: string;
   placeholder?: string;
+  description?: string;
   onFocus?: (event: FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   onBlur?: (event: FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   onChange?: (value: string | number | boolean | Date | null) => void;
@@ -70,6 +72,7 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
     name,
     label,
     placeholder,
+    description,
     onFocus,
     onBlur,
     iconAlt,
@@ -246,19 +249,23 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
 
     case FormFieldType.CHECKBOX:
       return (
-        <FormControl>
-          <div className="flex items-center gap-4">
+        <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+          <FormControl>
             <Checkbox
               id={props.name}
               checked={field.value}
               onCheckedChange={field.onChange}
             />
-            <label htmlFor={props.name} className="text-sm">
-              {props.label}
-            </label>
+          </FormControl>
+          <div className="space-y-1 leading-none">
+            <FormLabel htmlFor={props.name}>{props.label}</FormLabel>
+            {props.description && (
+              <FormDescription>{props.description}</FormDescription>
+            )}
           </div>
-        </FormControl>
+        </FormItem>
       );
+
     default:
       break;
   }

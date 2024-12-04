@@ -1,5 +1,8 @@
+"use client"
+import { redirect } from 'next/navigation';
+
 const SettingsPage = () => {
-  return <div>SettingsPage</div>;
+  redirect("/settings/profile")
 };
 
 export default SettingsPage;
