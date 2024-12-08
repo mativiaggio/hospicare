@@ -68,6 +68,7 @@ export const guestSchema = z.object({
   other_medications: z.string().optional(),
   status: z.string(),
   social_security: z.string().optional(), // Ajustar si es un objeto o referencia en el modelo de datos
+  social_security_number: z.string().optional(),
   doctors: z.string().optional(), // Ajustar si es una lista o un tipo específico en el modelo
   cognitive_evaluation: z.string().optional(), // Ajustar según referencia o tipo de objeto
   physical_evaluation: z.string().optional(), // Ajustar según referencia o tipo de objeto

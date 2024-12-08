@@ -145,9 +145,10 @@ export interface Guest {
   chemotherapy?: string;
   hemotherapy?: string;
   opioid_treatment?: boolean;
-  opioid_name?: string | null;
+  opioid_name?: string;
   other_medications?: string;
   social_security?: SocialSecurity;
+  social_security_number?: string;
   doctors?: Doctor[];
   cognitive_evaluation?: CognitiveEvaluation;
   physical_evaluation?: PhysicalEvaluation[];
