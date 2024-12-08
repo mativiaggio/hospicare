@@ -45,6 +45,7 @@ import { Guest, GuestsApiResponse } from "@/lib/appwrite-types";
 import { cn } from "@/lib/utils";
 import { Copy, UserPlus } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export const columns: ColumnDef<Guest>[] = [
   {
@@ -319,11 +320,11 @@ const StatusBadge = ({ status }: { status: string }) => {
       className={cn(
         "",
         status === "alive" &&
-          "bg-active border-active dark:bg-active-dark dark:border-active-dark text-white dark:text-active-text-dark",
+          "bg-active border-active dark:bg-active-dark dark:border-active-dark text-active-text-light dark:text-active-text-dark",
         status === "pending" &&
-          "bg-pending border-pending dark:bg-pending-dark dark:border-pending-dark text-white dark:text-pending-text-dark",
+          "bg-pending border-pending dark:bg-pending-dark dark:border-pending-dark text-pending-text-light dark:text-pending-text-dark",
         status === "dead" &&
-          "bg-inactive border-inactive dark:bg-inactive-dark dark:border-inactive-dark text-white dark:text-inactive-text-dark"
+          "bg-inactive border-inactive dark:bg-inactive-dark dark:border-inactive-dark text-inactive-text-light dark:text-inactive-text-dark"
       )}>
       {statusMappingInverse[status]}
     </Badge>
@@ -335,7 +336,6 @@ interface GuestsDataTableProps {
 }
 
 export function GuestsDataTable({ guestsData }: GuestsDataTableProps) {
-  // Declaraciones de estado
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -343,18 +343,11 @@ export function GuestsDataTable({ guestsData }: GuestsDataTableProps) {
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
-
   const [selectedFilter, setSelectedFilter] = React.useState<string>("Todos");
-
-  // Llamada al hook personalizado
-  // const { data: guestsData } = useGetGuests();
-
+  const router = useRouter();
   const guests = guestsData;
-
-  // Uso de useMemo para memoizar los datos
   const data = React.useMemo(() => guests?.guests.documents ?? [], [guests]);
 
-  // Inicializar la tabla
   const table = useReactTable<Guest>({
     data,
     columns,
@@ -513,6 +506,9 @@ export function GuestsDataTable({ guestsData }: GuestsDataTableProps) {
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
+                  onDoubleClick={() =>
+                    router.push(`/huespedes/${row.original.$id}`)
+                  }
                   data-state={row.getIsSelected() ? "selected" : undefined}>
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>

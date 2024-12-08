@@ -13,64 +13,158 @@ import {
 } from "@/constants/appwrite";
 import { guestSchema } from "@/features/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useParams, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { useNewGuest } from "../api/use-new-guest";
 import { useGetSocialSecurity } from "@/features/social_security/api/use-get-social-security";
 import { LoaderCircle } from "lucide-react";
 import ReactDatePicker from "react-datepicker";
+import { useFindGuestById } from "../api/use-find-by-id";
 
 type GuestFormValues = z.infer<typeof guestSchema>;
 
-export default function AddGuestForm() {
+export default function ViewGuestForm() {
+  const params = useParams<{ id: string }>();
   const { mutate } = useNewGuest();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isResetDone, setIsResetDone] = useState(false);
   const router = useRouter();
   const { data: ssResponse, isLoading: isLoadingSocialSecurity } =
     useGetSocialSecurity();
+  const {
+    data: guest,
+    isLoading: isLoadingGuest,
+    isFetching: isFetchingGuest,
+  } = useFindGuestById(params.id);
+  const validInformationLevels = ["total", "partial", "none"];
+  const ecogOptions = ["0", "1", "2", "3", "4"];
 
   const form = useForm<GuestFormValues>({
     resolver: zodResolver(guestSchema),
     defaultValues: {
-      admission_date: new Date(),
-      name: "",
-      birthdate: new Date(),
-      dni: "",
-      address: "",
-      social_security: "",
-      social_security_number: "",
-      contact_name: "",
-      contact_email: "",
-      contact_phone: "",
-      relation_with_guest: "",
-      information_level: "total",
-      religion: "none",
-      funeral_service: false,
-      tumor: "",
-      metastasis: false,
-      metastasis_location: "",
-      personal_history: "",
-      ecog: "0",
-      specific_oncological_treatment: "none",
-      surgery: "",
-      radiotherapy: "",
-      chemotherapy: "",
-      hemotherapy: "",
-      opioid_treatment: false,
-      opioid_name: "",
-      other_medications: "",
-      status: "alive",
+      admission_date: guest?.admission_date
+        ? new Date(guest?.admission_date)
+        : undefined,
+      birthdate: guest?.birthdate ? new Date(guest?.birthdate) : undefined,
+      name: guest?.name || "",
+      dni: guest?.dni || "",
+      address: guest?.address || "",
+      social_security: guest?.social_security?.$id || "",
+      social_security_number: guest?.social_security_number || "",
+      contact_name: guest?.contact_name || "",
+      contact_email: guest?.contact_email || "",
+      contact_phone: guest?.contact_phone || "",
+      relation_with_guest: guest?.relation_with_guest || "",
+      referring_person: guest?.referring_person || "",
+      information_level: validInformationLevels.includes(
+        guest?.information_level || ""
+      )
+        ? (guest?.information_level as "total" | "partial" | "none")
+        : "total",
+      religion: guest?.religion || "none",
+      funeral_service: guest?.funeral_service || false,
+      tumor: guest?.tumor || "",
+      metastasis: guest?.metastasis || false,
+      metastasis_location: guest?.metastasis_location || "",
+      personal_history: guest?.personal_history || "",
+      ecog: ecogOptions.includes(guest?.ecog || "")
+        ? (guest?.ecog as "0" | "1" | "2" | "3" | "4")
+        : "1",
+      specific_oncological_treatment:
+        guest?.specific_oncological_treatment || "none",
+      surgery: guest?.surgery || "",
+      radiotherapy: guest?.radiotherapy || "",
+      chemotherapy: guest?.chemotherapy || "",
+      hemotherapy: guest?.hemotherapy || "",
+      opioid_treatment: guest?.opioid_treatment || false,
+      opioid_name: guest?.opioid_name || "",
+      other_medications: guest?.other_medications || "",
+      status: guest?.status || "alive",
     },
   });
+
+  useEffect(() => {
+    if (guest) {
+      console.log("guest", guest);
+      form.reset({
+        admission_date: guest.admission_date
+          ? new Date(guest.admission_date)
+          : undefined,
+        birthdate: guest.birthdate ? new Date(guest.birthdate) : undefined,
+        name: guest.name,
+        dni: guest.dni,
+        address: guest.address,
+        social_security: guest.social_security?.$id,
+        social_security_number: guest.social_security_number,
+        contact_name: guest.contact_name,
+        contact_email: guest.contact_email,
+        contact_phone: guest.contact_phone,
+        relation_with_guest: guest.relation_with_guest,
+        referring_person: guest.referring_person,
+        information_level: validInformationLevels.includes(
+          guest?.information_level || ""
+        )
+          ? (guest?.information_level as "total" | "partial" | "none")
+          : "total",
+        religion: guest.religion,
+        funeral_service: guest.funeral_service,
+        tumor: guest.tumor,
+        metastasis: guest.metastasis,
+        metastasis_location: guest.metastasis_location,
+        personal_history: guest.personal_history,
+        ecog: ecogOptions.includes(guest?.ecog || "")
+          ? (guest?.ecog as "0" | "1" | "2" | "3" | "4")
+          : "1",
+        specific_oncological_treatment: guest.specific_oncological_treatment,
+        surgery: guest.surgery,
+        radiotherapy: guest.radiotherapy,
+        chemotherapy: guest.chemotherapy,
+        hemotherapy: guest.hemotherapy,
+        opioid_treatment: guest.opioid_treatment,
+        opioid_name: guest.opioid_name,
+        other_medications: guest.other_medications,
+        status: guest?.status || "alive",
+      });
+      console.log("form", form);
+      console.log("despues de reset", form.getValues());
+      setIsResetDone(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [guest, form]);
+
+  useEffect(() => {
+    if (isResetDone) {
+      form.setValue(
+        "information_level",
+        validInformationLevels.includes(guest?.information_level || "")
+          ? (guest?.information_level as "total" | "partial" | "none")
+          : "none"
+      );
+      form.setValue(
+        "ecog",
+        ecogOptions.includes(guest?.ecog || "")
+          ? (guest?.ecog as "0" | "1" | "2" | "3" | "4")
+          : "1"
+      );
+      form.setValue(
+        "specific_oncological_treatment",
+        guest?.specific_oncological_treatment
+      );
+      form.setValue("religion", guest?.religion || "");
+      form.setValue("social_security", guest?.social_security?.$id || "");
+      form.setValue("status", guest?.status || "");
+      setIsResetDone(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isResetDone, form, guest]);
 
   async function onSubmit(values: GuestFormValues) {
     setIsSubmitting(true);
 
     const formattedValues = {
       ...values,
-      // admission_date: new Date(values.admission_date),
       birthdate: new Date(values.birthdate),
     };
 
@@ -80,7 +174,7 @@ export default function AddGuestForm() {
     router.replace("/huespedes");
   }
 
-  if (isLoadingSocialSecurity) {
+  if (isLoadingSocialSecurity || isLoadingGuest || isFetchingGuest) {
     return (
       <div className="flex justify-center items-center h-screen">
         <LoaderCircle className="animate-spin" size={48} />
@@ -102,8 +196,9 @@ export default function AddGuestForm() {
                 fieldType={FormFieldType.INPUT}
                 name="name"
                 label="Nombre Completo"
-                placeholder="John Doe"
+                placeholder=""
                 control={form.control}
+                defaultValue={form.getValues("name")}
               />
             </div>
             <div>
@@ -112,6 +207,7 @@ export default function AddGuestForm() {
                 name="dni"
                 label="DNI"
                 placeholder=""
+                defaultValue={form.getValues("dni")}
                 control={form.control}
               />
             </div>
@@ -121,11 +217,14 @@ export default function AddGuestForm() {
                 name="address"
                 label="Dirección"
                 placeholder=""
+                defaultValue={form.getValues("address")}
                 control={form.control}
               />
             </div>
             <div>
-              <label className="block mb-2 font-medium" htmlFor="birthdate">
+              <label
+                className="block mb-2 font-medium text-sm"
+                htmlFor="birthdate">
                 Fecha de Nacimiento
               </label>
               <ReactDatePicker
@@ -167,6 +266,7 @@ export default function AddGuestForm() {
                 name="social_security_number"
                 label="Número de afiliado"
                 placeholder=""
+                defaultValue={form.getValues("social_security_number")}
                 control={form.control}
               />
             </div>
@@ -180,6 +280,7 @@ export default function AddGuestForm() {
                 name="contact_name"
                 label="Nombre de contacto"
                 placeholder=""
+                defaultValue={form.getValues("contact_name")}
                 control={form.control}
               />
             </div>
@@ -189,6 +290,7 @@ export default function AddGuestForm() {
                 name="contact_phone"
                 label="Teléfono"
                 placeholder=""
+                defaultValue={form.getValues("contact_phone")}
                 control={form.control}
               />
             </div>
@@ -198,6 +300,7 @@ export default function AddGuestForm() {
                 name="contact_email"
                 label="Correo del contacto"
                 placeholder=""
+                defaultValue={form.getValues("contact_email")}
                 control={form.control}
               />
             </div>
@@ -207,6 +310,7 @@ export default function AddGuestForm() {
                 name="relation_with_guest"
                 label="Relación con el huésped"
                 placeholder=""
+                defaultValue={form.getValues("relation_with_guest")}
                 control={form.control}
                 inputCustomClasses="h-full"
               />
@@ -221,6 +325,7 @@ export default function AddGuestForm() {
                 name="referring_person"
                 label="Quien lo deriva"
                 placeholder=""
+                defaultValue={form.getValues("referring_person")}
                 control={form.control}
               />
             </div>
@@ -230,6 +335,7 @@ export default function AddGuestForm() {
                 name="tumor"
                 label="Tumor"
                 placeholder=""
+                defaultValue={form.getValues("tumor")}
                 control={form.control}
               />
             </div>
@@ -239,6 +345,7 @@ export default function AddGuestForm() {
                 name="metastasis"
                 label="Metastasis"
                 description="¿El huésped recibe tratamiento con opioides?"
+                defaultValue={form.getValues("metastasis")}
                 control={form.control}
               />
             </div>
@@ -248,6 +355,7 @@ export default function AddGuestForm() {
                 name="metastasis_location"
                 label="Lugar de metastasis"
                 placeholder=""
+                defaultValue={form.getValues("metastasis_location")}
                 control={form.control}
               />
             </div>
@@ -291,6 +399,7 @@ export default function AddGuestForm() {
                 name="surgery"
                 label="Cirugía"
                 placeholder=""
+                defaultValue={form.getValues("surgery")}
                 control={form.control}
               />
             </div>
@@ -300,6 +409,7 @@ export default function AddGuestForm() {
                 name="radiotherapy"
                 label="Radioterapia"
                 placeholder=""
+                defaultValue={form.getValues("radiotherapy")}
                 control={form.control}
               />
             </div>
@@ -309,6 +419,7 @@ export default function AddGuestForm() {
                 name="chemotherapy"
                 label="Quimioterapia"
                 placeholder=""
+                defaultValue={form.getValues("chemotherapy")}
                 control={form.control}
               />
             </div>
@@ -318,6 +429,7 @@ export default function AddGuestForm() {
                 name="hemotherapy"
                 label="Hemoterapia"
                 placeholder=""
+                defaultValue={form.getValues("hemotherapy")}
                 control={form.control}
               />
             </div>
@@ -331,6 +443,7 @@ export default function AddGuestForm() {
                 name="opioid_treatment"
                 label="Tratamiento opioide"
                 description="¿El huésped recibe tratamiento con opioides?"
+                defaultValue={form.getValues("opioid_treatment")}
                 control={form.control}
               />
             </div>
@@ -340,6 +453,7 @@ export default function AddGuestForm() {
                 name="opioid_name"
                 label="Medicación opioide"
                 placeholder=""
+                defaultValue={form.getValues("opioid_name")}
                 control={form.control}
               />
             </div>
@@ -349,6 +463,7 @@ export default function AddGuestForm() {
                 name="other_medications"
                 label="Otras medicaciones"
                 placeholder=""
+                defaultValue={form.getValues("other_medications")}
                 control={form.control}
               />
             </div>
@@ -392,6 +507,7 @@ export default function AddGuestForm() {
                 name="funeral_service"
                 label="Servicio funerario"
                 description="¿El huésped requiere servicio funerario?"
+                defaultValue={form.getValues("funeral_service")}
                 control={form.control}
               />
             </div>
@@ -401,12 +517,13 @@ export default function AddGuestForm() {
                 name="personal_history"
                 label="Historial personal"
                 placeholder=""
+                defaultValue={form.getValues("personal_history")}
                 control={form.control}
               />
             </div>
             <div>
               <label
-                className="block mb-2 font-medium"
+                className="block mb-2 font-medium text-sm"
                 htmlFor="admission_date">
                 Fecha de admisión
               </label>

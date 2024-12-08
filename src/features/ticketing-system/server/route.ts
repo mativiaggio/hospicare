@@ -13,7 +13,7 @@ const app = new Hono()
     const tickets = await database.listDocuments(
       env.DATABASE_ID,
       env.TICKETS_ID,
-      []
+      [Query.orderDesc("$createdAt")]
     );
 
     return c.json({ tickets: tickets });

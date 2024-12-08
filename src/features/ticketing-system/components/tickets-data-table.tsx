@@ -195,15 +195,15 @@ const StatusBadge = ({ status }: { status: string }) => {
       className={cn(
         "",
         status === "open" &&
-          "bg-active border-active dark:bg-active-dark dark:border-active-dark text-white dark:text-active-text-dark",
+          "bg-active border-active dark:bg-active-dark dark:border-active-dark text-active-text-light dark:text-active-text-dark",
         status === "in-progress" &&
-          "bg-pending border-pending dark:bg-pending-dark dark:border-pending-dark text-white dark:text-pending-text-dark",
+          "bg-pending border-pending dark:bg-pending-dark dark:border-pending-dark text-pending-text-light dark:text-pending-text-dark",
         status === "solved" &&
-          "bg-active border-active dark:bg-active-dark dark:border-active-dark text-white dark:text-active-text-dark",
+          "bg-solved border-solved dark:bg-solved-dark dark:border-solved-dark text-solved-text-light dark:text-solved-text-dark",
         status === "closed" &&
-          "bg-inactive border-inactive dark:bg-inactive-dark dark:border-inactive-dark text-white dark:text-inactive-text-dark",
+          "bg-inactive border-inactive dark:bg-inactive-dark dark:border-inactive-dark text-inactive-text-light dark:text-inactive-text-dark",
         status === "under-review" &&
-          "bg-pending border-pending dark:bg-pending-dark dark:border-pending-dark text-white dark:text-pending-text-dark"
+          "bg-under-review border-under-review dark:bg-under-review-dark dark:border-under-review-dark text-under-review-text-light dark:text-under-review-text-dark"
       )}>
       {statusMappingInverse[status]}
     </Badge>
