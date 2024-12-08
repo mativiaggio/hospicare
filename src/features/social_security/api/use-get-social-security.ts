@@ -6,7 +6,7 @@ export const useGetSocialSecurity = () => {
   return useQuery<SocialSecurityApiResponse, Error>({
     queryKey: ["social_security"],
     queryFn: async () => {
-      const response = await client.api["social_curity"].$get();
+      const response = await client.api["social_security"].$get();
 
       if (!response.ok) {
         throw new Error("Failed to fetch social_security");

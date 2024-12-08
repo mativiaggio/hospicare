@@ -62,7 +62,7 @@ interface CustomProps {
   iconDarkColor?: string;
   renderSkeleton?: (field: any) => React.ReactNode;
   value?: string;
-  defaultValue?: string;
+  defaultValue?: string | boolean;
 }
 
 const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
@@ -207,7 +207,7 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
             <Textarea
               placeholder={props.placeholder}
               {...field}
-              className={`shad-textArea ${inputCustomClasses}`}
+              className={`${inputCustomClasses}`}
               disabled={props.disabled}
             />
           </FormControl>
@@ -216,6 +216,7 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
       break;
 
     case FormFieldType.SELECT:
+      console.log("select: ", field.value);
       return (
         <div
           className={`flex items-center ${

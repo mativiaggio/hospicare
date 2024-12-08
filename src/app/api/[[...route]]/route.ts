@@ -14,7 +14,7 @@ const routes = app
   .route("/users", users)
   .route("/guests", guests)
   .route("/medications", medications)
-  .route("/social_curity", social_security)
+  .route("/social_security", social_security)
   .route("/tickets", tickets);
 
 export const GET = handle(app);
