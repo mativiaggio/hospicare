@@ -235,7 +235,7 @@ export const columns: ColumnDef<Guest>[] = [
       );
     },
     cell: ({ row }) => (
-      <div className="lowercase whitespace-nowrap">
+      <div className="whitespace-nowrap">
         {row.getValue("referring_person")}
       </div>
     ),

@@ -148,6 +148,7 @@ export interface Guest {
   opioid_name?: string | null;
   other_medications?: string;
   social_security?: SocialSecurity;
+  social_security_number?: string;
   doctors?: Doctor[];
   cognitive_evaluation?: CognitiveEvaluation;
   physical_evaluation?: PhysicalEvaluation[];

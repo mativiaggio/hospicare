@@ -5,7 +5,7 @@ export const useFindMedicationById = () => {
   const query = useQuery({
     queryKey: ["social_security"],
     queryFn: async () => {
-      const response = await client.api["social_curity"].$get();
+      const response = await client.api["social_security"].$get();
 
       if (!response.ok) {
         return null;

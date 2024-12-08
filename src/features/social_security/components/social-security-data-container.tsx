@@ -1,5 +1,5 @@
 "use client";
-import { useGetSocialSecurity } from "../api/use-get-guests";
+import { useGetSocialSecurity } from "../api/use-get-social-security";
 import { SocialSecurityDataTable } from "./social-security-data-table";
 
 export default function SocialSecurityDataContainer() {
