@@ -22,6 +22,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { Checkbox } from "./ui/checkbox";
 import { Select, SelectContent, SelectTrigger, SelectValue } from "./ui/select";
 import { Textarea } from "./ui/textarea";
+import { SliderInput } from "./slider-input";
 
 export enum FormFieldType {
   INPUT = "input",
@@ -35,6 +36,7 @@ export enum FormFieldType {
   DATE_PICKER = "datePicker",
   SELECT = "select",
   SKELETON = "skeleton",
+  SLIDER = "slider",
 }
 
 interface CustomProps {
@@ -62,7 +64,7 @@ interface CustomProps {
   iconDarkColor?: string;
   renderSkeleton?: (field: any) => React.ReactNode;
   value?: string;
-  defaultValue?: string | boolean;
+  defaultValue?: string | boolean | null;
 }
 
 const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
@@ -117,6 +119,7 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
               defaultValue={defaultValue}
               className={`shad-input ${inputCustomClasses}`}
               disabled={disabled}
+              autocomplete={"off"}
             />
           </FormControl>
         </div>
@@ -216,7 +219,6 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
       break;
 
     case FormFieldType.SELECT:
-      console.log("select: ", field.value);
       return (
         <div
           className={`flex items-center ${
@@ -264,6 +266,21 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
               <FormDescription>{props.description}</FormDescription>
             )}
           </div>
+        </FormItem>
+      );
+
+    case FormFieldType.SLIDER:
+      return (
+        <FormItem className="flex flex-col space-y-4">
+          <FormControl>
+            <SliderInput
+              value={field.value || 0}
+              onChange={(newValue) => field.onChange(newValue)}
+            />
+          </FormControl>
+          {props.description && (
+            <FormDescription>{props.description}</FormDescription>
+          )}
         </FormItem>
       );
 

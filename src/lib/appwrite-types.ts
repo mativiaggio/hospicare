@@ -43,7 +43,8 @@ export interface PhysicalEvaluation {
   $permissions: string[];
   guest_id: string;
   heart_rate: number;
-  blood_pressure: string;
+  blood_pressure_systolic: number;
+  blood_pressure_diastolic: number;
   respiratory_rate: number;
   temperature: number;
   pain: number;
@@ -132,14 +133,24 @@ export interface Guest {
   relation_with_guest?: string;
   referring_person?: string;
   information_level?: string;
-  religion?: string;
+  religion?:
+    | "none"
+    | "catholic"
+    | "jewish"
+    | "evangelical"
+    | "mormon"
+    | "jehovahs_witness"
+    | "other";
   funeral_service?: boolean;
   tumor?: string;
   metastasis?: boolean;
   metastasis_location?: string;
   personal_history?: string;
   ecog?: string;
-  specific_oncological_treatment?: string;
+  specific_oncological_treatment?:
+    | "none"
+    | "definitive_suspension"
+    | "non_conventional";
   surgery?: string;
   radiotherapy?: string;
   chemotherapy?: string;
@@ -151,8 +162,72 @@ export interface Guest {
   social_security_number?: string;
   doctors?: Doctor[];
   cognitive_evaluation?: CognitiveEvaluation;
+  fluctuating_course?: boolean;
+  attention_disturbance?: boolean;
+  disorganized_thinking?: boolean;
+  altered_consciousness_level?: boolean;
   physical_evaluation?: PhysicalEvaluation[];
-  status?: "active" | "pending" | "inactive";
+  heart_rate?: number;
+  blood_pressure_systolic?: number;
+  blood_pressure_diastolic?: number;
+  respiratory_rate?: number;
+  temperature?: number;
+  pain?: number;
+  tiredness?: number;
+  nausea?: number;
+  depression?: number;
+  anxiety?: number;
+  sleepiness?: number;
+  appetite?: number;
+  dyspnoea?: number;
+  difficulty_sleeping?: number;
+  well_being?: number;
+  mobility?: "normal" | "w_assistance" | "wheelchair" | "non_ambulatory";
+  mobility_cause?: "disease_progression" | "neurological_lesion";
+  hygiene?: "independent" | "bed_dependent" | "bath_dependent";
+  bath_transfer?: "yes" | "w_assistance" | "no";
+  oral_health?:
+    | "healthy"
+    | "dry"
+    | "painful"
+    | "bleeding"
+    | "mucositis"
+    | "mycosis"
+    | "prosthesis";
+  swallowing?:
+    | "normal"
+    | "mild_disorder"
+    | "moderate_disorder"
+    | "severe_disorder";
+  nutrition?: "eats_alone" | "w_assistance" | "no_intake" | "ng_tube";
+  hydration?: "normal" | "dehydrated";
+  hydration_method?: "oral" | "sc" | "iv";
+  abdominal_status?: "normal" | "distended" | "painful";
+  urinary_functions?: "normal" | "diaper" | "incontinence" | "urinary_catheter";
+  urine_characteristics?: "hematuric" | "coluric" | "w_sediment";
+  bowel_function?:
+    | "normal"
+    | "diaper"
+    | "incontinence"
+    | "constipation"
+    | "diarrhea";
+  stool_consistency?: "normal" | "hard" | "w_blood";
+  respiratory_system?:
+    | "normal"
+    | "respiratory_difficulty"
+    | "dyspnea"
+    | "cough";
+  sputum_type?: string;
+  pressure_ulcers?: "none" | "1" | "2" | "3" | "4";
+  pressure_ulcers_location?: string;
+  skin_lesions?: string;
+  edema?: boolean;
+  edema_location?: string;
+  ostomies?: boolean;
+  ostomy_type?: string;
+  other_disorders?: string;
+  care_plan?: string;
+  status?: "alive" | "pending" | "dead";
   medications?: Medications[];
 }
 

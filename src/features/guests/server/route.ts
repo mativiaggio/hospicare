@@ -47,6 +47,34 @@ const app = new Hono()
 
       return c.json({ guest: guest });
     }
+  )
+  .put(
+    "/update/:id",
+    sessionMiddleware,
+    zValidator("json", guestSchema),
+    async (c) => {
+      const database = c.get("databases");
+      const guestId = c.req.param("id");
+      const data = c.req.valid("json");
+
+      if (!guestId) {
+        return c.json(
+          { success: false, message: "Guest ID is required" },
+          400
+        );
+      }
+
+      const guestData = { ...data };
+
+      const guest = await database.updateDocument(
+        env.DATABASE_ID,
+        env.GUESTS_ID,
+        guestId,
+        guestData
+      );
+
+      return c.json({ guest });
+    }
   );
 
 export default app;

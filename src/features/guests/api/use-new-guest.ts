@@ -11,9 +11,12 @@ export const useNewGuest = () => {
       const response = await client.api.guests.new["$post"]({ json });
       return await response.json();
     },
-    // onSuccess: () => {
-    //   window.location.replace("/huespedes");
-    // },
+    onSuccess: () => {
+      window.location.replace("/huespedes");
+    },
+    onError: (error) => {
+      console.error("Put Error:", error.message);
+    },
   });
 
   return mutation;

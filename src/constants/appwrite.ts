@@ -150,3 +150,346 @@ export const TicketStatus = [
     name: "En revisión",
   },
 ];
+
+export const Mobility = [
+  {
+    id: 1,
+    value: "normal",
+    name: "Normal",
+  },
+  {
+    id: 2,
+    value: "w_assistance",
+    name: "Con asistencia",
+  },
+  {
+    id: 3,
+    value: "wheelchair",
+    name: "Silla de ruedas",
+  },
+  {
+    id: 4,
+    value: "non_ambulatory",
+    name: "No ambulatorio",
+  },
+];
+
+export const MobilityCause = [
+  {
+    id: 1,
+    value: "disease_progression",
+    name: "Progresión de la enfermedad",
+  },
+  {
+    id: 2,
+    value: "neurological_lesion",
+    name: "Lesión neurológica",
+  },
+];
+
+export const Hygiene = [
+  {
+    id: 1,
+    value: "independent",
+    name: "Independiente",
+  },
+  {
+    id: 2,
+    value: "bed_dependent",
+    name: "Dependiente de la cama",
+  },
+  {
+    id: 3,
+    value: "bath_dependent",
+    name: "Dependiente para el baño",
+  },
+];
+
+export const BathTransfer = [
+  {
+    id: 1,
+    value: "yes",
+    name: "Sí",
+  },
+  {
+    id: 2,
+    value: "w_assistance",
+    name: "Con asistencia",
+  },
+  {
+    id: 3,
+    value: "no",
+    name: "No",
+  },
+];
+
+export const OralHealth = [
+  {
+    id: 1,
+    value: "healthy",
+    name: "Saludable",
+  },
+  {
+    id: 2,
+    value: "dry",
+    name: "Seca",
+  },
+  {
+    id: 3,
+    value: "painful",
+    name: "Dolorosa",
+  },
+  {
+    id: 4,
+    value: "bleeding",
+    name: "Sangrado",
+  },
+  {
+    id: 5,
+    value: "mucositis",
+    name: "Mucositis",
+  },
+  {
+    id: 6,
+    value: "mycosis",
+    name: "Micosis",
+  },
+  {
+    id: 7,
+    value: "prosthesis",
+    name: "Prótesis",
+  },
+];
+
+export const Swallowing = [
+  {
+    id: 1,
+    value: "normal",
+    name: "Normal",
+  },
+  {
+    id: 2,
+    value: "mild_disorder",
+    name: "Alteración leve",
+  },
+  {
+    id: 3,
+    value: "moderate_disorder",
+    name: "Alteración moderada",
+  },
+  {
+    id: 4,
+    value: "severe_disorder",
+    name: "Alteración severa",
+  },
+];
+
+export const Nutrition = [
+  {
+    id: 1,
+    value: "eats_alone",
+    name: "Come solo",
+  },
+  {
+    id: 2,
+    value: "w_assistance",
+    name: "Con asistencia",
+  },
+  {
+    id: 3,
+    value: "no_intake",
+    name: "Sin ingesta",
+  },
+  {
+    id: 4,
+    value: "ng_tube",
+    name: "Sonda nasogástrica",
+  },
+];
+
+export const Hydration = [
+  {
+    id: 1,
+    value: "normal",
+    name: "Normal",
+  },
+  {
+    id: 2,
+    value: "dehydrated",
+    name: "Deshidratado",
+  },
+];
+
+export const HydrationMethod = [
+  {
+    id: 1,
+    value: "oral",
+    name: "Oral",
+  },
+  {
+    id: 2,
+    value: "sc",
+    name: "Subcutánea",
+  },
+  {
+    id: 3,
+    value: "iv",
+    name: "Intravenosa",
+  },
+];
+
+export const AbdominalStatus = [
+  {
+    id: 1,
+    value: "normal",
+    name: "Normal",
+  },
+  {
+    id: 2,
+    value: "distended",
+    name: "Distendido",
+  },
+  {
+    id: 3,
+    value: "painful",
+    name: "Doloroso",
+  },
+];
+
+export const UrinaryFunctions = [
+  {
+    id: 1,
+    value: "normal",
+    name: "Normal",
+  },
+  {
+    id: 2,
+    value: "diaper",
+    name: "Pañal",
+  },
+  {
+    id: 3,
+    value: "incontinence",
+    name: "Incontinencia",
+  },
+  {
+    id: 4,
+    value: "urinary_catheter",
+    name: "Catéter urinario",
+  },
+];
+
+export const UrineCharacteristics = [
+  {
+    id: 1,
+    value: "hematuric",
+    name: "Hematuria",
+  },
+  {
+    id: 2,
+    value: "coluric",
+    name: "Coluria",
+  },
+  {
+    id: 3,
+    value: "w_sediment",
+    name: "Con sedimento",
+  },
+];
+
+export const BowelFunction = [
+  {
+    id: 1,
+    value: "normal",
+    name: "Normal",
+  },
+  {
+    id: 2,
+    value: "diaper",
+    name: "Pañal",
+  },
+  {
+    id: 3,
+    value: "incontinence",
+    name: "Incontinencia",
+  },
+  {
+    id: 4,
+    value: "constipation",
+    name: "Estreñimiento",
+  },
+  {
+    id: 5,
+    value: "diarrhea",
+    name: "Diarrea",
+  },
+];
+
+export const StoolConsistency = [
+  {
+    id: 1,
+    value: "normal",
+    name: "Normal",
+  },
+  {
+    id: 2,
+    value: "hard",
+    name: "Dura",
+  },
+  {
+    id: 3,
+    value: "w_blood",
+    name: "Con sangre",
+  },
+];
+
+export const RespiratorySystem = [
+  {
+    id: 1,
+    value: "normal",
+    name: "Normal",
+  },
+  {
+    id: 2,
+    value: "respiratory_difficulty",
+    name: "Dificultad respiratoria",
+  },
+  {
+    id: 3,
+    value: "dyspnea",
+    name: "Disnea",
+  },
+  {
+    id: 4,
+    value: "cough",
+    name: "Tos",
+  },
+];
+
+export const PressureUlcers = [
+  {
+    id: 1,
+    value: "none",
+    name: "Ninguna",
+  },
+  {
+    id: 2,
+    value: "1",
+    name: "Estadio 1",
+  },
+  {
+    id: 3,
+    value: "2",
+    name: "Estadio 2",
+  },
+  {
+    id: 4,
+    value: "3",
+    name: "Estadio 3",
+  },
+  {
+    id: 5,
+    value: "4",
+    name: "Estadio 4",
+  },
+];
