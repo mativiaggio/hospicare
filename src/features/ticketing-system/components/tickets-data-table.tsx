@@ -37,7 +37,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Tickets, TicketsApiResponse } from "@/lib/appwrite-types";
-import { ChevronDownIcon, Copy, Plus } from "lucide-react";
+import { ChevronDownIcon, Copy, FileX2, Plus } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
@@ -424,6 +424,17 @@ export function TicketsDataTable({ ticketsData }: TicketsDataTableProps) {
                   ))}
                 </TableRow>
               ))
+            ) : tickets && tickets.tickets ? (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="text-center hover:text-[#991b1b] dark:hover:text-[#f87171]">
+                  <div className="flex gap-2 items-center justify-center w-full">
+                    <FileX2 />
+                    No hay datos disponibles.
+                  </div>
+                </TableCell>
+              </TableRow>
             ) : (
               <TableRow>
                 {columns.map((column, index) => (

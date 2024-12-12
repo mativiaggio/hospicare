@@ -39,7 +39,7 @@ import {
   SocialSecurity,
   SocialSecurityApiResponse,
 } from "@/lib/appwrite-types";
-import { Copy, Plus } from "lucide-react";
+import { Copy, FileX2, Plus } from "lucide-react";
 
 export const columns: ColumnDef<SocialSecurity>[] = [
   {
@@ -230,6 +230,17 @@ export function SocialSecurityDataTable({
                   ))}
                 </TableRow>
               ))
+            ) : social_security && social_security.social_security ? (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="text-center hover:text-[#991b1b] dark:hover:text-[#f87171]">
+                  <div className="flex gap-2 items-center justify-center w-full">
+                    <FileX2 />
+                    No hay datos disponibles.
+                  </div>
+                </TableCell>
+              </TableRow>
             ) : (
               <TableRow>
                 {columns.map((column, index) => (

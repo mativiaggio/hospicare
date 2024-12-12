@@ -43,7 +43,7 @@ import {
 } from "@/components/ui/table";
 import { Guest, GuestsApiResponse } from "@/lib/appwrite-types";
 import { cn } from "@/lib/utils";
-import { Copy, UserPlus } from "lucide-react";
+import { Copy, FileX2, UserPlus } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -532,6 +532,17 @@ export function GuestsDataTable({ guestsData }: GuestsDataTableProps) {
                   ))}
                 </TableRow>
               ))
+            ) : guests && guests.guests ? (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="text-center hover:text-[#991b1b] dark:hover:text-[#f87171]">
+                  <div className="flex gap-2 items-center justify-center w-full">
+                    <FileX2 />
+                    No hay datos disponibles.
+                  </div>
+                </TableCell>
+              </TableRow>
             ) : (
               <TableRow>
                 {columns.map((column, index) => (
