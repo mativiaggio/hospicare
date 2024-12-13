@@ -39,7 +39,9 @@ import {
   SocialSecurity,
   SocialSecurityApiResponse,
 } from "@/lib/appwrite-types";
-import { Copy, FileX2, Plus } from "lucide-react";
+import { CheckCircleIcon, Copy, FileX2, Plus, XCircleIcon } from "lucide-react";
+import Link from "next/link";
+import { Badge } from "@/components/ui/badge";
 
 export const columns: ColumnDef<SocialSecurity>[] = [
   {
@@ -80,6 +82,36 @@ export const columns: ColumnDef<SocialSecurity>[] = [
     cell: ({ row }) => (
       <div className="whitespace-nowrap">{row.getValue("name")}</div>
     ),
+  },
+  {
+    accessorKey: "private",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          className="pl-0 hover:bg-transparent"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+          Privada
+          <CaretSortIcon className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      const isPrivate = row.getValue("private");
+      return (
+        <div className="whitespace-nowrap flex items-center">
+          {isPrivate ? (
+            <Badge className="rounded-full aspect-square flex items-center justify-center bg-active border-active dark:bg-active-dark dark:border-active-dark text-active-text-light dark:text-active-text-dark">
+              <CheckCircleIcon className="h-4 w-4" />
+            </Badge>
+          ) : (
+            <Badge className="rounded-full aspect-square flex items-center justify-center bg-inactive border-inactive dark:bg-inactive-dark dark:border-inactive-dark text-inactive-text-light dark:text-inactive-text-dark">
+              <XCircleIcon className="h-4 w-4" />
+            </Badge>
+          )}
+        </div>
+      );
+    },
   },
 
   {
@@ -177,9 +209,12 @@ export function SocialSecurityDataTable({
           />
         </div>
         <div className="flex items-center gap-2">
-          <Button>
-            <Plus />
-          </Button>
+          <Link href={"/obras-sociales/nuevo"}>
+            <Button>
+              <Plus className="mr-1 h-4 w-4" />
+              Agregar obra social
+            </Button>
+          </Link>
         </div>
       </div>
       <div className="rounded-md border">

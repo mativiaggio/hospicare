@@ -3,7 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function ProfilePasswordSkeleton() {
   return (
-    <div className="w-full max-w-2xl mx-auto space-y-8 p-6">
+    <div className="w-full max-w-2xl mx-auto ">
       <div className="space-y-6">
         <Skeleton className="h-9 w-64" />
         <Skeleton className="h-5 w-full max-w-md" />

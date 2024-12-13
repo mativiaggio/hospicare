@@ -140,9 +140,9 @@ body {
     @apply dark:bg-[#fafafa] !important;
   }
 
-  /* .react-datepicker__month-select {
-    @apply !bg-red-500 !important;
-  } */
+  .danger-all-hover {
+    @apply hover:bg-inactive hover:border-inactive dark:hover:bg-inactive-dark dark:hover:border-inactive-dark hover:text-inactive-text-light hover:dark:text-inactive-text-dark !important;
+  }
 }
 
 /* =====  REACT-DATEPICKER OVERRIDES */
