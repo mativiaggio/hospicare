@@ -69,7 +69,7 @@ export default function RootLayout({
       <body
         className={cn(
           plusJakartaSans.className,
-          "antialiased min-h-screen text-lg"
+          "antialiased min-h-screen text-lg pt-[57px]"
         )}>
         <QueryProvider>
           <ThemeProvider

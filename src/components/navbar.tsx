@@ -31,47 +31,49 @@ const Navbar: React.FC = () => {
 
   return (
     <div className="relative z-10">
-      <div className="flex h-fit max-h-[10vh] items-center justify-between border-b px-4 py-2 sm:px-6 md:px-8 lg:px-10">
-        <div className="flex w-1/6">
-          <Link className="flex items-center justify-center" href="/">
-            <HeartPulse className="text-primary h-6 w-6" />
-            <span className="text-primary ml-2 text-2xl font-bold">
-              Hospicare
-            </span>
-          </Link>
-        </div>
-        <Menu setActive={setActive}>
-          <div className="hidden w-full lg:flex">
-            <ul className="flex items-center justify-between gap-6">
-              <li>
-                <Link href={"/"}>Inicio</Link>
-              </li>
-              <li>
-                <Link href={"/huespedes"}>Huéspedes</Link>
-              </li>
-              <li>
-                <Link href={"/medicamentos"}>Medicamentos</Link>
-              </li>
-              <li>
-                <Link href={"/obras-sociales"}>Obras Sociales</Link>
-              </li>
-              <li>
-                <ModeToggle />
-              </li>
-            </ul>
+      <div className="fixed w-full top-0 z-10 bg-[#fafafa] dark:bg-[#141414]">
+        <div className="flex h-fit max-h-[10vh] items-center justify-between border-b px-4 py-2 sm:px-6 md:px-8 lg:px-10">
+          <div className="flex w-1/6">
+            <Link className="flex items-center justify-center" href="/">
+              <HeartPulse className="text-primary h-6 w-6" />
+              <span className="text-primary ml-2 text-2xl font-bold">
+                Hospicare
+              </span>
+            </Link>
           </div>
-        </Menu>
+          <Menu setActive={setActive}>
+            <div className="hidden w-full lg:flex">
+              <ul className="flex items-center justify-between gap-6">
+                <li>
+                  <Link href={"/"}>Inicio</Link>
+                </li>
+                <li>
+                  <Link href={"/huespedes"}>Huéspedes</Link>
+                </li>
+                <li>
+                  <Link href={"/medicamentos"}>Medicamentos</Link>
+                </li>
+                <li>
+                  <Link href={"/obras-sociales"}>Obras Sociales</Link>
+                </li>
+                <li>
+                  <ModeToggle />
+                </li>
+              </ul>
+            </div>
+          </Menu>
 
-        <div className="hidden w-1/6 lg:flex justify-end">
-          <UserDropdown />
-        </div>
-        <div className="block lg:hidden">
-          <Button
-            variant={"ghost"}
-            onClick={handleToggleNavbar}
-            className="px-0">
-            <NavbarMenuButton />
-          </Button>
+          <div className="hidden w-1/6 lg:flex justify-end">
+            <UserDropdown />
+          </div>
+          <div className="block lg:hidden">
+            <Button
+              variant={"ghost"}
+              onClick={handleToggleNavbar}
+              className="px-0">
+              <NavbarMenuButton />
+            </Button>
+          </div>
         </div>
       </div>
 

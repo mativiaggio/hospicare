@@ -93,14 +93,14 @@ export default function ProfilePasswordForm() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="w-full max-w-2xl mx-auto space-y-8 p-6">
-        <div className="space-y-6">
+        className="w-full max-w-2xl mx-auto ">
+        <div className="space-y-6 pb-4">
           <h1 className="text-3xl font-bold">Cambio de contraseña</h1>
         </div>
 
         <Separator />
 
-        <section className="space-y-6">
+        <section className="space-y-6 pt-4">
           <div className="space-y-4">
             <div className="grid gap-2">
               <Label htmlFor="current-password">Contraseña Actual</Label>
@@ -172,7 +172,11 @@ export default function ProfilePasswordForm() {
 
         <Separator />
 
-        <Button variant={disabled ? "outline" : "primary"} type="submit" className="w-full" disabled={disabled}>
+        <Button
+          variant={disabled ? "outline" : "primary"}
+          type="submit"
+          className="w-full"
+          disabled={disabled}>
           {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
           {isLoading ? "Guardando..." : "Guardar Cambios"}
         </Button>

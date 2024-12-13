@@ -18,7 +18,7 @@ export default function HomeDashboard() {
   const [typing, setTyping] = React.useState<boolean>(false);
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen py-4">
       <main className="flex-grow">
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           <Card>

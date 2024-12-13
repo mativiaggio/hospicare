@@ -36,7 +36,73 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Medications, MedicationsApiResponse } from "@/lib/appwrite-types";
-import { Copy, FileX2, Plus } from "lucide-react";
+import { Copy, FileX2, PillBottle, Trash2 } from "lucide-react";
+import Link from "next/link";
+import { capitalizeFirstLetter } from "@/lib/utils";
+import { useRouter } from "next/navigation";
+import { useDeleteMedication } from "../api/use-delete-medication";
+import { ErrorAlert } from "@/components/alerts/error-alert";
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const CellActions = ({ row }: { row: any }) => {
+  const medication = row.original;
+  const { mutate } = useDeleteMedication();
+  const [showError, setShowError] = React.useState<boolean>(false);
+
+  function deleteRecord(id: string) {
+    console.log("Deleting record with ID:", id);
+    mutate(
+      { param: { id } },
+      {
+        onError: () => {
+          console.log("Ocurrio un error");
+          setShowError(true);
+        },
+      }
+    );
+  }
+
+  return (
+    <>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="ghost" className="h-8 w-8 p-0">
+            <span className="sr-only">Open menu</span>
+            <DotsHorizontalIcon className="h-4 w-4" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          <DropdownMenuLabel>Acciones</DropdownMenuLabel>
+          <DropdownMenuItem className="p-0">
+            <Button
+              variant={"inherit"}
+              className="danger-all-hover w-full flex justify-start items-center !px-2 !py-1.5"
+              onClick={() => deleteRecord(row.original.$id)}>
+              <Trash2 className="w-4 h-4" /> Eliminar
+            </Button>
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem
+            onClick={() => navigator.clipboard.writeText(medication.$id)}>
+            <span className="flex items-center gap-1">
+              ID
+              <Copy size={12} />
+            </span>
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem>Ver más</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+      {showError && (
+        <ErrorAlert
+          title="Ocurrió un error al eliminar el registro."
+          message="Vuelva a intentar, si el error persiste póngase en contacto con el soporte técnico."
+          onClose={() => setShowError(false)}
+        />
+      )}
+    </>
+  );
+};
 
 export const columns: ColumnDef<Medications>[] = [
   {
@@ -95,39 +161,30 @@ export const columns: ColumnDef<Medications>[] = [
       <div className="whitespace-nowrap">{row.getValue("manufacturer")}</div>
     ),
   },
+  {
+    accessorKey: "route_of_administration",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          className="pl-0 hover:bg-transparent"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+          Modo de administración
+          <CaretSortIcon className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => (
+      <div className="whitespace-nowrap">
+        {capitalizeFirstLetter(row.getValue("route_of_administration"))}
+      </div>
+    ),
+  },
 
   {
     id: "actions",
     enableHiding: false,
-    cell: ({ row }) => {
-      const medication = row.original;
-
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <DotsHorizontalIcon className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Acciones</DropdownMenuLabel>
-            <DropdownMenuItem>Pasar a inactivo</DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(medication.$id)}>
-              <span className="flex items-center gap-1">
-                ID
-                <Copy size={12} />
-              </span>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Ver más</DropdownMenuItem>
-            {/* Agrega más acciones según sea necesario */}
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    },
+    cell: ({ row }) => <CellActions row={row} />,
   },
 ];
 
@@ -146,7 +203,7 @@ export function MedicationsDataTable({
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
-
+  const router = useRouter();
   const medications = medicationsData;
 
   // Uso de useMemo para memoizar los datos
@@ -202,9 +259,12 @@ export function MedicationsDataTable({
           />
         </div>
         <div className="flex items-center gap-2">
-          <Button>
-            <Plus />
-          </Button>
+          <Link href={"/medicamentos/nuevo"}>
+            <Button>
+              <PillBottle className="mr-1 h-4 w-4" />
+              Agregar medicamento
+            </Button>
+          </Link>
         </div>
       </div>
       <div className="rounded-md border">
@@ -232,6 +292,9 @@ export function MedicationsDataTable({
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
+                  onDoubleClick={() =>
+                    router.push(`/medicamentos/${row.original.$id}`)
+                  }
                   data-state={row.getIsSelected() ? "selected" : undefined}>
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>

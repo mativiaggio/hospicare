@@ -1,5 +1,5 @@
 "use client";
-import { useGetMedications } from "../api/use-get-guests";
+import { useGetMedications } from "../api/use-get-medications";
 import { MedicationsDataTable } from "./medications-data-table";
 
 export default function MedicationsDataContainer() {

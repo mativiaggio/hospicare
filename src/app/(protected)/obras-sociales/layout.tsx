@@ -1,3 +1,5 @@
+import { PageTitle } from "@/components/page-title";
+import PageWrapper from "@/components/page-wrapper";
 import React from "react";
 
 export default function SocialSecurityLayout({
@@ -5,5 +7,13 @@ export default function SocialSecurityLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <div className="page-wrapper">{children}</div>;
+  return (
+    <PageWrapper>
+      <PageTitle
+        title="Obras sociales 🏥"
+        subtitle="Comienza a gestionar las obras sociales y prepagas"
+      />
+      {children}
+    </PageWrapper>
+  );
 }

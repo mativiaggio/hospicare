@@ -232,7 +232,7 @@ export default function ViewGuestForm() {
         <form
           onSubmit={form.handleSubmit(onSubmit)}
           autoComplete="off"
-          className="space-y-8 p-6">
+          className="">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-4">
               <h2 className="text-xl font-bold">Información Personal</h2>
