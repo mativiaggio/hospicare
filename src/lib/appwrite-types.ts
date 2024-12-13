@@ -108,7 +108,7 @@ export interface Medications {
   $updatedAt: string;
   $permissions: string[];
   name?: string;
-  route_of_administration?: string;
+  route_of_administration?: "oral" | "intravenous";
   manufacturer?: string;
 }
 

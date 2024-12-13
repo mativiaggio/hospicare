@@ -493,3 +493,16 @@ export const PressureUlcers = [
     name: "Estadio 4",
   },
 ];
+
+export const RouteOfAdministration = [
+  {
+    id: 1,
+    value: "oral",
+    name: "Oral",
+  },
+  {
+    id: 2,
+    value: "intravenous",
+    name: "Intravenosa",
+  },
+];

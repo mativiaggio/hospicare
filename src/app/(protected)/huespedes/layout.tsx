@@ -1,3 +1,5 @@
+import { PageTitle } from "@/components/page-title";
+import PageWrapper from "@/components/page-wrapper";
 import React from "react";
 
 export default function SettingsLayout({
@@ -5,5 +7,13 @@ export default function SettingsLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <div className="page-wrapper">{children}</div>;
+  return (
+    <PageWrapper>
+      <PageTitle
+        title="Huéspedes 🧑‍🦰"
+        subtitle="Comienza a gestionar los huéspedes"
+      />
+      {children}
+    </PageWrapper>
+  );
 }

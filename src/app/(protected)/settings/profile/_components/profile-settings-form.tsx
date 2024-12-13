@@ -93,10 +93,10 @@ export default function ProfileSettingsForm({ data }: Props) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="w-full max-w-2xl mx-auto space-y-8 p-6">
+        className="w-full max-w-2xl mx-auto ">
         <div className="space-y-6">
           <h1 className="text-3xl font-bold">Configuración del Perfil</h1>
-          <p className="text-muted-foreground">
+          <p className="text-muted-foreground pb-4">
             Administre la configuración de su cuenta y establezca las
             preferencias de correo electrónico.
           </p>
@@ -105,7 +105,7 @@ export default function ProfileSettingsForm({ data }: Props) {
         <Separator />
 
         <section className="space-y-6">
-          <h2 className="text-2xl font-semibold">Información Personal</h2>
+          <h2 className="text-2xl font-semibold pt-4">Información Personal</h2>
           <div className="flex items-center space-x-4">
             <Avatar className="w-20 h-20">
               <AvatarImage
@@ -183,7 +183,11 @@ export default function ProfileSettingsForm({ data }: Props) {
 
         <Separator />
 
-        <Button variant={!form.getValues("password") ? "outline" : "primary"} type="submit" className="w-full" disabled={formIsLoading || !form.getValues("password")}>
+        <Button
+          variant={!form.getValues("password") ? "outline" : "primary"}
+          type="submit"
+          className="w-full"
+          disabled={formIsLoading || !form.getValues("password")}>
           {formIsLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
           {formIsLoading ? "Guardando..." : "Guardar Cambios"}
         </Button>
