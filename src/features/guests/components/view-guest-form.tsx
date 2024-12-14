@@ -139,6 +139,9 @@ export default function ViewGuestForm() {
         ostomy_type: guest.ostomy_type,
         other_disorders: guest.other_disorders,
         care_plan: guest.care_plan,
+        hospitalization_date: guest.hospitalization_date
+          ? new Date(guest.hospitalization_date)
+          : undefined,
       });
       setIsResetDone(true);
     }
@@ -576,6 +579,24 @@ export default function ViewGuestForm() {
                   selected={form.watch("admission_date")}
                   onChange={(date) =>
                     form.setValue("admission_date", date || new Date())
+                  }
+                  dateFormat="dd/MM/yyyy"
+                  showMonthDropdown
+                  showYearDropdown
+                  dropdownMode="select"
+                  className="w-full px-3 py-2 border rounded-md"
+                />
+              </div>
+              <div>
+                <label
+                  className="block mb-2 font-medium text-sm"
+                  htmlFor="hospitalization_date">
+                  Fecha de admisión
+                </label>
+                <ReactDatePicker
+                  selected={form.watch("hospitalization_date")}
+                  onChange={(date) =>
+                    form.setValue("hospitalization_date", date || new Date())
                   }
                   dateFormat="dd/MM/yyyy"
                   showMonthDropdown
