@@ -31,7 +31,7 @@ const Navbar: React.FC = () => {
 
   return (
     <div className="relative z-10">
-      <div className="fixed w-full top-0 z-10 bg-[#fafafa] dark:bg-[#141414]">
+      <div className="fixed w-full max-w-[100vw] top-0 z-10 bg-[#fafafa] dark:bg-[#141414]">
         <div className="flex h-fit max-h-[10vh] items-center justify-between border-b px-4 py-2 sm:px-6 md:px-8 lg:px-10">
           <div className="flex w-1/6">
             <Link className="flex items-center justify-center" href="/">
