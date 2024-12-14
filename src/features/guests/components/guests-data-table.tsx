@@ -249,7 +249,7 @@ export const columns: ColumnDef<Guest>[] = [
       const guest = row.original;
 
       return (
-        <DropdownMenu>
+        <DropdownMenu modal={false}>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="h-8 w-8 p-0">
               <span className="sr-only">Open menu</span>
@@ -258,7 +258,6 @@ export const columns: ColumnDef<Guest>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Acciones</DropdownMenuLabel>
-            <DropdownMenuItem>Pasar a inactivo</DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem
               onClick={() => navigator.clipboard.writeText(guest.$id)}>
@@ -290,7 +289,9 @@ export const columns: ColumnDef<Guest>[] = [
               </span>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Ver más</DropdownMenuItem>
+            <DropdownMenuItem>
+              <Link href={`huespedes/${guest.$id}/epicrisis`}>Epicrisis</Link>
+            </DropdownMenuItem>
             {/* Agrega más acciones según sea necesario */}
           </DropdownMenuContent>
         </DropdownMenu>

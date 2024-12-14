@@ -1,5 +1,6 @@
 import { PageTitle } from "@/components/page-title";
 import PageWrapper from "@/components/page-wrapper";
+import { Hospital } from "lucide-react";
 import React from "react";
 
 export default function SocialSecurityLayout({
@@ -10,7 +11,8 @@ export default function SocialSecurityLayout({
   return (
     <PageWrapper>
       <PageTitle
-        title="Obras sociales 🏥"
+        title="Obras sociales"
+        icon={<Hospital className="w-10 h-10" />}
         subtitle="Comienza a gestionar las obras sociales y prepagas"
       />
       {children}

@@ -24,6 +24,8 @@ const buttonVariants = cva(
           "bg-blue-100 text-blue-600 border-transparent hover:bg-blue-200 shadow-none",
         inherit:
           "!p-0 !border-none !ourline-none !m-0 !bg-transparent !h-fit font-normal",
+        invert:
+          "bg-gradient-to-b from-gray-800 to-gray-900 text-white hover:from-gray-900 hover:to-gray-900",
       },
       size: {
         default: "h-10 px-4 py-2",
