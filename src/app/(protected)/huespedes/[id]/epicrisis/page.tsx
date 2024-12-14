@@ -1,5 +1,5 @@
 "use client";
-import A4Sheet from "@/components/impresiones/A4/a4-sheet";
+import A4Sheet from "@/components/prints/A4/a4-sheet";
 import { Button } from "@/components/ui/button";
 import { useFindGuestById } from "@/features/guests/api/use-find-by-id";
 import { calcularEdad, dateFormat } from "@/lib/utils";
