@@ -119,7 +119,7 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
               defaultValue={defaultValue}
               className={`shad-input ${inputCustomClasses}`}
               disabled={disabled}
-              autocomplete={"off"}
+              autoComplete={"off"}
             />
           </FormControl>
         </div>

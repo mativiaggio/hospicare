@@ -30,8 +30,8 @@ const Navbar: React.FC = () => {
   }, [pathname]); // Escucha cambios en pathname
 
   return (
-    <div className="relative z-10">
-      <div className="fixed w-full top-0 z-10 bg-[#fafafa] dark:bg-[#141414]">
+    <div className="relative z-10 print:hidden">
+      <div className="fixed w-full max-w-[100vw] top-0 z-10 bg-[#fafafa] dark:bg-[#141414]">
         <div className="flex h-fit max-h-[10vh] items-center justify-between border-b px-4 py-2 sm:px-6 md:px-8 lg:px-10">
           <div className="flex w-1/6">
             <Link className="flex items-center justify-center" href="/">
@@ -79,7 +79,7 @@ const Navbar: React.FC = () => {
 
       <div
         id="mobile-navbar"
-        className={`fixed left-0 top-0 h-screen w-full transform transition-transform duration-150 ease-in-out lg:hidden ${
+        className={`navbar-container fixed left-0 top-0 h-screen w-full transform transition-transform duration-150 ease-in-out lg:hidden ${
           isNavbarOpen
             ? "translate-x-0 overflow-hidden"
             : "-translate-x-full overflow-auto"

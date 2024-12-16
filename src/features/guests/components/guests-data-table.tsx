@@ -47,6 +47,68 @@ import { Copy, FileX2, UserPlus } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const RowActions = ({ row }: { row: any }) => {
+  const guest = row.original;
+
+  const handleEpicrisis = () => {};
+
+  return (
+    <DropdownMenu modal={false}>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" className="h-8 w-8 p-0">
+          <span className="sr-only">Open menu</span>
+          <DotsHorizontalIcon className="h-4 w-4" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuLabel>Acciones</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem
+          onClick={() => navigator.clipboard.writeText(guest.$id)}>
+          <span className="flex items-center gap-1">
+            ID
+            <Copy size={12} />
+          </span>
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() =>
+            navigator.clipboard.writeText(
+              guest.contact_email ? guest.contact_email : ""
+            )
+          }>
+          <span className="flex items-center gap-1">
+            Email
+            <Copy size={12} />
+          </span>
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() =>
+            navigator.clipboard.writeText(
+              guest.contact_phone ? guest.contact_phone : ""
+            )
+          }>
+          <span className="flex items-center gap-1">
+            Teléfono
+            <Copy size={12} />
+          </span>
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem>
+          {/* <Link href={`huespedes/${guest.$id}/epicrisis`}>Epicrisis</Link> */}
+          <Button
+            variant={"inherit"}
+            className="w-full flex justify-start items-center"
+            onClick={handleEpicrisis}>
+            Epicrisis
+          </Button>
+        </DropdownMenuItem>
+        {/* Agrega más acciones según sea necesario */}
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
+
 export const columns: ColumnDef<Guest>[] = [
   {
     id: "select",
@@ -245,57 +307,7 @@ export const columns: ColumnDef<Guest>[] = [
   {
     id: "actions",
     enableHiding: false,
-    cell: ({ row }) => {
-      const guest = row.original;
-
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <DotsHorizontalIcon className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Acciones</DropdownMenuLabel>
-            <DropdownMenuItem>Pasar a inactivo</DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(guest.$id)}>
-              <span className="flex items-center gap-1">
-                ID
-                <Copy size={12} />
-              </span>
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() =>
-                navigator.clipboard.writeText(
-                  guest.contact_email ? guest.contact_email : ""
-                )
-              }>
-              <span className="flex items-center gap-1">
-                Email
-                <Copy size={12} />
-              </span>
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() =>
-                navigator.clipboard.writeText(
-                  guest.contact_phone ? guest.contact_phone : ""
-                )
-              }>
-              <span className="flex items-center gap-1">
-                Teléfono
-                <Copy size={12} />
-              </span>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Ver más</DropdownMenuItem>
-            {/* Agrega más acciones según sea necesario */}
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    },
+    cell: ({ row }) => <RowActions row={row} />,
   },
 ];
 
