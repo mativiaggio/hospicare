@@ -260,6 +260,21 @@ export interface Tickets {
   status?: "open" | "in-progress" | "solved" | "closed" | "under-review";
 }
 
+export interface Staff {
+  $id: string;
+  $collectionId: string;
+  $databaseId: string;
+  $createdAt: string;
+  $updatedAt: string;
+  $permissions: string[];
+  name?: string;
+  dni?: number;
+  email?: string;
+  birthdate?: Date;
+  phone_number?: string;
+  role?: "volunteer" | "administrative" | "nurse" | "psychologist" | "doctor";
+}
+
 export interface GuestsApiResponse {
   guests: {
     documents: Guest[];
@@ -287,5 +302,11 @@ export interface UsersApiResponse {
 export interface TicketsApiResponse {
   tickets: {
     documents: Tickets[];
+  };
+}
+
+export interface StaffApiResponse {
+  staff: {
+    documents: Staff[];
   };
 }

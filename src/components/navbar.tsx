@@ -57,6 +57,9 @@ const Navbar: React.FC = () => {
                   <Link href={"/obras-sociales"}>Obras Sociales</Link>
                 </li>
                 <li>
+                  <Link href={"/personal"}>Personal</Link>
+                </li>
+                <li>
                   <ModeToggle />
                 </li>
               </ul>
@@ -138,6 +141,13 @@ const Navbar: React.FC = () => {
                       onClick={() => handleCloseNavbar()}
                       href={"/obras-sociales"}>
                       Obras Sociales
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      onClick={() => handleCloseNavbar()}
+                      href={"/personal"}>
+                      Personal
                     </Link>
                   </li>
                   <li className="hover:!bg-transparent">

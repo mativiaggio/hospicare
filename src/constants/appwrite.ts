@@ -506,3 +506,31 @@ export const RouteOfAdministration = [
     name: "Intravenosa",
   },
 ];
+
+export const StaffRole = [
+  {
+    id: 1,
+    value: "volunteer",
+    name: "Voluntario/a",
+  },
+  {
+    id: 2,
+    value: "administrative",
+    name: "Administrativo/a",
+  },
+  {
+    id: 3,
+    value: "nurse",
+    name: "Enfermero/a",
+  },
+  {
+    id: 4,
+    value: "psychologist",
+    name: "Psicólogo/a",
+  },
+  {
+    id: 5,
+    value: "doctor",
+    name: "Médico/a",
+  },
+];
