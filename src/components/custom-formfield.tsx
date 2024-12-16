@@ -64,7 +64,7 @@ interface CustomProps {
   iconDarkColor?: string;
   renderSkeleton?: (field: any) => React.ReactNode;
   value?: string;
-  defaultValue?: string | boolean | null;
+  defaultValue?: string | number | boolean | null;
 }
 
 const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
