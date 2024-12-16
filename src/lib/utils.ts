@@ -51,3 +51,43 @@ export const formatPhoneNumber = (numero: number) => {
 export const capitalizeFirstLetter = (str: string): string => {
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
+
+export const calcularEdad = (fechaNacimiento: string | undefined): number => {
+  if (fechaNacimiento != undefined) {
+    const fechaNacimientoDate = new Date(fechaNacimiento);
+    const hoy = new Date();
+
+    let edad = hoy.getFullYear() - fechaNacimientoDate.getFullYear();
+    const mes = hoy.getMonth() - fechaNacimientoDate.getMonth();
+    const dia = hoy.getDate() - fechaNacimientoDate.getDate();
+
+    // Ajustar la edad si el mes actual es menor o si estamos en el mes de nacimiento pero antes del día.
+    if (mes < 0 || (mes === 0 && dia < 0)) {
+      edad--;
+    }
+
+    return edad;
+  } else {
+    return 0;
+  }
+};
+
+export const dateFormat = (fecha: string | undefined): string => {
+  if (fecha != undefined) {
+    const fechaDate = new Date(fecha);
+
+    // Validar si la fecha es válida
+    if (isNaN(fechaDate.getTime())) {
+      throw new Error("La fecha proporcionada no es válida.");
+    }
+
+    // Obtener los componentes de la fecha
+    const dia = fechaDate.getDate().toString().padStart(2, "0");
+    const mes = (fechaDate.getMonth() + 1).toString().padStart(2, "0"); // Los meses comienzan desde 0
+    const anio = fechaDate.getFullYear();
+
+    return `${dia}/${mes}/${anio}`;
+  } else {
+    return "";
+  }
+};

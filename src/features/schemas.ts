@@ -231,6 +231,18 @@ export const guestSchema = z.object({
     .string()
     .max(512, "Máximo de caracteres excedido (512)")
     .optional(),
+  hospitalization_date: z.preprocess(
+    (val) => {
+      if (val === null || val === undefined) return null;
+      return val instanceof Date ? val : new Date(val as string);
+    },
+    z
+      .date()
+      .nullable()
+      .refine((val) => val === null || !isNaN(val.getTime()), {
+        message: "La fecha de hospitalización debe ser una fecha válida o null",
+      })
+  ),
 });
 
 export const ticketSchema = z.object({

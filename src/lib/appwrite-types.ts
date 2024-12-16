@@ -229,6 +229,7 @@ export interface Guest {
   care_plan?: string;
   status?: "alive" | "pending" | "dead";
   medications?: Medications[];
+  hospitalization_date?: Date;
 }
 
 export interface Users {
