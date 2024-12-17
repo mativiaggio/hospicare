@@ -21,6 +21,8 @@ export const useFindMedicationById = (id: string) => {
 
       return medication;
     },
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
   });
 
   return query;

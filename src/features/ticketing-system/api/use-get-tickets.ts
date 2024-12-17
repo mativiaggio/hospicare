@@ -15,5 +15,7 @@ export const useGetTickets = () => {
       const data: TicketsApiResponse = await response.json();
       return data;
     },
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
   });
 };

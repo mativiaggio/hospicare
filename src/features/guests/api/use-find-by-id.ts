@@ -21,6 +21,8 @@ export const useFindGuestById = (id: string) => {
 
       return guest;
     },
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
   });
 
   return query;

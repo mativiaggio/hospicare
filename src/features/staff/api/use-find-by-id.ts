@@ -21,6 +21,8 @@ export const useFindStaffById = (id: string) => {
 
       return staff;
     },
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
   });
 
   return query;
