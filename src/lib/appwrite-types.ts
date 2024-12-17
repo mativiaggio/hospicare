@@ -275,6 +275,64 @@ export interface Staff {
   role?: "volunteer" | "administrative" | "nurse" | "psychologist" | "doctor";
 }
 
+export interface Epicrisis {
+  $id: string;
+  $collectionId: string;
+  $databaseId: string;
+  $createdAt: string;
+  $updatedAt: string;
+  $permissions: string[];
+  guest_id?: string;
+  guests?: Guest[];
+  medical_emergency?: "no" | "yes";
+  home_hospitalization?: "no" | "yes";
+  home_nursing?: "no" | "yes";
+  home_nursing_frequency?: string;
+  home_doctor?: "no" | "yes";
+  home_doctor_frequency?: string;
+  palliative_care_assistance?: "no" | "yes";
+  hospitalization_reason?:
+    | "no_caregivers"
+    | "family_claudication"
+    | "high_demand_for_nursing_care";
+  uncontrolled_symptoms?: "pain" | "dyspnoea" | "delirium";
+  other_uncontrolled_symptoms?: string;
+  interconsultations?: "no" | "yes";
+  interconsultation_specialist?: string;
+  opioid_demo?: string;
+  opioid_method?: "oral" | "sc" | "iv";
+  sedation?: "no" | "yes";
+  sedation_medication?: string;
+  delirium?: "no" | "yes";
+  dyspnoea?: "no" | "yes";
+  pain?: "no" | "yes";
+  suffering?: "no" | "yes";
+  family_care?: "no" | "yes";
+  family_meeting?: "no" | "yes";
+  meeting_medic?: "no" | "yes";
+  meeting_psychologist?: "no" | "yes";
+  meeting_social_worker?: "no" | "yes";
+  meeting_nurse?: "no" | "yes";
+  meeting_other?: string;
+  multifamily_meetings?: "no" | "yes";
+  spiritual_assistance?: "no" | "yes";
+  spiritual_assistance_type?:
+    | "priest"
+    | "deacon"
+    | "minister_of_faith"
+    | "volunteer"
+    | "therapeutic_team";
+  psychological_assistance?: "no" | "yes";
+  previous_psychopathological_history?: "no" | "yes" | "unknown";
+  adaptation_difficulties?: "no" | "yes";
+  comments?: string;
+  medic_in_charge?: Staff[];
+  psychologist_in_charge?: Staff[];
+  communication: string;
+}
+
+// Api response
+
 export interface GuestsApiResponse {
   guests: {
     documents: Guest[];
@@ -308,5 +366,11 @@ export interface TicketsApiResponse {
 export interface StaffApiResponse {
   staff: {
     documents: Staff[];
+  };
+}
+
+export interface EpicrisisApiResponse {
+  epicrisis: {
+    documents: Epicrisis[];
   };
 }

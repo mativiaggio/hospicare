@@ -15,6 +15,8 @@ export const useFindMedicationById = () => {
 
       return social_security;
     },
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
   });
 
   return query;

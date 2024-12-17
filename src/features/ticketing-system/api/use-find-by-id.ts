@@ -21,6 +21,8 @@ export const useFindTicketById = (id: string) => {
 
       return ticket;
     },
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
   });
 
   return query;

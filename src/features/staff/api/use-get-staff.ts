@@ -15,5 +15,7 @@ export const useGetStaff = () => {
       const data: StaffApiResponse = await response.json();
       return data;
     },
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
   });
 };
