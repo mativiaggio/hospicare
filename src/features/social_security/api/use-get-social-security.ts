@@ -15,5 +15,7 @@ export const useGetSocialSecurity = () => {
       const data: SocialSecurityApiResponse = await response.json();
       return data;
     },
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
   });
 };

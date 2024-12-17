@@ -15,5 +15,7 @@ export const useGetMedications = () => {
       const data: MedicationsApiResponse = await response.json();
       return data;
     },
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
   });
 };

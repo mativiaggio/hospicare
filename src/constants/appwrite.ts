@@ -534,3 +534,98 @@ export const StaffRole = [
     name: "Médico/a",
   },
 ];
+
+export const NoYes = [
+  {
+    id: 1,
+    value: "yes",
+    name: "Sí",
+  },
+  {
+    id: 2,
+    value: "no",
+    name: "No",
+  },
+];
+
+export const HospitalizationReason = [
+  {
+    id: 1,
+    value: "no_caregivers",
+    name: "Sin cuidadores",
+  },
+  {
+    id: 2,
+    value: "family_claudication",
+    name: "Claudicación familiar",
+  },
+  {
+    id: 3,
+    value: "high_demand_for_nursing_care",
+    name: "Alta demanda cuidado enfermería",
+  },
+];
+
+export const UncontrolledSymptoms = [
+  {
+    id: 1,
+    value: "pain",
+    name: "Dolor",
+  },
+  {
+    id: 2,
+    value: "dyspnoea",
+    name: "Disnea",
+  },
+  {
+    id: 3,
+    value: "delirium",
+    name: "Delirium",
+  },
+];
+
+export const SpiritualAssistanceType = [
+  {
+    id: 1,
+    value: "priest",
+    name: "Sacerdote",
+  },
+  {
+    id: 2,
+    value: "deacon",
+    name: "Diácono",
+  },
+  {
+    id: 3,
+    value: "minister_of_faith",
+    name: "Ministro de fe (otra religión)",
+  },
+  {
+    id: 4,
+    value: "volunteer",
+    name: "Voluntarios",
+  },
+  {
+    id: 5,
+    value: "therapeutic_team",
+    name: "Equipo terapéutico",
+  },
+];
+
+export const PreviousPsychopathologicalHistory = [
+  {
+    id: 1,
+    value: "no",
+    name: "No",
+  },
+  {
+    id: 2,
+    value: "yes",
+    name: "Sí",
+  },
+  {
+    id: 3,
+    value: "unknown",
+    name: "Se desconoció",
+  },
+];

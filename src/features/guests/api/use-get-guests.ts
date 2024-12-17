@@ -15,5 +15,7 @@ export const useGetGuests = () => {
       const data: GuestsApiResponse = await response.json();
       return data;
     },
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
   });
 };

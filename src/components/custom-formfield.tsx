@@ -240,7 +240,7 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
               }}
               disabled={props.disabled}>
               <FormControl>
-                <SelectTrigger>
+                <SelectTrigger className={`${inputCustomClasses}`}>
                   <SelectValue placeholder={props.placeholder} />
                 </SelectTrigger>
               </FormControl>
@@ -297,7 +297,7 @@ const CustomFormField = (props: CustomProps) => {
       control={control}
       name={name}
       render={({ field }) => (
-        <FormItem className={`!mb-[30px] w-full ${formItemCustomClasses}`}>
+        <FormItem className={`w-full ${formItemCustomClasses}`}>
           {props.fieldType !== FormFieldType.CHECKBOX && label && (
             <FormLabel
               className={`${labelCustomClasses} text-color-light dark:text-color-dark`}>

@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  CaretSortIcon,
-  ChevronDownIcon,
-  DotsHorizontalIcon,
-} from "@radix-ui/react-icons";
+import { CaretSortIcon, ChevronDownIcon } from "@radix-ui/react-icons";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -26,9 +22,6 @@ import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
@@ -41,73 +34,18 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuSeparator,
+  ContextMenuTrigger,
+} from "@/components/ui/context-menu";
 import { Guest, GuestsApiResponse } from "@/lib/appwrite-types";
 import { cn } from "@/lib/utils";
 import { Copy, FileX2, UserPlus } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const RowActions = ({ row }: { row: any }) => {
-  const guest = row.original;
-
-  const handleEpicrisis = () => {};
-
-  return (
-    <DropdownMenu modal={false}>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="h-8 w-8 p-0">
-          <span className="sr-only">Open menu</span>
-          <DotsHorizontalIcon className="h-4 w-4" />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuLabel>Acciones</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem
-          onClick={() => navigator.clipboard.writeText(guest.$id)}>
-          <span className="flex items-center gap-1">
-            ID
-            <Copy size={12} />
-          </span>
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          onClick={() =>
-            navigator.clipboard.writeText(
-              guest.contact_email ? guest.contact_email : ""
-            )
-          }>
-          <span className="flex items-center gap-1">
-            Email
-            <Copy size={12} />
-          </span>
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          onClick={() =>
-            navigator.clipboard.writeText(
-              guest.contact_phone ? guest.contact_phone : ""
-            )
-          }>
-          <span className="flex items-center gap-1">
-            Teléfono
-            <Copy size={12} />
-          </span>
-        </DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          {/* <Link href={`huespedes/${guest.$id}/epicrisis`}>Epicrisis</Link> */}
-          <Button
-            variant={"inherit"}
-            className="w-full flex justify-start items-center"
-            onClick={handleEpicrisis}>
-            Epicrisis
-          </Button>
-        </DropdownMenuItem>
-        {/* Agrega más acciones según sea necesario */}
-      </DropdownMenuContent>
-    </DropdownMenu>
-  );
-};
 
 export const columns: ColumnDef<Guest>[] = [
   {
@@ -303,12 +241,6 @@ export const columns: ColumnDef<Guest>[] = [
       </div>
     ),
   },
-
-  {
-    id: "actions",
-    enableHiding: false,
-    cell: ({ row }) => <RowActions row={row} />,
-  },
 ];
 
 const statusMapping: { [key: string]: string | null } = {
@@ -421,7 +353,7 @@ export function GuestsDataTable({ guestsData }: GuestsDataTableProps) {
           />
         </div>
         <div className="flex items-center gap-2">
-          <DropdownMenu>
+          <DropdownMenu modal={false}>
             <DropdownMenuTrigger asChild>
               <Button variant="outline">
                 {selectedFilter} <ChevronDownIcon className="ml-2 h-4 w-4" />
@@ -513,7 +445,7 @@ export function GuestsDataTable({ guestsData }: GuestsDataTableProps) {
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody>
+          <TableBody className="select-none">
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
@@ -524,22 +456,72 @@ export function GuestsDataTable({ guestsData }: GuestsDataTableProps) {
                   data-state={row.getIsSelected() ? "selected" : undefined}>
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
-                      {cell.column.id === "age" ? (
-                        <div className="flex gap-1">
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext()
-                          )}{" "}
-                          años
-                        </div>
-                      ) : (
-                        <div>
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext()
+                      <ContextMenu modal={false}>
+                        <ContextMenuTrigger>
+                          {cell.column.id === "age" ? (
+                            <div className="flex gap-1">
+                              {flexRender(
+                                cell.column.columnDef.cell,
+                                cell.getContext()
+                              )}{" "}
+                              años
+                            </div>
+                          ) : (
+                            <div>
+                              {flexRender(
+                                cell.column.columnDef.cell,
+                                cell.getContext()
+                              )}
+                            </div>
                           )}
-                        </div>
-                      )}
+                        </ContextMenuTrigger>
+                        <ContextMenuContent>
+                          <ContextMenuItem
+                            onClick={() =>
+                              navigator.clipboard.writeText(row.original.$id)
+                            }>
+                            <span className="flex items-center gap-1">
+                              ID
+                              <Copy size={12} />
+                            </span>
+                          </ContextMenuItem>
+                          <ContextMenuItem
+                            onClick={() =>
+                              navigator.clipboard.writeText(
+                                row.original.contact_email
+                                  ? row.original.contact_email
+                                  : ""
+                              )
+                            }>
+                            <span className="flex items-center gap-1">
+                              Email
+                              <Copy size={12} />
+                            </span>
+                          </ContextMenuItem>
+                          <ContextMenuItem
+                            onClick={() =>
+                              navigator.clipboard.writeText(
+                                row.original.contact_phone
+                                  ? row.original.contact_phone
+                                  : ""
+                              )
+                            }>
+                            <span className="flex items-center gap-1">
+                              Teléfono
+                              <Copy size={12} />
+                            </span>
+                          </ContextMenuItem>
+                          <ContextMenuSeparator />
+                          <ContextMenuItem
+                            onClick={() =>
+                              router.push(
+                                `/huespedes/${row.original.$id}/epicrisis`
+                              )
+                            }>
+                            Epicrisis
+                          </ContextMenuItem>
+                        </ContextMenuContent>
+                      </ContextMenu>
                     </TableCell>
                   ))}
                 </TableRow>
