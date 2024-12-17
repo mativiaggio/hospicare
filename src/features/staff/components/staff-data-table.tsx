@@ -385,7 +385,7 @@ export function StaffDataTable({ staffData }: StaffDataTableProps) {
                   }
                   data-state={row.getIsSelected() ? "selected" : undefined}>
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell key={cell.id} className="p-0">
                       {cell.column.id === "age" ? (
                         <div className="flex gap-1">
                           {flexRender(
@@ -395,7 +395,7 @@ export function StaffDataTable({ staffData }: StaffDataTableProps) {
                           años
                         </div>
                       ) : (
-                        <div>
+                        <div className="py-4 px-2">
                           {flexRender(
                             cell.column.columnDef.cell,
                             cell.getContext()
@@ -410,7 +410,7 @@ export function StaffDataTable({ staffData }: StaffDataTableProps) {
               <TableRow>
                 <TableCell
                   colSpan={columns.length}
-                  className="text-center hover:text-[#991b1b] dark:hover:text-[#f87171]">
+                  className="text-center hover:text-[#991b1b] dark:hover:text-[#f87171] py-4 px-2">
                   <div className="flex gap-2 items-center justify-center w-full">
                     <FileX2 />
                     No hay datos disponibles.
@@ -420,7 +420,7 @@ export function StaffDataTable({ staffData }: StaffDataTableProps) {
             ) : (
               <TableRow>
                 {columns.map((column, index) => (
-                  <TableCell key={index}>
+                  <TableCell key={index} className="py-4 px-2">
                     <Skeleton className="h-5" />
                   </TableCell>
                 ))}

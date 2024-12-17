@@ -455,7 +455,7 @@ export function GuestsDataTable({ guestsData }: GuestsDataTableProps) {
                   }
                   data-state={row.getIsSelected() ? "selected" : undefined}>
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell key={cell.id} className="p-0">
                       <ContextMenu modal={false}>
                         <ContextMenuTrigger>
                           {cell.column.id === "age" ? (
@@ -467,7 +467,7 @@ export function GuestsDataTable({ guestsData }: GuestsDataTableProps) {
                               años
                             </div>
                           ) : (
-                            <div>
+                            <div className="py-4 px-2">
                               {flexRender(
                                 cell.column.columnDef.cell,
                                 cell.getContext()
@@ -530,7 +530,7 @@ export function GuestsDataTable({ guestsData }: GuestsDataTableProps) {
               <TableRow>
                 <TableCell
                   colSpan={columns.length}
-                  className="text-center hover:text-[#991b1b] dark:hover:text-[#f87171]">
+                  className="text-center hover:text-[#991b1b] dark:hover:text-[#f87171] py-4 px-2">
                   <div className="flex gap-2 items-center justify-center w-full">
                     <FileX2 />
                     No hay datos disponibles.
@@ -540,7 +540,7 @@ export function GuestsDataTable({ guestsData }: GuestsDataTableProps) {
             ) : (
               <TableRow>
                 {columns.map((column, index) => (
-                  <TableCell key={index}>
+                  <TableCell key={index} className="py-4 px-2">
                     <Skeleton className="h-5" />
                   </TableCell>
                 ))}
