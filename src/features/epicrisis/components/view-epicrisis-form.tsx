@@ -19,7 +19,6 @@ import CustomFormField, { FormFieldType } from "@/components/custom-formfield";
 import { SelectItem } from "@/components/ui/select";
 import {
   HospitalizationReason,
-  Hydration,
   HydrationMethod,
   Information_Level,
   NoYes,
@@ -47,6 +46,7 @@ function ViewEpicrisisForm() {
     isFetching: isFetchingEpicrisis,
   } = useFindEpicrisisByGuestId(params.id);
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { data: staffResponse, isLoading: isLoadingStaff } = useGetStaff();
 
   const { mutate } = useNewEpicrisis();
@@ -203,7 +203,7 @@ function ViewEpicrisisForm() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isResetDone, form, epicrisis]);
 
-  async function onSubmit(values: EpicrisisFormValues) {
+  async function onSubmit() {
     setIsSubmitting(true);
 
     // mutate(
