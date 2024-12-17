@@ -13,14 +13,14 @@ const AuthLayuot = ({ children }: AuthLayuotProps) => {
           <span className="flex items-center justify-between gap-2 w-full">
             <span className="flex items-center gap-2">
               <Image
-                src={"/logo.svg"}
+                src={"/HMT-logo.svg"}
                 height={22}
                 width={22}
                 alt="Logo"
                 className="block dark:hidden"
               />
               <Image
-                src={"/logo-dark.svg"}
+                src={"/HMT-logo-dark.svg"}
                 height={22}
                 width={22}
                 alt="Logo"

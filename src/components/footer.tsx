@@ -1,13 +1,13 @@
 import { Separator } from "@/components/ui/separator";
 import {
   Facebook,
-  HeartPulse,
   Instagram,
   Mail,
   MapPin,
   Phone,
   Twitter,
 } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
 export default function Footer() {
@@ -18,10 +18,34 @@ export default function Footer() {
       <div className="container p-4 sm:p-6 md:p-8 lg:p-10">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
-            <h2 className="flex gap-2 text-lg font-semibold mb-4">
-              <HeartPulse />
-              Hospicare
-            </h2>
+            <div className="flex gap-2 text-lg font-semibold mb-4">
+              <Link className="flex items-center justify-center" href="/">
+                <span className="flex items-center justify-between gap-2 w-full">
+                  <span className="flex items-center gap-2">
+                    <Image
+                      src={"/HMT-logo.svg"}
+                      height={40}
+                      width={40}
+                      alt="Logo"
+                      className="block dark:hidden h-[40px] max-h-[40px] w-[40px] max-w-[40px]"
+                    />
+                    <Image
+                      src={"/HMT-logo-dark.svg"}
+                      height={40}
+                      width={40}
+                      alt="Logo"
+                      className="hidden dark:block h-[40px] max-h-[40px] w-[40px] max-w-[40px]"
+                    />
+                  </span>
+                </span>
+                <span className="flex flex-col text-primary ml-2 font-bold">
+                  <h1 className="text-xl">Hospicare</h1>
+                  <p className="text-xs text-nowrap font-normal">
+                    por Hospice Madre Teresa
+                  </p>
+                </span>
+              </Link>
+            </div>
             <p className="text-sm">
               Brindando atención y cuidado a quienes más lo necesitan. Una
               iniciativa de nuestra ONG para mejorar la calidad de vida de
@@ -51,6 +75,11 @@ export default function Footer() {
                   href="/obras-sociales"
                   className="text-sm hover:underline">
                   Obras Sociales
+                </Link>
+              </li>
+              <li>
+                <Link href="/personal" className="text-sm hover:underline">
+                  Personal
                 </Link>
               </li>
             </ul>
