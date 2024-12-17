@@ -1,5 +1,5 @@
 "use client";
-import { HeartPulse, X } from "lucide-react";
+import { X } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import NavbarMenuButton from "./buttons/navbar-menu-button";
@@ -9,6 +9,7 @@ import { UserDropdown } from "./dropdowns/user-dropdown";
 import { Button } from "./ui/button";
 import { Menu } from "./ui/navbar-menu";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 
 const Navbar: React.FC = () => {
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
@@ -35,14 +36,34 @@ const Navbar: React.FC = () => {
         <div className="flex h-fit max-h-[10vh] items-center justify-between border-b px-4 py-2 sm:px-6 md:px-8 lg:px-10">
           <div className="flex w-1/6">
             <Link className="flex items-center justify-center" href="/">
-              <HeartPulse className="text-primary h-6 w-6" />
-              <span className="text-primary ml-2 text-2xl font-bold">
-                Hospicare
+              <span className="flex items-center justify-between gap-2 w-full">
+                <span className="flex items-center gap-2">
+                  <Image
+                    src={"/HMT-logo.svg"}
+                    height={50}
+                    width={50}
+                    alt="Logo"
+                    className="block dark:hidden h-[50px] max-h-[50px] w-[50px] max-w-[50px]"
+                  />
+                  <Image
+                    src={"/HMT-logo-dark.svg"}
+                    height={50}
+                    width={50}
+                    alt="Logo"
+                    className="hidden dark:block h-[50px] max-h-[50px] w-[50px] max-w-[50px]"
+                  />
+                </span>
+              </span>
+              <span className="flex flex-col text-primary ml-2 font-bold">
+                <h1 className="text-2xl">Hospicare</h1>
+                <p className="text-xs text-nowrap font-normal">
+                  por Hospice Madre Teresa
+                </p>
               </span>
             </Link>
           </div>
           <Menu setActive={setActive}>
-            <div className="hidden w-full lg:flex">
+            <div className="hidden w-full xl:flex">
               <ul className="flex items-center justify-between gap-6">
                 <li>
                   <Link href={"/"}>Inicio</Link>
@@ -66,10 +87,10 @@ const Navbar: React.FC = () => {
             </div>
           </Menu>
 
-          <div className="hidden w-1/6 lg:flex justify-end">
+          <div className="hidden w-1/6 xl:flex justify-end">
             <UserDropdown />
           </div>
-          <div className="block lg:hidden">
+          <div className="block xl:hidden">
             <Button
               variant={"ghost"}
               onClick={handleToggleNavbar}
@@ -82,7 +103,7 @@ const Navbar: React.FC = () => {
 
       <div
         id="mobile-navbar"
-        className={`navbar-container fixed left-0 top-0 h-screen w-full transform transition-transform duration-150 ease-in-out lg:hidden ${
+        className={`navbar-container fixed left-0 top-0 h-screen w-full transform transition-transform duration-150 ease-in-out xl:hidden z-50 ${
           isNavbarOpen
             ? "translate-x-0 overflow-hidden"
             : "-translate-x-full overflow-auto"
@@ -97,9 +118,29 @@ const Navbar: React.FC = () => {
               <span className="sr-only">Hospicare</span>
               <div>
                 <Link className="flex items-center justify-center" href="#">
-                  <HeartPulse className="text-primary h-6 w-6" />
-                  <span className="text-primary ml-2 text-2xl font-bold">
-                    Hospicare
+                  <span className="flex items-center justify-between gap-2 w-full">
+                    <span className="flex items-center gap-2">
+                      <Image
+                        src={"/HMT-logo.svg"}
+                        height={50}
+                        width={50}
+                        alt="Logo"
+                        className="block dark:hidden h-[50px] max-h-[50px] w-[50px] max-w-[50px]"
+                      />
+                      <Image
+                        src={"/HMT-logo-dark.svg"}
+                        height={50}
+                        width={50}
+                        alt="Logo"
+                        className="hidden dark:block h-[50px] max-h-[50px] w-[50px] max-w-[50px]"
+                      />
+                    </span>
+                  </span>
+                  <span className="flex flex-col text-primary ml-2 font-bold">
+                    <h1 className="text-2xl">Hospicare</h1>
+                    <p className="text-xs text-nowrap font-normal">
+                      por Hospice Madre Teresa
+                    </p>
                   </span>
                 </Link>
               </div>
