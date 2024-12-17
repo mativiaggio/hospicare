@@ -258,31 +258,108 @@ function ViewEpicrisisForm() {
                 <div className="w-1/3"></div>
               </div>
               <div className="text-xs flex justify-between pb-2 print:pb-3">
-                <p>Nombre y apellido: {guest?.name}</p>
+                <span className="flex gap-1">
+                  <p>Nombre y apellido:</p>
+                  <div className="border-b print:border-none">
+                    <CustomFormField
+                      fieldType={FormFieldType.INPUT}
+                      name=""
+                      defaultValue={guest?.name}
+                      inputCustomClasses="border-none p-0 h-fit text-xs"
+                      control={form.control}
+                    />
+                  </div>
+                </span>
                 <p>Edad: {calcularEdad(guest?.birthdate)} años</p>
               </div>
-              <div className="text-xs flex justify-between pb-2 print:pb-3">
-                <p>Obra social: {guest?.social_security?.name}</p>
+              <div className="text-xs flex gap-1 pb-2 print:pb-3">
+                <p>Obra social:</p>
+                <div className="border-b print:border-none">
+                  <CustomFormField
+                    fieldType={FormFieldType.INPUT}
+                    name=""
+                    defaultValue={guest?.social_security?.name}
+                    inputCustomClasses="border-none p-0 h-fit text-xs"
+                    control={form.control}
+                  />
+                </div>
+              </div>
+              <div className="text-xs flex gap-1 pb-2 print:pb-3">
+                <p>Dirección:</p>
+                <div className="border-b print:border-none">
+                  <CustomFormField
+                    fieldType={FormFieldType.INPUT}
+                    name=""
+                    defaultValue={guest?.address}
+                    inputCustomClasses="border-none p-0 h-fit text-xs"
+                    control={form.control}
+                  />
+                </div>
+              </div>
+              <div className="text-xs flex gap-1 pb-2 print:pb-3">
+                <p>Tumor (si el diagnóstico es cáncer):</p>
+                <div className="border-b print:border-none">
+                  <CustomFormField
+                    fieldType={FormFieldType.INPUT}
+                    name=""
+                    defaultValue={guest?.tumor}
+                    inputCustomClasses="border-none p-0 h-fit text-xs"
+                    control={form.control}
+                  />
+                </div>
+              </div>
+              <div className="text-xs flex gap-1 pb-2 print:pb-3">
+                <p>Metástasis:</p>
+                <div className="border-b print:border-none">
+                  <CustomFormField
+                    fieldType={FormFieldType.INPUT}
+                    name=""
+                    defaultValue={guest?.metastasis_location}
+                    inputCustomClasses="border-none p-0 h-fit text-xs"
+                    control={form.control}
+                  />
+                </div>
               </div>
               <div className="text-xs flex justify-between pb-2 print:pb-3">
-                <p>Dirección: {guest?.address}</p>
-              </div>
-              <div className="text-xs flex justify-between pb-2 print:pb-3">
-                <p>Tumor (si el diagnóstico es cáncer): {guest?.tumor}</p>
-              </div>
-              <div className="text-xs flex justify-between pb-2 print:pb-3">
-                <p>Metástasis: {guest?.metastasis_location}</p>
-              </div>
-              <div className="text-xs flex justify-between pb-2 print:pb-3">
-                <p>
-                  Fecha de internación:{" "}
-                  {dateFormat(guest?.hospitalization_date)}
-                </p>
+                <span className="flex gap-1">
+                  <p>Fecha de internación:</p>
+                  <div className="border-b print:border-none">
+                    <CustomFormField
+                      fieldType={FormFieldType.INPUT}
+                      name=""
+                      defaultValue={dateFormat(guest?.hospitalization_date)}
+                      inputCustomClasses="border-none p-0 h-fit text-xs"
+                      control={form.control}
+                    />
+                  </div>
+                </span>
                 <div></div>
-                <p>Fecha de fallecimiento: 00/00/00</p>
+                <span className="flex gap-1">
+                  <p>Fecha de fallecimiento:</p>
+                  <div className="border-b print:border-none">
+                    <CustomFormField
+                      fieldType={FormFieldType.INPUT}
+                      name=""
+                      defaultValue={"00/00/00"}
+                      inputCustomClasses="border-none p-0 h-fit text-xs"
+                      control={form.control}
+                    />
+                  </div>
+                </span>
               </div>
               <div className="text-xs flex justify-between pb-2 print:pb-3">
-                <p>Total de días de internación: 0</p>
+                <span className="flex gap-1">
+                  <p>Total de días de internación:</p>
+                  <div className="border-b print:border-none">
+                    <CustomFormField
+                      fieldType={FormFieldType.INPUT}
+                      name=""
+                      defaultValue={"0"}
+                      inputCustomClasses="border-none p-0 h-fit text-xs"
+                      control={form.control}
+                    />
+                  </div>
+                </span>
               </div>
               <div className="text-xs flex justify-between pb-2 print:pb-3">
                 <span className="flex gap-2">
@@ -536,20 +613,35 @@ function ViewEpicrisisForm() {
                   </p>
                 </span>
                 <div></div>
-                <span className="flex gap-2">
-                  <p>
-                    Hidratación:{" "}
-                    {
-                      HydrationMethod.find(
-                        (level) => level.value === guest?.hydration_method
-                      )?.name
-                    }
-                  </p>
+                <span className="flex gap-1">
+                  <p>Hidratación:</p>
+                  <div className="border-b print:border-none">
+                    <CustomFormField
+                      fieldType={FormFieldType.INPUT}
+                      name=""
+                      defaultValue={
+                        HydrationMethod.find(
+                          (level) => level.value === guest?.hydration_method
+                        )?.name
+                      }
+                      inputCustomClasses="border-none p-0 h-fit text-xs"
+                      control={form.control}
+                    />
+                  </div>
                 </span>
               </div>
               <div className="text-xs grid grid-cols-3 pb-2 print:pb-3">
-                <span className="flex gap-2">
-                  <p>Tipo de opioide: {guest?.opioid_name}</p>
+                <span className="flex gap-1">
+                  <p>Tipo de opioide:</p>
+                  <div className="border-b print:border-none">
+                    <CustomFormField
+                      fieldType={FormFieldType.INPUT}
+                      name=""
+                      defaultValue={guest?.opioid_name}
+                      inputCustomClasses="border-none p-0 h-fit text-xs"
+                      control={form.control}
+                    />
+                  </div>
                 </span>
                 <span className="flex gap-2">
                   <p>Demo:</p>
