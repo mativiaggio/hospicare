@@ -18,13 +18,14 @@ import {
 import { Input } from "@/components/ui/input";
 import { loginSchema } from "@/features/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { HeartPulse, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useLogin } from "../api/use-login";
 import { ErrorAlert } from "@/components/alerts/error-alert";
+import Image from "next/image";
 
 export const SignInCard = () => {
   const { mutate } = useLogin();
@@ -58,7 +59,25 @@ export const SignInCard = () => {
       <Card className="w-full h-full md:w-[487px] border border-transparent dark:border-neutral-800 shadow-none">
         <CardHeader className="space-y-1">
           <div className="flex items-center justify-center mb-4">
-            <HeartPulse size={42} />
+            {/* <HeartPulse size={42} /> */}
+            <span className="flex items-center justify-center gap-2 w-full">
+              <span className="flex items-center gap-2">
+                <Image
+                  src={"/logo2.svg"}
+                  height={50}
+                  width={50}
+                  alt="Logo"
+                  className="block dark:hidden h-[50px] max-h-[50px] w-[50px] max-w-[50px]"
+                />
+                <Image
+                  src={"/logo2-dark.svg"}
+                  height={50}
+                  width={50}
+                  alt="Logo"
+                  className="hidden dark:block h-[50px] max-h-[50px] w-[50px] max-w-[50px]"
+                />
+              </span>
+            </span>
           </div>
           <CardTitle className="text-2xl text-center">
             Ingresa a Hospicare
