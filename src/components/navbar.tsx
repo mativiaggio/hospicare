@@ -39,18 +39,18 @@ const Navbar: React.FC = () => {
               <span className="flex items-center justify-between gap-2 w-full">
                 <span className="flex items-center gap-2">
                   <Image
-                    src={"/HMT-logo.svg"}
-                    height={50}
-                    width={50}
+                    src={"/logo2.svg"}
+                    height={30}
+                    width={30}
                     alt="Logo"
-                    className="block dark:hidden h-[50px] max-h-[50px] w-[50px] max-w-[50px]"
+                    className="block dark:hidden h-[30px] max-h-[30px] w-[30px] max-w-[30px]"
                   />
                   <Image
-                    src={"/HMT-logo-dark.svg"}
-                    height={50}
-                    width={50}
+                    src={"/logo2-dark.svg"}
+                    height={30}
+                    width={30}
                     alt="Logo"
-                    className="hidden dark:block h-[50px] max-h-[50px] w-[50px] max-w-[50px]"
+                    className="hidden dark:block h-[30px] max-h-[30px] w-[30px] max-w-[30px]"
                   />
                 </span>
               </span>
@@ -121,18 +121,18 @@ const Navbar: React.FC = () => {
                   <span className="flex items-center justify-between gap-2 w-full">
                     <span className="flex items-center gap-2">
                       <Image
-                        src={"/HMT-logo.svg"}
-                        height={50}
-                        width={50}
+                        src={"/logo2.svg"}
+                        height={30}
+                        width={30}
                         alt="Logo"
-                        className="block dark:hidden h-[50px] max-h-[50px] w-[50px] max-w-[50px]"
+                        className="block dark:hidden h-[30px] max-h-[30px] w-[30px] max-w-[30px]"
                       />
                       <Image
-                        src={"/HMT-logo-dark.svg"}
-                        height={50}
-                        width={50}
+                        src={"/logo2-dark.svg"}
+                        height={30}
+                        width={30}
                         alt="Logo"
-                        className="hidden dark:block h-[50px] max-h-[50px] w-[50px] max-w-[50px]"
+                        className="hidden dark:block h-[30px] max-h-[30px] w-[30px] max-w-[30px]"
                       />
                     </span>
                   </span>

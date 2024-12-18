@@ -23,14 +23,14 @@ export default function Footer() {
                 <span className="flex items-center justify-between gap-2 w-full">
                   <span className="flex items-center gap-2">
                     <Image
-                      src={"/HMT-logo.svg"}
+                      src={"/logo2.svg"}
                       height={40}
                       width={40}
                       alt="Logo"
                       className="block dark:hidden h-[40px] max-h-[40px] w-[40px] max-w-[40px]"
                     />
                     <Image
-                      src={"/HMT-logo-dark.svg"}
+                      src={"/logo2-dark.svg"}
                       height={40}
                       width={40}
                       alt="Logo"
