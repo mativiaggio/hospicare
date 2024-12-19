@@ -88,7 +88,7 @@ export default function PasswordResetForm({
           setValidPasswords(false);
           setShowSuccess(true);
           setTimeout(() => {
-            window.location.replace("sign-in");
+            window.location.replace("iniciar-sesion");
           }, 5000);
         },
         onError: () => {

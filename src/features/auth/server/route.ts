@@ -68,7 +68,7 @@ const app = new Hono()
 
       const { account } = await createAdminClient();
 
-      await account.createRecovery(email, `${env.HOSTNAME}/password-reset`);
+      await account.createRecovery(email, `${env.HOSTNAME}/restaurar-clave`);
 
       return c.json({ success: true });
     }

@@ -144,7 +144,7 @@ export const SignInCard = () => {
           <div className="flex items-center justify-between">
             <div className="text-sm">
               <Link
-                href="/recuperacion"
+                href="/recuperar-clave"
                 className="font-semibold text-primary hover:text-primary/80 hover:underline">
                 Olvidaste tu contraseña?
               </Link>

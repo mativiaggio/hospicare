@@ -130,7 +130,7 @@ export default function PasswordRecoveryForm() {
             />
           )}
           <Link
-            href={"/sign-in"}
+            href={"/iniciar-sesion"}
             className="text-base flex gap-2 hover:underline font-bold">
             <ChevronLeftIcon />
             Volver
@@ -162,7 +162,7 @@ export default function PasswordRecoveryForm() {
         </CardHeader>
         <CardContent>
           <Link
-            href={"/sign-in"}
+            href={"/iniciar-sesion"}
             className="text-base flex gap-2 hover:underline font-bold">
             <ChevronLeftIcon />
             Volver al inicio de sesión
