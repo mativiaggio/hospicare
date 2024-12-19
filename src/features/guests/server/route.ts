@@ -1,10 +1,10 @@
 import { env } from "@/env.config";
-import { guestSchema } from "@/features/schemas";
 import { Guest } from "@/lib/appwrite-types";
 import { sessionMiddleware } from "@/lib/session-middlware";
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
 import { ID, Query } from "node-appwrite";
+import { guestSchema } from "../schemas";
 
 const app = new Hono()
   .get("/", sessionMiddleware, async (c) => {
@@ -58,10 +58,7 @@ const app = new Hono()
       const data = c.req.valid("json");
 
       if (!guestId) {
-        return c.json(
-          { success: false, message: "Guest ID is required" },
-          400
-        );
+        return c.json({ success: false, message: "Guest ID is required" }, 400);
       }
 
       const guestData = { ...data };

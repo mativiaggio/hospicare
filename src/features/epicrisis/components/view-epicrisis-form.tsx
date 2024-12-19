@@ -13,7 +13,7 @@ import { Form } from "@/components/ui/form";
 import { ErrorAlert } from "@/components/alerts/error-alert";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { epicrisisSchema } from "@/features/schemas";
+import { epicrisisSchema } from "../schemas";
 import { z } from "zod";
 import CustomFormField, { FormFieldType } from "@/components/custom-formfield";
 import { SelectItem } from "@/components/ui/select";

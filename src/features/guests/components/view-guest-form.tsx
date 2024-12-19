@@ -27,7 +27,6 @@ import {
   AbdominalStatus,
   BowelFunction,
 } from "@/constants/appwrite";
-import { guestSchema } from "@/features/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -40,6 +39,7 @@ import { useFindGuestById } from "../api/use-find-by-id";
 import { useUpdateGuest } from "../api/use-update-guest";
 import { Label } from "@/components/ui/label";
 import { ErrorAlert } from "@/components/alerts/error-alert";
+import { guestSchema } from "../schemas";
 
 type GuestFormValues = z.infer<typeof guestSchema>;
 

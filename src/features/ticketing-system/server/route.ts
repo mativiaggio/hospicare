@@ -1,10 +1,10 @@
 import { env } from "@/env.config";
-import { ticketSchema } from "@/features/schemas";
 import { Tickets } from "@/lib/appwrite-types";
 import { sessionMiddleware } from "@/lib/session-middlware";
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
 import { ID, Query } from "node-appwrite";
+import { ticketSchema } from "../schemas";
 
 const app = new Hono()
   .get("/", sessionMiddleware, async (c) => {

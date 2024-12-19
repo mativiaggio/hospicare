@@ -331,46 +331,71 @@ export interface Epicrisis {
   communication: string;
 }
 
+export interface Secrets {
+  $id: string;
+  $collectionId: string;
+  $databaseId: string;
+  $createdAt: string;
+  $updatedAt: string;
+  $permissions: string[];
+  secret?: string;
+  used?: boolean;
+}
+
 // Api response
 
 export interface GuestsApiResponse {
   guests: {
+    total: number;
     documents: Guest[];
   };
 }
 
 export interface MedicationsApiResponse {
   medications: {
+    total: number;
     documents: Medications[];
   };
 }
 
 export interface SocialSecurityApiResponse {
   social_security: {
+    total: number;
     documents: SocialSecurity[];
   };
 }
 
 export interface UsersApiResponse {
   users: {
+    total: number;
     documents: Users[];
   };
 }
 
 export interface TicketsApiResponse {
   tickets: {
+    total: number;
     documents: Tickets[];
   };
 }
 
 export interface StaffApiResponse {
   staff: {
+    total: number;
     documents: Staff[];
   };
 }
 
 export interface EpicrisisApiResponse {
   epicrisis: {
+    total: number;
     documents: Epicrisis[];
+  };
+}
+
+export interface SecretsApiResponse {
+  secrets: {
+    total: number;
+    documents: Secrets[];
   };
 }

@@ -1,5 +1,5 @@
 import { env } from "@/env.config";
-import { staffSchema } from "@/features/schemas";
+import { staffSchema } from "../schemas";
 import { Staff } from "@/lib/appwrite-types";
 import { sessionMiddleware } from "@/lib/session-middlware";
 import { zValidator } from "@hono/zod-validator";

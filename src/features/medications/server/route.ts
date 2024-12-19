@@ -1,5 +1,5 @@
 import { env } from "@/env.config";
-import { medicationSchema } from "@/features/schemas";
+import { medicationSchema } from "../schemas";
 import { Medications } from "@/lib/appwrite-types";
 import { sessionMiddleware } from "@/lib/session-middlware";
 import { zValidator } from "@hono/zod-validator";

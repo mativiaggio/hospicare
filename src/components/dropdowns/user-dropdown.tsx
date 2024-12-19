@@ -47,7 +47,9 @@ export function UserDropdown() {
           <AvatarImage
             src={`https://api.dicebear.com/6.x/initials/svg?seed=${data?.name}}`}
           />
-          <AvatarFallback>{data?.name}</AvatarFallback>
+          <AvatarFallback>
+            <User />
+          </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="min-w-56 w-fit">
@@ -72,7 +74,7 @@ export function UserDropdown() {
             <span className="w-full flex">
               <Link
                 className="!w-full text-xl xl:text-base"
-                href={"/settings/profile"}
+                href={"/configuracion/perfil"}
                 onClick={handleLinkClick}>
                 Perfil
               </Link>
@@ -83,7 +85,7 @@ export function UserDropdown() {
             <span className="w-full flex">
               <Link
                 className="!w-full text-xl xl:text-base"
-                href={"/settings/security"}
+                href={"/configuracion/seguridad"}
                 onClick={handleLinkClick}>
                 Seguridad
               </Link>
