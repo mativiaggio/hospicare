@@ -12,8 +12,8 @@ export const Logout = () => {
         onClick={() => mutate()}
         variant={"inherit"}
         className="[&>svg]:size-4 [&>svg]:shrink-0">
-        <LogOut />
-        <span>Cerrar sesión</span>
+        <LogOut className="!w-6 !h-6" />
+        <span className="text-xl xl:text-base">Cerrar sesión</span>
       </Button>
     </div>
   );

@@ -50,7 +50,7 @@ export function UserDropdown() {
           <AvatarFallback>{data?.name}</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56">
+      <DropdownMenuContent className="min-w-56 w-fit">
         <DropdownMenuLabel>
           {isLoading ? (
             <span className="flex items-center gap-2">
@@ -58,18 +58,20 @@ export function UserDropdown() {
             </span>
           ) : (
             <>
-              <p className="text-lg">{data?.name}</p>
-              <p className="text-xs text-muted-foreground">{data?.email}</p>
+              <p className="text-2xl xl:text-lg">{data?.name}</p>
+              <p className="text-sm xl:text-xs text-muted-foreground">
+                {data?.email}
+              </p>
             </>
           )}
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem>
-            <User />
+            <User className="!w-6 !h-6" />
             <span className="w-full flex">
               <Link
-                className="!w-full"
+                className="!w-full text-xl xl:text-base"
                 href={"/settings/profile"}
                 onClick={handleLinkClick}>
                 Perfil
@@ -77,10 +79,10 @@ export function UserDropdown() {
             </span>
           </DropdownMenuItem>
           <DropdownMenuItem>
-            <Lock />
+            <Lock className="!w-6 !h-6" />
             <span className="w-full flex">
               <Link
-                className="!w-full"
+                className="!w-full text-xl xl:text-base"
                 href={"/settings/security"}
                 onClick={handleLinkClick}>
                 Seguridad
@@ -90,9 +92,10 @@ export function UserDropdown() {
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
-          <Github />
+          <Github className="!w-6 !h-6" />
           <span>
             <Link
+              className="!w-full text-xl xl:text-base"
               href={"https://github.com/mativiaggio/hospicare"}
               target="_blank"
               onClick={handleLinkClick}>
@@ -101,9 +104,12 @@ export function UserDropdown() {
           </span>
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <LifeBuoy />
+          <LifeBuoy className="!w-6 !h-6" />
           <span>
-            <Link href={"/soporte"} onClick={handleLinkClick}>
+            <Link
+              className="!w-full text-xl xl:text-base"
+              href={"/soporte"}
+              onClick={handleLinkClick}>
               Soporte
             </Link>
           </span>

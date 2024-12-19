@@ -32,7 +32,7 @@ const Navbar: React.FC = () => {
 
   return (
     <div className="relative z-10 print:hidden">
-      <div className="fixed w-full max-w-[100vw] top-0 z-10 bg-[#fafafa] dark:bg-[#141414]">
+      <div className="fixed w-full max-w-[100vw] top-0 z-10 bg-[#fafafa] dark:bg-black">
         <div className="flex h-fit max-h-[10vh] items-center justify-between border-b px-4 py-2 sm:px-6 md:px-8 lg:px-10">
           <div className="flex w-1/6">
             <Link className="flex items-center justify-center" href="/">
@@ -154,7 +154,7 @@ const Navbar: React.FC = () => {
               <X color="red" />
             </button>
           </div>
-          <div className="mt-6 flow-root text-black dark:text-white">
+          <div className="mt-6 flow-root text-black dark:text-white px-0 py-2 sm:px-2 md:px-4 lg:px-6">
             <div className="-my-6 divide-y divide-gray-500/10">
               <div className="flex flex-col">
                 <ul className="navbar-ul items-left mb-6 flex flex-col gap-6 text-2xl">

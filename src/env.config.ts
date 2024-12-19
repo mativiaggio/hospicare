@@ -24,4 +24,7 @@ export const env = {
 
   // Configuración del almacenamiento (buckets)
   BUCKET_ID: process.env.NEXT_PUBLIC_BUCKET_ID || "",
+
+  // General
+  HOSTNAME: process.env.NEXT_PUBLIC_HOSTNAME || "",
 };
