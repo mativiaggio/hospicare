@@ -56,7 +56,7 @@ export const SignInCard = () => {
 
   return (
     <>
-      <Card className="w-full h-full md:w-[487px] border border-transparent dark:border-neutral-800 shadow-none">
+      <Card className="w-full h-full md:w-[487px] border bg-[#fafafa] dark:bg-black dark:border-neutral-800 shadow-none">
         <CardHeader className="space-y-1">
           <div className="flex items-center justify-center mb-4">
             {/* <HeartPulse size={42} /> */}
@@ -144,7 +144,7 @@ export const SignInCard = () => {
           <div className="flex items-center justify-between">
             <div className="text-sm">
               <Link
-                href="#"
+                href="/recuperacion"
                 className="font-semibold text-primary hover:text-primary/80 hover:underline">
                 Olvidaste tu contraseña?
               </Link>
