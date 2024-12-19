@@ -1,4 +1,4 @@
-// import { env } from "@/env.config";
+import { env } from "@/env.config";
 import { loginSchema, registerSchema } from "@/features/schemas";
 import { createAdminClient } from "@/lib/appwrite";
 import { sessionMiddleware } from "@/lib/session-middlware";
@@ -7,10 +7,10 @@ import { Hono } from "hono";
 import { deleteCookie, setCookie } from "hono/cookie";
 import { ID } from "node-appwrite";
 import { AUTH_COOKIE } from "../constants";
-// import {
-//   PasswordRecoverySchema,
-//   PasswordResetSchema,
-// } from "../schemas/schemas";
+import {
+  PasswordRecoverySchema,
+  PasswordResetSchema,
+} from "../schemas/schemas";
 
 const app = new Hono()
   .post("/register", zValidator("json", registerSchema), async (c) => {
@@ -59,39 +59,39 @@ const app = new Hono()
     await account.deleteSession("current");
 
     return c.json({ success: true });
-  });
-  // .post(
-  //   "/password-recovery",
-  //   zValidator("json", PasswordRecoverySchema),
-  //   async (c) => {
-  //     const { email } = c.req.valid("json");
+  })
+  .post(
+    "/password-recovery",
+    zValidator("json", PasswordRecoverySchema),
+    async (c) => {
+      const { email } = c.req.valid("json");
 
-  //     const { account } = await createAdminClient();
+      const { account } = await createAdminClient();
 
-  //     await account.createRecovery(email, `${env.HOSTNAME}/password-reset`);
+      await account.createRecovery(email, `${env.HOSTNAME}/password-reset`);
 
-  //     return c.json({ success: true });
-  //   }
-  // )
-  // .post(
-  //   "/password-reset",
-  //   zValidator("json", PasswordResetSchema),
-  //   async (c) => {
-  //     try {
-  //       const { user_id, secret, password } = c.req.valid("json");
+      return c.json({ success: true });
+    }
+  )
+  .post(
+    "/password-reset",
+    zValidator("json", PasswordResetSchema),
+    async (c) => {
+      try {
+        const { user_id, secret, password } = c.req.valid("json");
 
-  //       const { account } = await createAdminClient();
+        const { account } = await createAdminClient();
 
-  //       await account.updateRecovery(user_id, secret, password);
+        await account.updateRecovery(user_id, secret, password);
 
-  //       return c.json({ success: true });
-  //     } catch (error) {
-  //       return c.json(
-  //         { success: false, message: (error as Error).message },
-  //         500
-  //       );
-  //     }
-  //   }
-  // );
+        return c.json({ success: true });
+      } catch (error) {
+        return c.json(
+          { success: false, message: (error as Error).message },
+          500
+        );
+      }
+    }
+  );
 
 export default app;

@@ -1,6 +1,9 @@
 import { getCurrent } from "@/features/auth/actions";
-// import PasswordRecoveryForm from "@/features/auth/components/password-recovery";
+import PasswordRecoveryForm from "@/features/auth/components/password-recovery";
 import { redirect } from "next/navigation";
+
+// Forzar renderizado dinámico
+export const dynamic = "force-dynamic";
 
 export default async function SignIn() {
   const user = await getCurrent();
@@ -9,7 +12,7 @@ export default async function SignIn() {
 
   return (
     <div>
-      {/* <PasswordRecoveryForm /> */}
+      <PasswordRecoveryForm />
     </div>
   );
 }
