@@ -1,5 +1,5 @@
 import { getCurrent } from "@/features/auth/actions";
-import PasswordRecoveryForm from "@/features/auth/components/password-recovery";
+// import PasswordResetForm from "@/features/auth/components/password-reset";
 import { redirect } from "next/navigation";
 
 export default async function SignIn() {
@@ -9,7 +9,7 @@ export default async function SignIn() {
 
   return (
     <div>
-      <PasswordRecoveryForm />
+      {/* <PasswordResetForm /> */}
     </div>
   );
 }
