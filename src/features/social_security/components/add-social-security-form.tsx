@@ -3,7 +3,7 @@
 import CustomFormField, { FormFieldType } from "@/components/custom-formfield";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import { socialSecuritySchema } from "@/features/schemas";
+import { socialSecuritySchema } from "../schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";

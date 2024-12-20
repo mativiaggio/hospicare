@@ -3,7 +3,7 @@
 import CustomFormField, { FormFieldType } from "@/components/custom-formfield";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import { staffSchema } from "@/features/schemas";
+import { staffSchema } from "../schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";

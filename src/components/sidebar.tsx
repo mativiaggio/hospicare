@@ -1,12 +1,15 @@
 "use client";
 import { Sidebar, SidebarBody, SidebarLink } from "@/components/ui/sidebar";
+import { useCurrent } from "@/features/auth/api/use-current";
 
 import { cn } from "@/lib/utils";
+import { Loader2 } from "lucide-react";
 
 import React, { ReactNode, useState } from "react";
 
 interface RootLayoutProps {
   children: React.ReactNode;
+  adminLinks: Links[];
   links: Links[];
 }
 
@@ -16,8 +19,13 @@ interface Links {
   icon: ReactNode;
 }
 
-export default function SidebarComponent({ children, links }: RootLayoutProps) {
+export default function SidebarComponent({
+  children,
+  links,
+  adminLinks,
+}: RootLayoutProps) {
   const [open, setOpen] = useState(false);
+  const { data, isLoading } = useCurrent();
 
   return (
     <div
@@ -27,16 +35,37 @@ export default function SidebarComponent({ children, links }: RootLayoutProps) {
       )}>
       <Sidebar open={open} setOpen={setOpen}>
         <SidebarBody className="justify-between gap-10">
-          <div className="flex flex-2 flex-col overflow-y-auto overflow-x-hidden">
-            <div className="flex flex-col gap-2">
-              {links.map((link, idx) => (
-                <SidebarLink
-                  key={idx}
-                  link={link}
-                  labelClassName="text-xl md:text-base"
-                />
-              ))}
-            </div>
+          <div
+            className={cn(
+              "flex flex-2 flex-col",
+              (isLoading && "overflow-hidden") ||
+                "overflow-y-auto overflow-x-hidden"
+            )}>
+            {isLoading ? (
+              <Loader2 className="h-6 w-6 animate-spin" />
+            ) : (
+              <div className="flex flex-col gap-2">
+                <span
+                  className={cn(
+                    (!data?.labels.includes("admin") && "hidden") || "block"
+                  )}>
+                  {adminLinks.map((link, idx) => (
+                    <SidebarLink
+                      key={idx}
+                      link={link}
+                      labelClassName="text-xl md:text-base"
+                    />
+                  ))}
+                </span>
+                {links.map((link, idx) => (
+                  <SidebarLink
+                    key={idx}
+                    link={link}
+                    labelClassName="text-xl md:text-base"
+                  />
+                ))}
+              </div>
+            )}
           </div>
           <div></div>
         </SidebarBody>

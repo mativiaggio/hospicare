@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { userUpdatePassword } from "@/features/schemas";
 import { useUpdateProfilePassword } from "@/features/users/api/use-update-user-password";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
@@ -20,6 +19,7 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
+import { userUpdatePassword } from "@/features/users/schemas";
 
 export default function ProfilePasswordForm() {
   const [disabled, setDisabled] = useState(true);
@@ -170,7 +170,7 @@ export default function ProfilePasswordForm() {
           </div>
         </section>
 
-        <Separator />
+        <Separator className="my-4" />
 
         <Button
           variant={disabled ? "outline" : "primary"}

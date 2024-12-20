@@ -14,10 +14,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { userSchema } from "@/features/schemas";
 import { useUpdateProfileDocument } from "@/features/users/api/use-update-user-document";
 import { useUpdateProfileEmail } from "@/features/users/api/use-update-user-email";
 import { useUpdateProfileName } from "@/features/users/api/use-update-user-name";
+import { userSchema } from "@/features/users/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
@@ -93,10 +93,10 @@ export default function ProfileSettingsForm({ data }: Props) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="w-full max-w-2xl mx-auto ">
+        className="w-full max-w-2xl mx-auto pt-8">
         <div className="space-y-6">
           <h1 className="text-3xl font-bold">Configuración del Perfil</h1>
-          <p className="text-muted-foreground pb-4">
+          <p className="text-muted-foreground">
             Administre la configuración de su cuenta y establezca las
             preferencias de correo electrónico.
           </p>
@@ -105,7 +105,7 @@ export default function ProfileSettingsForm({ data }: Props) {
         <Separator />
 
         <section className="space-y-6">
-          <h2 className="text-2xl font-semibold pt-4">Información Personal</h2>
+          <h2 className="text-2xl font-semibold">Información Personal</h2>
           <div className="flex items-center space-x-4">
             <Avatar className="w-20 h-20">
               <AvatarImage
@@ -174,7 +174,7 @@ export default function ProfileSettingsForm({ data }: Props) {
           </div>
           <div className="space-y-2">
             <Link
-              href={"/settings/security"}
+              href={"/configuracion/seguridad"}
               className="text-sm hover:underline font-semibold mt-2">
               ¿Desea cambiar la contraseña? Click aquí
             </Link>

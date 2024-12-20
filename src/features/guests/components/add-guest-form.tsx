@@ -27,7 +27,6 @@ import {
   UrinaryFunctions,
   UrineCharacteristics,
 } from "@/constants/appwrite";
-import { guestSchema } from "@/features/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -38,6 +37,7 @@ import { LoaderCircle } from "lucide-react";
 import ReactDatePicker from "react-datepicker";
 import { Label } from "@/components/ui/label";
 import { ErrorAlert } from "@/components/alerts/error-alert";
+import { guestSchema } from "../schemas";
 
 type GuestFormValues = z.infer<typeof guestSchema>;
 

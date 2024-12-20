@@ -22,44 +22,88 @@ import Link from "next/link";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { useLogin } from "../api/use-login";
+import { useSignUp } from "../api/use-sign-up";
 import { ErrorAlert } from "@/components/alerts/error-alert";
 import Image from "next/image";
-import { loginSchema } from "../schemas";
+import { registerSchema } from "../schemas";
+import { useFindSecretBySecret } from "../api/use-get-secret-by-secret";
 
-export const SignInCard = () => {
-  const { mutate } = useLogin();
+type SignUpFormValues = z.infer<typeof registerSchema>;
+
+type SignUptFormProps = {
+  secret: string;
+};
+
+export default function SignUpCard({ secret }: SignUptFormProps) {
+  const { mutate } = useSignUp();
   const [submitting, setSubmitting] = useState<boolean>(false);
   const [showError, setShowError] = useState<boolean>(false);
+  const [showSecretError, setShowSecretError] = useState<boolean>(false);
 
-  const form = useForm<z.infer<typeof loginSchema>>({
-    resolver: zodResolver(loginSchema),
+  const {
+    data: secretData,
+    isLoading: isLoadingSecret,
+    isFetching: isFetchingSecret,
+  } = useFindSecretBySecret(secret);
+
+  const form = useForm<SignUpFormValues>({
+    resolver: zodResolver(registerSchema),
     defaultValues: {
+      name: "",
       email: "",
       password: "",
+      secretId: "",
     },
   });
 
-  const onSubmit = (values: z.infer<typeof loginSchema>) => {
+  async function onSubmit(values: SignUpFormValues) {
     setSubmitting(true);
-    mutate(
-      { json: values },
-      {
-        onError: () => {
-          setShowError(true);
-          setSubmitting(false);
-          form.setValue("password", "");
-        },
+    console.log("Entramos al submit");
+    if (secretData && secretData?.documents.length != 1) {
+      setShowSecretError(true);
+      setSubmitting(false);
+      setTimeout(() => {
+        setShowSecretError(false);
+      }, 5000);
+      return;
+    } else {
+      if (secretData?.documents[0].used) {
+        setShowSecretError(true);
+        setSubmitting(false);
+        setTimeout(() => {
+          setShowSecretError(false);
+        }, 10000);
+        return;
+      } else {
+        const completeValues = {
+          ...values,
+          secretId: secretData?.documents[0].$id || "",
+        };
+        mutate(
+          { json: completeValues },
+          {
+            onError: () => {
+              setShowError(true);
+              setSubmitting(false);
+              form.setValue("password", "");
+            },
+          }
+        );
       }
-    );
-  };
+    }
+  }
+
+  if (isLoadingSecret || isFetchingSecret) {
+    <div className="w-full h-screen">
+      <Loader2 className="h-6 w-6 animate-spin" />
+    </div>;
+  }
 
   return (
     <>
       <Card className="w-full h-full md:w-[487px] border bg-[#fafafa] dark:bg-black dark:border-neutral-800 shadow-none">
         <CardHeader className="space-y-1">
           <div className="flex items-center justify-center mb-4">
-            {/* <HeartPulse size={42} /> */}
             <span className="flex items-center justify-center gap-2 w-full">
               <span className="flex items-center gap-2">
                 <Image
@@ -80,7 +124,7 @@ export const SignInCard = () => {
             </span>
           </div>
           <CardTitle className="text-2xl text-center">
-            Ingresa a Hospicare
+            Crear cuenta en Hospicare
           </CardTitle>
           <CardDescription className="text-center">
             por{" "}
@@ -94,6 +138,22 @@ export const SignInCard = () => {
         <CardContent className="space-y-4">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              <FormField
+                name="name"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        type="name"
+                        placeholder="Ingresa tu nombre completo"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <FormField
                 name="email"
                 control={form.control}
@@ -137,16 +197,16 @@ export const SignInCard = () => {
                     Cargando...
                   </>
                 )) ||
-                  "Ingresar"}
+                  "Crear cuenta"}
               </Button>
             </form>
           </Form>
           <div className="flex items-center justify-between">
             <div className="text-sm">
               <Link
-                href="/recuperar-clave"
+                href="/iniciar-sesion"
                 className="font-semibold text-primary hover:text-primary/80 hover:underline">
-                Olvidaste tu contraseña?
+                Ya tenes una cuenta?
               </Link>
             </div>
           </div>
@@ -171,6 +231,13 @@ export const SignInCard = () => {
           onClose={() => setShowError(false)}
         />
       )}
+      {showSecretError && (
+        <ErrorAlert
+          title="El token de registro es incorrecto."
+          message="Esto sucede si el mismo ya fue utilizado para crear una cuenta. Solicite al administrador un nuevo link de registro."
+          onClose={() => setShowError(false)}
+        />
+      )}
     </>
   );
-};
+}

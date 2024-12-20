@@ -21,6 +21,7 @@ export const env = {
   TICKETS_ID: process.env.NEXT_PUBLIC_TICKETS_ID || "",
   STAFF_ID: process.env.NEXT_PUBLIC_STAFF_ID || "",
   EPICRISIS_ID: process.env.NEXT_PUBLIC_EPICRISIS_ID || "",
+  SECRETS_ID: process.env.NEXT_PUBLIC_SECRETS_ID || "",
 
   // Configuración del almacenamiento (buckets)
   BUCKET_ID: process.env.NEXT_PUBLIC_BUCKET_ID || "",

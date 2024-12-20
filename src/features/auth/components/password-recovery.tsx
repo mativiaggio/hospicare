@@ -17,7 +17,7 @@ import { Form } from "@/components/ui/form";
 import { ErrorAlert } from "@/components/alerts/error-alert";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { PasswordRecoverySchema } from "../schemas/schemas";
+import { PasswordRecoverySchema } from "../schemas";
 import { z } from "zod";
 import CustomFormField, { FormFieldType } from "@/components/custom-formfield";
 import { usePasswordRecovery } from "../api/use-password-recovery";
