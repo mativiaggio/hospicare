@@ -7,6 +7,7 @@ import {
   Databases,
   Models,
   Storage,
+  Users,
   type Account as AccountType,
   type Databases as DatabasesType,
   type Storage as StorageType,
@@ -49,6 +50,21 @@ export const sessionMiddleware = createMiddleware<AditionalContext>(
     c.set("databases", databases);
     c.set("storage", storage);
     c.set("user", user);
+
+    await next();
+  }
+);
+
+export const generalMiddleware = createMiddleware<AditionalContext>(
+  async (c, next) => {
+    const client = new Client()
+      .setEndpoint(env.ENDPOINT)
+      .setProject(env.PROJECT_ID)
+      .setKey(env.API_KEY);
+
+    const users = new Users(client);
+
+    c.set("users", users);
 
     await next();
   }

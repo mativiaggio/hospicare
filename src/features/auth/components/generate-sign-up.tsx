@@ -7,7 +7,6 @@ import { Copy, Loader2 } from "lucide-react";
 import { SuccessAlert } from "@/components/alerts/success-alert";
 import { ErrorAlert } from "@/components/alerts/error-alert";
 import { env } from "@/env.config";
-import { Separator } from "@/components/ui/separator";
 import { useNewSecret } from "../api/use-create-secret";
 import { useGetSecrets } from "../api/use-get-secrets";
 import {
@@ -18,9 +17,11 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { PageTitle } from "@/components/page-title";
 
 export default function GenerateRegisterLink() {
   const [loginLink, setLoginLink] = useState("");
+  const [secret, setSecret] = useState("");
   const [isGenerated, setIsGenerated] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [showError, setShowError] = useState(false);
@@ -37,6 +38,7 @@ export default function GenerateRegisterLink() {
       crypto.randomUUID().replace(/-/g, "");
     const link = `${env.HOSTNAME}/crear-cuenta?secret=${secret}`;
 
+    setSecret(secret);
     const values = {
       secret: secret,
       used: false,
@@ -77,13 +79,12 @@ export default function GenerateRegisterLink() {
   return (
     <>
       <div className="space-y-6">
-        <h1 className="text-3xl font-bold">Panel administrador</h1>
-        <p className="text-muted-foreground">
-          Desde aquí puedes administrar tu cuenta de administrador.
-        </p>
+        <PageTitle
+          title="Panel administrador"
+          subtitle="Desde aquí puedes administrar tu cuenta de administrador"
+        />
       </div>
 
-      <Separator />
       <div className="space-y-4 w-full">
         <Button
           onClick={generateLink}
@@ -101,21 +102,27 @@ export default function GenerateRegisterLink() {
               disabled={!isGenerated}
             />
             <Button
-              onClick={() => copyToClipboard(loginLink)}
+              onClick={() => copyToClipboard(secret)}
               className="ml-2 !h-[48px] w-[48px] p-3"
+              variant={isGenerated ? "primary" : "outline"}
               disabled={!isGenerated}>
               <Copy className="h-6 w-6" />
             </Button>
           </div>
-          <p className="text-sm text-gray-500 dark:text-gray-400">
+          <p className="text-sm text-muted-foreground">
             {isGenerated
               ? "Este enlace es de un solo uso y expirará después de ser utilizado."
               : "Se creará un enlace único de un solo uso para registro."}
           </p>
           <Dialog modal={false}>
             <DialogTrigger asChild>
-              <Button variant="outline" className="w-full">
-                Ver Enlaces Activos ({data?.secrets.total})
+              <Button
+                variant="outline"
+                className="w-full"
+                disabled={data?.secrets.total === 0 ? true : false}>
+                {data?.secrets.total === 0
+                  ? "No hay enlaces activos"
+                  : `Ver enlaces activos ${data?.secrets.total}`}
               </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
