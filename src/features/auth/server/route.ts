@@ -1,7 +1,7 @@
 import { env } from "@/env.config";
 import { loginSchema, registerSchema, SecretSchema } from "../schemas";
 import { createAdminClient } from "@/lib/appwrite";
-import { guestMiddleware, sessionMiddleware } from "@/lib/session-middlware";
+import { guestMiddleware, sessionMiddleware } from "@/lib/middlwares";
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
 import { deleteCookie, setCookie } from "hono/cookie";
@@ -20,20 +20,21 @@ const app = new Hono()
 
         const { account } = await createAdminClient();
 
+        const database = c.get("databases");
+
         await account.create(ID.unique(), email, password, name);
 
         const session = await account.createEmailPasswordSession(
           email,
           password
         );
-        const database = c.get("databases");
 
         await database.createDocument(
           env.DATABASE_ID,
           env.USERS_ID,
           ID.unique(),
           {
-            user_id: session.$id,
+            user_id: session.userId,
             name: name,
             email: email,
           }
@@ -123,7 +124,7 @@ const app = new Hono()
     const secrets = await database.listDocuments(
       env.DATABASE_ID,
       env.SECRETS_ID,
-      [Query.orderDesc("$createdAt")]
+      [Query.orderDesc("$createdAt"), Query.equal("used", [false])]
     );
 
     return c.json({ secrets: secrets });

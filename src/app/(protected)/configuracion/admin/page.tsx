@@ -1,8 +1,11 @@
 "use client";
 
+import { PageTitle } from "@/components/page-title";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Separator } from "@/components/ui/separator";
 import { useCurrent } from "@/features/auth/api/use-current";
 import GenerateRegisterLink from "@/features/auth/components/generate-sign-up";
+import UsersDataContainer from "@/features/users/components/users-data-container";
 import { AlertCircle, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
@@ -38,5 +41,12 @@ export default function ProfileSettings() {
     );
   }
 
-  return <GenerateRegisterLink />;
+  return (
+    <>
+      <GenerateRegisterLink />
+      <Separator />
+      <PageTitle title="Usuarios" subtitle="Lista de usuarios del sistema" />
+      <UsersDataContainer />
+    </>
+  );
 }

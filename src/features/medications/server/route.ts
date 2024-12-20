@@ -1,7 +1,7 @@
 import { env } from "@/env.config";
 import { medicationSchema } from "../schemas";
 import { Medications } from "@/lib/appwrite-types";
-import { sessionMiddleware } from "@/lib/session-middlware";
+import { sessionMiddleware } from "@/lib/middlwares";
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
 import { ID } from "node-appwrite";

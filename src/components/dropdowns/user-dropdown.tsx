@@ -1,4 +1,12 @@
-import { Github, LifeBuoy, Loader, Loader2, Lock, User } from "lucide-react";
+import {
+  Github,
+  LifeBuoy,
+  Loader,
+  Loader2,
+  Lock,
+  ShieldCheck,
+  User,
+} from "lucide-react";
 
 import {
   DropdownMenu,
@@ -70,16 +78,29 @@ export function UserDropdown() {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem>
-            <User className="!w-6 !h-6" />
+            <ShieldCheck className="!w-6 !h-6" />
             <span className="w-full flex">
               <Link
                 className="!w-full text-xl xl:text-base"
-                href={"/configuracion/perfil"}
+                href={"/configuracion/admin"}
                 onClick={handleLinkClick}>
-                Perfil
+                Admin
               </Link>
             </span>
           </DropdownMenuItem>
+          {data?.labels.includes("admin") && (
+            <DropdownMenuItem>
+              <User className="!w-6 !h-6" />
+              <span className="w-full flex">
+                <Link
+                  className="!w-full text-xl xl:text-base"
+                  href={"/configuracion/perfil"}
+                  onClick={handleLinkClick}>
+                  Perfil
+                </Link>
+              </span>
+            </DropdownMenuItem>
+          )}
           <DropdownMenuItem>
             <Lock className="!w-6 !h-6" />
             <span className="w-full flex">

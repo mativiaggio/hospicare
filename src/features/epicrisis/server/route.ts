@@ -1,6 +1,6 @@
 import { env } from "@/env.config";
 import { epicrisisSchema } from "../schemas";
-import { sessionMiddleware } from "@/lib/session-middlware";
+import { sessionMiddleware } from "@/lib/middlwares";
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
 import { ID, Query } from "node-appwrite";
