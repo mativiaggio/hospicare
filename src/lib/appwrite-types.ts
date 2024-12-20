@@ -244,6 +244,7 @@ export interface Users {
   email?: string;
   birthdate?: string;
   bio?: string;
+  labels?: string[];
 }
 
 export interface Tickets {

@@ -1,21 +1,40 @@
 import { env } from "@/env.config";
 import { userSchema, userUpdatePassword } from "../schemas";
-import { sessionMiddleware } from "@/lib/session-middlware";
+import { generalMiddleware, sessionMiddleware } from "@/lib/middlwares";
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
 import { Query } from "node-appwrite";
 
 const app = new Hono()
-  .get("/", sessionMiddleware, async (c) => {
-    const database = c.get("databases");
+  .get("/", sessionMiddleware, generalMiddleware, async (c) => {
+    try {
+      const database = c.get("databases");
+      const auth = c.get("users");
 
-    const users = await database.listDocuments(
-      env.DATABASE_ID,
-      env.USERS_ID,
-      []
-    );
+      const users = await database.listDocuments(
+        env.DATABASE_ID,
+        env.USERS_ID,
+        []
+      );
 
-    return c.json({ users: users });
+      const registeredUsers = await auth.list();
+
+      users.documents = users.documents.map((user) => {
+        const matchingUser = registeredUsers.users.find(
+          (registeredUser) => registeredUser.$id === user.user_id
+        );
+
+        return {
+          ...user,
+          labels: matchingUser ? matchingUser.labels : [],
+        };
+      });
+
+      return c.json({ users: users });
+    } catch (error) {
+      console.error("Error fetching users:", error);
+      return c.json({ success: false, message: (error as Error).message }, 500);
+    }
   })
   .get("/current", sessionMiddleware, async (c) => {
     const user = c.get("user");
