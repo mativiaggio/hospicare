@@ -1,36 +1,60 @@
 import { env } from "@/env.config";
-import { loginSchema, registerSchema } from "@/features/schemas";
+import { loginSchema, registerSchema, SecretSchema } from "../schemas";
 import { createAdminClient } from "@/lib/appwrite";
-import { sessionMiddleware } from "@/lib/session-middlware";
+import { guestMiddleware, sessionMiddleware } from "@/lib/session-middlware";
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
 import { deleteCookie, setCookie } from "hono/cookie";
-import { ID } from "node-appwrite";
+import { ID, Query } from "node-appwrite";
 import { AUTH_COOKIE } from "../constants";
-import {
-  PasswordRecoverySchema,
-  PasswordResetSchema,
-} from "../schemas/schemas";
+import { PasswordRecoverySchema, PasswordResetSchema } from "../schemas";
 
 const app = new Hono()
-  .post("/register", zValidator("json", registerSchema), async (c) => {
-    const { email, password, name } = c.req.valid("json");
+  .post(
+    "/sign-up",
+    zValidator("json", registerSchema),
+    guestMiddleware,
+    async (c) => {
+      try {
+        const { name, email, password, secretId } = c.req.valid("json");
 
-    const { account } = await createAdminClient();
+        const { account } = await createAdminClient();
 
-    await account.create(ID.unique(), email, password, name);
+        await account.create(ID.unique(), email, password, name);
 
-    const session = await account.createEmailPasswordSession(email, password);
+        const session = await account.createEmailPasswordSession(
+          email,
+          password
+        );
+        const database = c.get("databases");
 
-    setCookie(c, AUTH_COOKIE, session.secret, {
-      path: "/",
-      secure: true,
-      sameSite: "Strict",
-      maxAge: 60 * 60 * 24 * 30,
-    });
-
-    return c.json({ success: true });
-  })
+        await database.createDocument(
+          env.DATABASE_ID,
+          env.USERS_ID,
+          ID.unique(),
+          {
+            user_id: session.$id,
+            name: name,
+            email: email,
+          }
+        );
+        await database.updateDocument(
+          env.DATABASE_ID,
+          env.SECRETS_ID,
+          secretId || "",
+          {
+            used: true,
+          }
+        );
+        return c.json({ success: true });
+      } catch (error) {
+        return c.json(
+          { success: false, message: (error as Error).message },
+          500
+        );
+      }
+    }
+  )
   .post("/login", zValidator("json", loginSchema), async (c) => {
     const { email, password } = c.req.valid("json");
 
@@ -92,6 +116,47 @@ const app = new Hono()
         );
       }
     }
-  );
+  )
+  .get("/secrets", sessionMiddleware, async (c) => {
+    const database = c.get("databases");
+
+    const secrets = await database.listDocuments(
+      env.DATABASE_ID,
+      env.SECRETS_ID,
+      [Query.orderDesc("$createdAt")]
+    );
+
+    return c.json({ secrets: secrets });
+  })
+  .post(
+    "/create-secret",
+    sessionMiddleware,
+    zValidator("json", SecretSchema),
+    async (c) => {
+      const database = c.get("databases");
+
+      const data = c.req.valid("json");
+
+      const secret = await database.createDocument(
+        env.DATABASE_ID,
+        env.SECRETS_ID,
+        ID.unique(),
+        data
+      );
+
+      return c.json({ secret: secret });
+    }
+  )
+  .get("/find-secret-by-secret/:secret", guestMiddleware, async (c) => {
+    const database = c.get("databases");
+    const secret = c.req.param("secret");
+    const secrets = await database.listDocuments(
+      env.DATABASE_ID,
+      env.SECRETS_ID,
+      [Query.equal("secret", [secret])]
+    );
+
+    return c.json({ secrets });
+  });
 
 export default app;

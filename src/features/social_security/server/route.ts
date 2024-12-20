@@ -1,5 +1,5 @@
 import { env } from "@/env.config";
-import { socialSecuritySchema } from "@/features/schemas";
+import { socialSecuritySchema } from "../schemas";
 import { sessionMiddleware } from "@/lib/session-middlware";
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";

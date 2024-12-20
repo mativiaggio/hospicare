@@ -53,3 +53,17 @@ export const sessionMiddleware = createMiddleware<AditionalContext>(
     await next();
   }
 );
+
+export const guestMiddleware = createMiddleware<AditionalContext>(
+  async (c, next) => {
+    const client = new Client()
+      .setEndpoint(env.ENDPOINT)
+      .setProject(env.PROJECT_ID);
+
+    const databases = new Databases(client);
+
+    c.set("databases", databases);
+
+    await next();
+  }
+);

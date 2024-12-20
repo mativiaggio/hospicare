@@ -6,19 +6,28 @@ interface ErrorAlertProps {
   title: string;
   message: string;
   onClose?: () => void;
+  timeToClose?: number;
 }
 
-export function ErrorAlert({ title, message, onClose }: ErrorAlertProps) {
+export function ErrorAlert({
+  title,
+  message,
+  onClose,
+  timeToClose,
+}: ErrorAlertProps) {
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsVisible(false);
-      onClose && onClose();
-    }, 15000);
+    const timer = setTimeout(
+      () => {
+        setIsVisible(false);
+        onClose && onClose();
+      },
+      timeToClose ? timeToClose : 15000
+    );
 
     return () => clearTimeout(timer);
-  }, [onClose]);
+  }, [onClose, timeToClose]);
 
   if (!isVisible) return null;
 

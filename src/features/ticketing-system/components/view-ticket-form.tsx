@@ -11,7 +11,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
-import { ticketSchema } from "@/features/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useParams, useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -23,6 +22,7 @@ import { Badge } from "@/components/ui/badge";
 import { useUpdateTicket } from "../api/use-update-ticket";
 import { SelectItem } from "@/components/ui/select";
 import { TicketStatus } from "@/constants/appwrite";
+import { ticketSchema } from "../schemas";
 
 type TicketFormValues = z.infer<typeof ticketSchema>;
 

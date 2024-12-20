@@ -3,7 +3,6 @@
 import CustomFormField, { FormFieldType } from "@/components/custom-formfield";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import { medicationSchema } from "@/features/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -12,6 +11,7 @@ import { ErrorAlert } from "@/components/alerts/error-alert";
 import { useNewMedication } from "../api/use-new-medication";
 import { SelectItem } from "@/components/ui/select";
 import { RouteOfAdministration } from "@/constants/appwrite";
+import { medicationSchema } from "../schemas";
 
 type MedicationFormValues = z.infer<typeof medicationSchema>;
 
