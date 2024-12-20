@@ -181,7 +181,6 @@ export function UsersDataTable({ usersData }: UsersDataTableProps) {
   const [rowSelection, setRowSelection] = React.useState({});
 
   const users = usersData;
-  const router = useRouter();
 
   // Uso de useMemo para memoizar los datos
   const data = React.useMemo(() => users?.users.documents ?? [], [users]);
