@@ -36,7 +36,6 @@ import {
 } from "@/components/ui/context-menu";
 import { Users, UsersApiResponse } from "@/lib/appwrite-types";
 import { Copy, FileX2 } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { capitalizeFirstLetter } from "@/lib/utils";
 
 export const columns: ColumnDef<Users>[] = [
