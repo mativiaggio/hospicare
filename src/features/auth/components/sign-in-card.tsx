@@ -63,14 +63,14 @@ export const SignInCard = () => {
             <span className="flex items-center justify-center gap-2 w-full">
               <span className="flex items-center gap-2">
                 <Image
-                  src={"/logo2.svg"}
+                  src={"/static/svg/logo2.svg"}
                   height={50}
                   width={50}
                   alt="Logo"
                   className="block dark:hidden h-[50px] max-h-[50px] w-[50px] max-w-[50px]"
                 />
                 <Image
-                  src={"/logo2-dark.svg"}
+                  src={"/static/svg/logo2-dark.svg"}
                   height={50}
                   width={50}
                   alt="Logo"

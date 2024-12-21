@@ -55,6 +55,8 @@ export const metadata: Metadata = {
   verification: {
     google: "1I5vN8XfzHo9awJVBZa30hiGiyayFTx9_EoB8QtzLsg",
   },
+  manifest: "/manifest.json",
+  themeColor: "#141414",
 };
 
 const plusJakartaSans = Plus_Jakarta_Sans({ subsets: ["latin"] });
