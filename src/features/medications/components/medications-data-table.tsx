@@ -25,6 +25,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
@@ -36,7 +43,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Medications, MedicationsApiResponse } from "@/lib/appwrite-types";
-import { Copy, FileX2, PillBottle, Trash2 } from "lucide-react";
+import { Copy, FileX2, Filter, PillBottle, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { capitalizeFirstLetter } from "@/lib/utils";
 import { useRouter } from "next/navigation";
@@ -96,7 +103,7 @@ const CellActions = ({ row }: { row: any }) => {
       {showError && (
         <ErrorAlert
           title="Ocurrió un error al eliminar el registro."
-          message="Vuelva a intentar, si el error persiste póngase en contacto con el soporte técnico."
+          message="Vuelva a intentarlo. Si el error persiste, póngase en contacto con el soporte técnico."
           onClose={() => setShowError(false)}
         />
       )}
@@ -235,7 +242,48 @@ export function MedicationsDataTable({
   return (
     <div className="w-full">
       <div className="flex justify-between items-center py-4">
-        <div className="w-1/2 gap-2 flex items-center">
+        <div className="flex lg:hidden">
+          <Dialog modal={true}>
+            <DialogTrigger asChild>
+              <Button variant="outline">
+                <Filter className="h-4 w-4" />
+                <span className="hidden sm:block">Filtros</span>
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px] rounded-md">
+              <DialogHeader>
+                <DialogTitle>Filtros</DialogTitle>
+              </DialogHeader>
+              <div className="w-full flex flex-col gap-2 items-center">
+                <Input
+                  placeholder="Filtrar por nombre..."
+                  value={
+                    (table.getColumn("name")?.getFilterValue() as string) ?? ""
+                  }
+                  onChange={(event) =>
+                    table.getColumn("name")?.setFilterValue(event.target.value)
+                  }
+                  className="max-w-sm"
+                />
+                <Input
+                  placeholder="Filtrar por laboratorio..."
+                  value={
+                    (table
+                      .getColumn("manufacturer")
+                      ?.getFilterValue() as string) ?? ""
+                  }
+                  onChange={(event) =>
+                    table
+                      .getColumn("manufacturer")
+                      ?.setFilterValue(event.target.value)
+                  }
+                  className="max-w-sm"
+                />
+              </div>
+            </DialogContent>
+          </Dialog>
+        </div>
+        <div className="w-1/2 gap-2 hidden lg:flex items-center">
           <Input
             placeholder="Filtrar por nombre..."
             value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}

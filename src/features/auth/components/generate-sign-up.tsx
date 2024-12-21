@@ -169,7 +169,7 @@ export default function GenerateRegisterLink() {
         {showError && (
           <ErrorAlert
             title="Ocurrió un error al generar el enlace."
-            message="Vuelva a intentar, si el error persiste póngase en contacto con el soporte técnico."
+            message="Vuelva a intentarlo. Si el error persiste, póngase en contacto con el soporte técnico."
             onClose={() => setShowCopiedError(false)}
             timeToClose={5000}
           />
@@ -185,7 +185,7 @@ export default function GenerateRegisterLink() {
         {showCopiedError && (
           <ErrorAlert
             title="Ocurrió un error al copiar el enlace."
-            message="Vuelva a intentar, si el error persiste póngase en contacto con el soporte técnico."
+            message="Vuelva a intentarlo. Si el error persiste, póngase en contacto con el soporte técnico."
             onClose={() => setShowCopiedError(false)}
             timeToClose={5000}
           />
