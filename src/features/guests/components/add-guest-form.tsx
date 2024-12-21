@@ -309,8 +309,8 @@ export default function AddGuestForm() {
                 <CustomFormField
                   fieldType={FormFieldType.CHECKBOX}
                   name="metastasis"
-                  label="Metastasis"
-                  description="¿El huésped recibe tratamiento con opioides?"
+                  label="Metástasis"
+                  description="¿El huésped presenta metástasis?"
                   control={form.control}
                 />
               </div>
@@ -318,7 +318,7 @@ export default function AddGuestForm() {
                 <CustomFormField
                   fieldType={FormFieldType.TEXTAREA}
                   name="metastasis_location"
-                  label="Lugar de metastasis"
+                  label="Lugar de metástasis"
                   placeholder=""
                   control={form.control}
                 />
@@ -681,7 +681,7 @@ export default function AddGuestForm() {
                 <CustomFormField
                   fieldType={FormFieldType.SLIDER}
                   name="difficulty_sleeping"
-                  label="Dif. dormir"
+                  label="Dificultad para dormir"
                   control={form.control}
                 />
               </div>
@@ -925,7 +925,7 @@ export default function AddGuestForm() {
                 <CustomFormField
                   fieldType={FormFieldType.INPUT}
                   name="sputum_type"
-                  label="Tipo de espectoracion"
+                  label="Tipo de expectoración"
                   control={form.control}
                 />
               </div>
@@ -1025,8 +1025,8 @@ export default function AddGuestForm() {
       </Form>
       {showError && (
         <ErrorAlert
-          title="Ocurrió un error al iniciar sesión."
-          message="Revise la dirección de correo electrónico y la contraseña."
+          title="Ocurrió un error al guardar los datos."
+          message="Vuelva a intentarlo. Si el error persiste, póngase en contacto con el soporte técnico."
           onClose={() => setShowError(false)}
         />
       )}

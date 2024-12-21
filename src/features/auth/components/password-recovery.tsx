@@ -125,7 +125,7 @@ export default function PasswordRecoveryForm() {
           {showError && (
             <ErrorAlert
               title="Ocurrió un error al enviar los datos."
-              message="Vuelva a intentar, si el error persiste póngase en contacto con el soporte técnico."
+              message="Vuelva a intentarlo. Si el error persiste, póngase en contacto con el soporte técnico."
               onClose={() => setShowError(false)}
             />
           )}
