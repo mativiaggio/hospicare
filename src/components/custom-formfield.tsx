@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { E164Number } from "libphonenumber-js/core";
-import React from "react";
+import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import { Control } from "react-hook-form";
 import PhoneInput from "react-phone-number-input";
@@ -23,6 +23,9 @@ import { Checkbox } from "./ui/checkbox";
 import { Select, SelectContent, SelectTrigger, SelectValue } from "./ui/select";
 import { Textarea } from "./ui/textarea";
 import { SliderInput } from "./slider-input";
+import { Eye, EyeClosed } from "lucide-react";
+import { Button } from "./ui/button";
+import { cn } from "@/lib/utils";
 
 export enum FormFieldType {
   INPUT = "input",
@@ -67,7 +70,17 @@ interface CustomProps {
   defaultValue?: string | number | boolean | null;
 }
 
-const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
+const RenderField = ({
+  field,
+  props,
+  passwordVisibility,
+  setPasswordVisibility,
+}: {
+  field: any;
+  props: CustomProps;
+  passwordVisibility: boolean;
+  setPasswordVisibility: (value: boolean) => void;
+}) => {
   const {
     control,
     fieldType,
@@ -92,7 +105,6 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
     defaultValue,
   } = props;
   switch (fieldType) {
-    case FormFieldType.PASSWORD:
     case FormFieldType.INPUT:
     case FormFieldType.EMAIL:
       return (
@@ -117,7 +129,7 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
               onBlur={onBlur}
               value={value}
               defaultValue={defaultValue}
-              className={`shad-input ${inputCustomClasses}`}
+              className={` ${inputCustomClasses}`}
               disabled={disabled}
               autoComplete={"off"}
             />
@@ -125,6 +137,47 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
         </div>
       );
       break;
+
+    case FormFieldType.PASSWORD:
+      return (
+        <div
+          className={`flex items-center ${
+            iconType ? "pl-2" : ""
+          } overflow-hidden rounded-md ${fieldCustomClasses}`}>
+          {iconType && (
+            <Icon
+              icon={iconType}
+              iconLightColor={iconLightColor ? iconLightColor : "currentColor"}
+              iconDarkColor={iconDarkColor ? iconDarkColor : "currentColor"}
+            />
+          )}
+          <FormControl>
+            <div className="relative border-none outline-none w-full flex items-center">
+              <Input
+                {...field}
+                type={passwordVisibility ? "text" : "password"} // Cambia dinámicamente
+                placeholder={placeholder}
+                onFocus={onFocus}
+                onBlur={onBlur}
+                value={value}
+                defaultValue={defaultValue}
+                className={`${inputCustomClasses}`}
+                disabled={disabled}
+                autoComplete="current-password"
+              />
+              <Button
+                type="button"
+                className="absolute right-2 p-0"
+                variant="inherit"
+                title="Mostrar/ocultar contraseña"
+                onClick={() => setPasswordVisibility(!passwordVisibility)} // Alterna el estado
+              >
+                {passwordVisibility ? <Eye /> : <EyeClosed />}
+              </Button>
+            </div>
+          </FormControl>
+        </div>
+      );
 
     case FormFieldType.NUMBER:
       return (
@@ -146,7 +199,7 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
               type={fieldType}
               placeholder={placeholder}
               valueasnumber="true"
-              className={`shad-input ${inputCustomClasses}`}
+              className={` ${inputCustomClasses}`}
             />
           </FormControl>
         </div>
@@ -292,6 +345,8 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
 const CustomFormField = (props: CustomProps) => {
   const { control, name, label, formItemCustomClasses, labelCustomClasses } =
     props;
+
+  const [passwordVisibility, setPasswordVisibility] = useState<boolean>(false);
   return (
     <FormField
       control={control}
@@ -305,7 +360,12 @@ const CustomFormField = (props: CustomProps) => {
             </FormLabel>
           )}
 
-          <RenderField field={field} props={props} />
+          <RenderField
+            field={field}
+            props={props}
+            passwordVisibility={passwordVisibility}
+            setPasswordVisibility={setPasswordVisibility}
+          />
           <FormMessage />
         </FormItem>
       )}

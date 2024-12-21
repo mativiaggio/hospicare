@@ -8,14 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { Form } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
@@ -27,6 +20,8 @@ import { ErrorAlert } from "@/components/alerts/error-alert";
 import Image from "next/image";
 import { registerSchema } from "../schemas";
 import { useFindSecretBySecret } from "../api/use-get-secret-by-secret";
+import CustomFormField, { FormFieldType } from "@/components/custom-formfield";
+import { useRouter } from "next/navigation";
 
 type SignUpFormValues = z.infer<typeof registerSchema>;
 
@@ -38,7 +33,9 @@ export default function SignUpCard({ secret }: SignUptFormProps) {
   const { mutate } = useSignUp();
   const [submitting, setSubmitting] = useState<boolean>(false);
   const [showError, setShowError] = useState<boolean>(false);
+  const [showNoSecretError, setShowNoSecretError] = useState<boolean>(false);
   const [showSecretError, setShowSecretError] = useState<boolean>(false);
+  const router = useRouter();
 
   const {
     data: secretData,
@@ -58,8 +55,14 @@ export default function SignUpCard({ secret }: SignUptFormProps) {
 
   async function onSubmit(values: SignUpFormValues) {
     setSubmitting(true);
-    console.log("Entramos al submit");
-    if (secretData && secretData?.documents.length != 1) {
+    if (!secretData) {
+      setShowNoSecretError(true);
+      setSubmitting(false);
+      setTimeout(() => {
+        setShowNoSecretError(false);
+      }, 5000);
+      return;
+    } else if (secretData && secretData?.documents.length != 1) {
       setShowSecretError(true);
       setSubmitting(false);
       setTimeout(() => {
@@ -91,6 +94,15 @@ export default function SignUpCard({ secret }: SignUptFormProps) {
         );
       }
     }
+  }
+
+  if (!secret) {
+    router.push("/acceso-denegado");
+    return (
+      <div className="h-[50vh] flex justify-center items-center">
+        <Loader2 className="h-16 w-16 animate-spin" />
+      </div>
+    );
   }
 
   if (isLoadingSecret || isFetchingSecret) {
@@ -138,54 +150,26 @@ export default function SignUpCard({ secret }: SignUptFormProps) {
         <CardContent className="space-y-4">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-              <FormField
+              <CustomFormField
+                fieldType={FormFieldType.INPUT}
                 name="name"
+                label=""
+                placeholder="Ingresa tu nombre completo"
                 control={form.control}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        type="name"
-                        placeholder="Ingresa tu nombre completo"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
               />
-              <FormField
+              <CustomFormField
+                fieldType={FormFieldType.EMAIL}
                 name="email"
+                label=""
+                placeholder="Ingresa tu correo electrónico"
                 control={form.control}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        type="email"
-                        placeholder="Ingresa tu correo electrónico"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
               />
-              <FormField
+              <CustomFormField
+                fieldType={FormFieldType.PASSWORD}
                 name="password"
+                label=""
+                placeholder="Ingresa tu contraseña"
                 control={form.control}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        type="password"
-                        placeholder="Ingresa tu contraseña"
-                        autoComplete="current-password"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
               />
               <Button
                 disabled={submitting ? true : false}
@@ -228,6 +212,13 @@ export default function SignUpCard({ secret }: SignUptFormProps) {
         <ErrorAlert
           title="Ocurrió un error al iniciar sesión."
           message="Revise la dirección de correo electrónico y la contraseña."
+          onClose={() => setShowError(false)}
+        />
+      )}
+      {showNoSecretError && (
+        <ErrorAlert
+          title="No existe un token de registro."
+          message="No estas autorizado a registrar tu cuenta. Solicite al administrador un link de registro."
           onClose={() => setShowError(false)}
         />
       )}
