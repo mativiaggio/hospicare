@@ -8,14 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { Form } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
@@ -26,6 +19,7 @@ import { useLogin } from "../api/use-login";
 import { ErrorAlert } from "@/components/alerts/error-alert";
 import Image from "next/image";
 import { loginSchema } from "../schemas";
+import CustomFormField, { FormFieldType } from "@/components/custom-formfield";
 
 export const SignInCard = () => {
   const { mutate } = useLogin();
@@ -94,38 +88,19 @@ export const SignInCard = () => {
         <CardContent className="space-y-4">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-              <FormField
+              <CustomFormField
+                fieldType={FormFieldType.EMAIL}
                 name="email"
+                label=""
+                placeholder="Ingresa tu correo electrónico"
                 control={form.control}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        type="email"
-                        placeholder="Ingresa tu correo electrónico"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
               />
-              <FormField
+              <CustomFormField
+                fieldType={FormFieldType.PASSWORD}
                 name="password"
+                label=""
+                placeholder="Ingresa tu contraseña"
                 control={form.control}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        type="password"
-                        placeholder="Ingresa tu contraseña"
-                        autoComplete="current-password"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
               />
               <Button
                 disabled={submitting ? true : false}
