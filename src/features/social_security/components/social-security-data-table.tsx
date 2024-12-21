@@ -25,6 +25,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
@@ -39,7 +46,14 @@ import {
   SocialSecurity,
   SocialSecurityApiResponse,
 } from "@/lib/appwrite-types";
-import { CheckCircleIcon, Copy, FileX2, Plus, XCircleIcon } from "lucide-react";
+import {
+  CheckCircleIcon,
+  Copy,
+  FileX2,
+  Filter,
+  Plus,
+  XCircleIcon,
+} from "lucide-react";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 
@@ -198,7 +212,34 @@ export function SocialSecurityDataTable({
   return (
     <div className="w-full">
       <div className="flex justify-between items-center py-4">
-        <div className="w-1/2 gap-2 flex items-center">
+        <div className="flex lg:hidden">
+          <Dialog modal={true}>
+            <DialogTrigger asChild>
+              <Button variant="outline">
+                <Filter className="h-4 w-4" />
+                <span className="hidden sm:block">Filtros</span>
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px] rounded-md">
+              <DialogHeader>
+                <DialogTitle>Filtros</DialogTitle>
+              </DialogHeader>
+              <div className="w-full flex flex-col gap-2 items-center">
+                <Input
+                  placeholder="Filtrar por nombre..."
+                  value={
+                    (table.getColumn("name")?.getFilterValue() as string) ?? ""
+                  }
+                  onChange={(event) =>
+                    table.getColumn("name")?.setFilterValue(event.target.value)
+                  }
+                  className="max-w-sm"
+                />
+              </div>
+            </DialogContent>
+          </Dialog>
+        </div>
+        <div className="w-1/2 gap-2 hidden lg:flex items-center">
           <Input
             placeholder="Filtrar por nombre..."
             value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}

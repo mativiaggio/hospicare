@@ -81,12 +81,14 @@ export default function ViewGuestForm() {
         contact_phone: guest.contact_phone,
         relation_with_guest: guest.relation_with_guest,
         referring_person: guest.referring_person,
+        information_level: guest.information_level,
         religion: guest.religion,
         funeral_service: guest.funeral_service,
         tumor: guest.tumor,
         metastasis: guest.metastasis,
         metastasis_location: guest.metastasis_location,
         personal_history: guest.personal_history,
+        ecog: guest.ecog,
         specific_oncological_treatment: guest.specific_oncological_treatment,
         surgery: guest.surgery,
         radiotherapy: guest.radiotherapy,
@@ -139,6 +141,7 @@ export default function ViewGuestForm() {
         ostomy_type: guest.ostomy_type,
         other_disorders: guest.other_disorders,
         care_plan: guest.care_plan,
+        status: guest.status,
         hospitalization_date: guest.hospitalization_date
           ? new Date(guest.hospitalization_date)
           : undefined,
@@ -160,7 +163,7 @@ export default function ViewGuestForm() {
         "ecog",
         ecogOptions.includes(guest?.ecog || "")
           ? (guest?.ecog as "0" | "1" | "2" | "3" | "4")
-          : "1"
+          : "0"
       );
       form.setValue(
         "specific_oncological_treatment",
@@ -391,8 +394,8 @@ export default function ViewGuestForm() {
                 <CustomFormField
                   fieldType={FormFieldType.CHECKBOX}
                   name="metastasis"
-                  label="Metastasis"
-                  description="¿El huésped recibe tratamiento con opioides?"
+                  label="Metástasis"
+                  description="¿El huésped presenta metástasis?"
                   defaultValue={form.getValues("metastasis")}
                   control={form.control}
                 />
@@ -401,7 +404,7 @@ export default function ViewGuestForm() {
                 <CustomFormField
                   fieldType={FormFieldType.TEXTAREA}
                   name="metastasis_location"
-                  label="Lugar de metastasis"
+                  label="Lugar de metástasis"
                   placeholder=""
                   defaultValue={form.getValues("metastasis_location")}
                   control={form.control}
@@ -778,7 +781,7 @@ export default function ViewGuestForm() {
                 <CustomFormField
                   fieldType={FormFieldType.SLIDER}
                   name="difficulty_sleeping"
-                  label="Dif. dormir"
+                  label="Dificultad para dormir"
                   control={form.control}
                 />
               </div>
@@ -1024,7 +1027,7 @@ export default function ViewGuestForm() {
                 <CustomFormField
                   fieldType={FormFieldType.INPUT}
                   name="sputum_type"
-                  label="Tipo de espectoracion"
+                  label="Tipo de expectoración"
                   defaultValue={form.getValues("sputum_type")}
                   control={form.control}
                 />
@@ -1132,7 +1135,7 @@ export default function ViewGuestForm() {
       {showError && (
         <ErrorAlert
           title="Ocurrió un error al guardar los datos."
-          message="Vuelva a intentar, si el error persiste póngase en contacto con el soporte técnico."
+          message="Vuelva a intentarlo. Si el error persiste, póngase en contacto con el soporte técnico."
           onClose={() => setShowError(false)}
         />
       )}

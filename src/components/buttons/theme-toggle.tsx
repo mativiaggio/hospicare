@@ -38,17 +38,17 @@ export function ModeToggle({ buttonClasses, iconSize }: modelToggleProps) {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="">
         <DropdownMenuItem
-          className="cursor-pointer"
+          className="cursor-pointer text-xl xl:text-base"
           onClick={() => setTheme("light")}>
           Claro
         </DropdownMenuItem>
         <DropdownMenuItem
-          className="cursor-pointer"
+          className="cursor-pointer text-xl xl:text-base"
           onClick={() => setTheme("dark")}>
           Oscuro
         </DropdownMenuItem>
         <DropdownMenuItem
-          className="cursor-pointer"
+          className="cursor-pointer text-xl xl:text-base"
           onClick={() => setTheme("system")}>
           Sistema
         </DropdownMenuItem>

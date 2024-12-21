@@ -1,6 +1,7 @@
 "use client";
 import React, { ReactNode } from "react";
 import styles from "./a4-sheet.module.css";
+import "./styles.css";
 
 interface A4SheetProps {
   children: ReactNode;

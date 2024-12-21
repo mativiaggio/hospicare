@@ -3,8 +3,9 @@
 @tailwind utilities;
 @import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap");
 
-html {
-  overflow-x: hidden !important;
+* {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--border)) transparent;
 }
 
 body {
@@ -255,4 +256,8 @@ body {
 .react-datepicker__month-select,
 .react-datepicker__year-select {
   background-color: transparent !important;
+}
+
+body[data-scroll-locked] {
+  margin-right: 0px !important;
 }

@@ -132,7 +132,7 @@ export interface Guest {
   contact_email?: string;
   relation_with_guest?: string;
   referring_person?: string;
-  information_level?: string;
+  information_level?: "total" | "partial" | "none";
   religion?:
     | "none"
     | "catholic"
@@ -146,7 +146,7 @@ export interface Guest {
   metastasis?: boolean;
   metastasis_location?: string;
   personal_history?: string;
-  ecog?: string;
+  ecog?: "0" | "1" | "2" | "3" | "4" | "5";
   specific_oncological_treatment?:
     | "none"
     | "definitive_suspension"
