@@ -248,7 +248,7 @@ function ViewEpicrisisForm() {
               <div className="flex justify-between mb-4">
                 <div className="w-1/3">
                   <Image
-                    src={"/hospice-madre-teresa-logo.svg"}
+                    src={"/static/svg/hospice-madre-teresa-logo.svg"}
                     height={50}
                     width={150}
                     alt="Logo Hospice Madre Teresa"
