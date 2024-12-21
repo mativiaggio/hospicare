@@ -2,13 +2,13 @@ import { z } from "zod";
 
 export const loginSchema = z.object({
   email: z.string().trim().min(1, "Campo obligatorio").email(),
-  password: z.string().min(1, "Ingresa la contraseña"),
+  password: z.string().min(1, "Campo obligatorio"),
 });
 
 export const registerSchema = z.object({
   name: z.string().trim().min(1, "Campo obligatorio"),
   email: z.string().trim().min(1, "Campo obligatorio").email(),
-  password: z.string().min(1, "Ingresa la contraseña"),
+  password: z.string().min(1, "Campo obligatorio"),
   secretId: z.string().optional(),
 });
 
