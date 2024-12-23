@@ -3,7 +3,8 @@
 import { Button } from "@/components/ui/button";
 import { useLogout } from "@/features/auth/api/use-logout";
 import { cn } from "@/lib/utils";
-import { LogOut } from "lucide-react";
+import { Loader2, LogOut } from "lucide-react";
+import { useState } from "react";
 
 interface LogoutProps {
   className?: string;
@@ -17,15 +18,25 @@ export const Logout = ({
   iconClassName,
 }: LogoutProps) => {
   const { mutate } = useLogout();
+  const [loading, setLoading] = useState<boolean>(false);
+
   return (
     <div>
       <Button
-        onClick={() => mutate()}
+        disabled={loading}
+        onClick={() => {
+          setLoading(true);
+          mutate();
+        }}
         variant={"inherit"}
         className={cn("[&>svg]:size-4 [&>svg]:shrink-0", className)}>
-        <LogOut className={cn("!w-6 !h-6", iconClassName)} />
+        {loading ? (
+          <Loader2 className={cn("!w-6 !h-6 animate-spin", iconClassName)} />
+        ) : (
+          <LogOut className={cn("!w-6 !h-6", iconClassName)} />
+        )}
         <span className={cn("text-xl xl:text-sm", textClassName)}>
-          Cerrar sesión
+          {loading ? " Cerrando sesión" : "Cerrar sesión"}
         </span>
       </Button>
     </div>
