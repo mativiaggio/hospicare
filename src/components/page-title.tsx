@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 
 type PageTitleProps = {
-  className: string;
+  className?: string;
   title: string;
   titleClassName?: string;
   icon?: React.ReactElement;
