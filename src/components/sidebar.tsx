@@ -37,7 +37,7 @@ export default function SidebarComponent({
         <SidebarBody className="justify-between gap-10">
           <div
             className={cn(
-              "flex flex-2 flex-col",
+              "flex flex-2 flex-col mt-16",
               (isLoading && "overflow-hidden") ||
                 "overflow-y-auto overflow-x-hidden"
             )}>

@@ -1,9 +1,10 @@
 import {
+  Cable,
   Github,
-  LifeBuoy,
   Loader,
   Loader2,
   Lock,
+  Settings,
   ShieldCheck,
   User,
 } from "lucide-react";
@@ -82,26 +83,39 @@ export function UserDropdown() {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           {data?.labels.includes("admin") && (
-            <DropdownMenuItem>
-              <ShieldCheck className="!w-6 !h-6" />
-              <span className="w-full flex">
-                <Link
-                  className="!w-full text-xl xl:text-base"
-                  href={"/configuracion/admin"}
-                  onClick={handleLinkClick}>
-                  Admin
-                </Link>
-              </span>
-            </DropdownMenuItem>
+            <>
+              <DropdownMenuItem>
+                <ShieldCheck className="!w-6 !h-6" />
+                <span className="w-full flex">
+                  <Link
+                    className="!w-full text-xl xl:text-sm"
+                    href={"/configuracion/admin"}
+                    onClick={handleLinkClick}>
+                    Admin
+                  </Link>
+                </span>
+              </DropdownMenuItem>
+            </>
           )}
+          <DropdownMenuItem>
+            <Settings className="!w-6 !h-6" />
+            <span className="w-full flex">
+              <Link
+                className="!w-full text-xl xl:text-sm"
+                href={"/configuracion"}
+                onClick={handleLinkClick}>
+                Configuración
+              </Link>
+            </span>
+          </DropdownMenuItem>
           <DropdownMenuItem>
             <User className="!w-6 !h-6" />
             <span className="w-full flex">
               <Link
-                className="!w-full text-xl xl:text-base"
-                href={"/configuracion/perfil"}
+                className="!w-full text-xl xl:text-sm"
+                href={"/configuracion/datos-personales"}
                 onClick={handleLinkClick}>
-                Perfil
+                Datos personales
               </Link>
             </span>
           </DropdownMenuItem>
@@ -109,7 +123,7 @@ export function UserDropdown() {
             <Lock className="!w-6 !h-6" />
             <span className="w-full flex">
               <Link
-                className="!w-full text-xl xl:text-base"
+                className="!w-full text-xl xl:text-sm"
                 href={"/configuracion/seguridad"}
                 onClick={handleLinkClick}>
                 Seguridad
@@ -122,7 +136,7 @@ export function UserDropdown() {
           <Github className="!w-6 !h-6" />
           <span>
             <Link
-              className="!w-full text-xl xl:text-base"
+              className="!w-full text-xl xl:text-sm"
               href={"https://github.com/mativiaggio/hospicare"}
               target="_blank"
               onClick={handleLinkClick}>
@@ -131,10 +145,10 @@ export function UserDropdown() {
           </span>
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <LifeBuoy className="!w-6 !h-6" />
+          <Cable className="!w-6 !h-6" />
           <span>
             <Link
-              className="!w-full text-xl xl:text-base"
+              className="!w-full text-xl xl:text-sm"
               href={"/soporte"}
               onClick={handleLinkClick}>
               Soporte

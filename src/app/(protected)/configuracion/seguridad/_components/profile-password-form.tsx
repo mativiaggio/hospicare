@@ -20,6 +20,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { userUpdatePassword } from "@/features/users/schemas";
+import { PageTitle } from "@/components/page-title";
 
 export default function ProfilePasswordForm() {
   const [disabled, setDisabled] = useState(true);
@@ -79,7 +80,7 @@ export default function ProfilePasswordForm() {
       setShowSuccess(true);
       setDisabled(true);
     } catch (error) {
-      console.error("Error al actualizar el perfil:", error);
+      console.error("Error al actualizar los datos personales:", error);
     } finally {
       setIsLoading(false);
       setDisabled(true);
@@ -94,9 +95,10 @@ export default function ProfilePasswordForm() {
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         className="w-full max-w-2xl mx-auto ">
-        <div className="space-y-6 pb-4">
-          <h1 className="text-3xl font-bold">Cambio de contraseña</h1>
-        </div>
+        <PageTitle
+          title="Seguridad"
+          subtitle="Gestione la seguridad de su cuenta"
+        />
 
         <Separator />
 

@@ -6,7 +6,7 @@ export const MobileBottomNavbar = () => {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-background m-[1rem] rounded-full shadow-md">
+    <nav className="fixed bottom-0 left-0 right-0 bg-main m-[1rem] rounded-full shadow-md z-50 opacity-95 border">
       <ul className="flex justify-between p-[1rem]">
         <li className="min-w-1/5 w-fit">
           <Link className="w-full flex justify-center items-center" href="/">
@@ -14,7 +14,7 @@ export const MobileBottomNavbar = () => {
               className={`flex gap-1 font-bold items-center rounded-full p-[0.5rem]  hover:bg-hover transition-all ${
                 pathname === "/" ? "bg-hover" : ""
               }`}>
-              <Home size={20} className={pathname === "/" ? "bg-hover" : ""} />
+              <Home size={28} className={pathname === "/" ? "bg-hover" : ""} />
               {pathname === "/" && <span className="text-sm">Inicio</span>}
             </div>
           </Link>
@@ -28,7 +28,7 @@ export const MobileBottomNavbar = () => {
                 pathname === "/huespedes" ? "bg-hover" : ""
               }`}>
               <Users
-                size={20}
+                size={28}
                 className={pathname === "/huespedes" ? "bg-hover" : ""}
               />
               {pathname === "/huespedes" && (
@@ -46,7 +46,7 @@ export const MobileBottomNavbar = () => {
                 pathname === "/medicamentos" ? "bg-hover" : ""
               }`}>
               <Pill
-                size={20}
+                size={28}
                 className={pathname === "/medicamentos" ? "bg-hover" : ""}
               />
               {pathname === "/medicamentos" && (
@@ -64,7 +64,7 @@ export const MobileBottomNavbar = () => {
                 pathname === "/obras-sociales" ? "bg-hover" : ""
               }`}>
               <Building2
-                size={20}
+                size={28}
                 className={pathname === "/obras-sociales" ? "bg-hover" : ""}
               />
               {pathname === "/obras-sociales" && (
@@ -82,7 +82,7 @@ export const MobileBottomNavbar = () => {
                 pathname === "/personal" ? "bg-hover" : ""
               }`}>
               <HardHat
-                size={20}
+                size={28}
                 className={pathname === "/personal" ? "bg-hover" : ""}
               />
               {pathname === "/personal" && (

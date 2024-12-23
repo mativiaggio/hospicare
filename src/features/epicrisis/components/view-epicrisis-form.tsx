@@ -180,7 +180,7 @@ function ViewEpicrisisForm() {
           onSubmit={form.handleSubmit(onSubmit)}
           autoComplete="off"
           className="">
-          <div className="prose py-8">
+          <div className="prose py-8 print:hidden">
             <h1 className="text-4xl font-semibold flex gap-2 items-center">
               Epicrisis de {guest?.name}{" "}
             </h1>
