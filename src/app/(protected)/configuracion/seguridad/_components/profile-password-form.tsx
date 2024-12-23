@@ -19,7 +19,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { userUpdatePassword } from "@/features/users/schemas";
-import { PageTitle } from "@/components/page-title";
 import { SuccessAlert } from "@/components/alerts/success-alert";
 import { ErrorAlert } from "@/components/alerts/error-alert";
 
@@ -102,13 +101,6 @@ export default function ProfilePasswordForm() {
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         className="w-full max-w-2xl mx-auto ">
-        <PageTitle
-          title="Seguridad"
-          subtitle="Gestione la seguridad de su cuenta"
-        />
-
-        <Separator />
-
         <section className="space-y-6 pt-4">
           <div className="space-y-4">
             <div className="grid gap-2">
