@@ -57,7 +57,7 @@ export const MobileBottomNavbar = ({ width }: Props) => {
                   pathname === "/medicamentos" ? "" : "text-inactive-item"
                 }
               />
-              <span className="text-xs">Medicamentos</span>
+              <span className="text-xs">Medic.</span>
             </div>
           </Link>
         </li>
@@ -75,7 +75,7 @@ export const MobileBottomNavbar = ({ width }: Props) => {
                   pathname === "/obras-sociales" ? "" : "text-inactive-item"
                 }
               />
-              <span className="text-xs">Obras Sociales</span>
+              <span className="text-xs">Obras S.</span>
             </div>
           </Link>
         </li>
