@@ -40,17 +40,17 @@ export function ModeToggle({ buttonClasses, iconSize }: modelToggleProps) {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="">
         <DropdownMenuItem
-          className="cursor-pointer text-xl xl:text-base"
+          className="cursor-pointer text-xl xl:text-sm"
           onClick={() => setTheme("light")}>
           Claro
         </DropdownMenuItem>
         <DropdownMenuItem
-          className="cursor-pointer text-xl xl:text-base"
+          className="cursor-pointer text-xl xl:text-sm"
           onClick={() => setTheme("dark")}>
           Oscuro
         </DropdownMenuItem>
         <DropdownMenuItem
-          className="cursor-pointer text-xl xl:text-base"
+          className="cursor-pointer text-xl xl:text-sm"
           onClick={() => setTheme("system")}>
           Sistema
         </DropdownMenuItem>
@@ -69,9 +69,9 @@ export function MobileModeToggle({
   const isDarkMode = theme === "dark";
 
   return (
-    <div className="relative flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&>svg]:size-4 [&>svg]:shrink-0 hover:bg-hover">
+    <div className="relative flex cursor-default select-none items-center gap-2 rounded-full px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&>svg]:size-4 [&>svg]:shrink-0 hover:bg-hover">
       <div className={`flex items-center gap-2 ${buttonClasses}`}>
-        <p className="text-xl xl:text-base">Tema</p>
+        {/* <p className="text-xl xl:text-sm">Tema</p> */}
         <Sun
           className={`${iconSize ? iconSize : "!w-6 !h-6"} text-yellow-500`}
         />
@@ -84,9 +84,7 @@ export function MobileModeToggle({
           onPointerDown={(e) => e.stopPropagation()} // Detén la propagación al interactuar con el Switch
           onCheckedChange={(checked) => setTheme(checked ? "dark" : "light")}
         />
-        <Moon
-          className={`${iconSize ? iconSize : "!w-6 !h-6"} text-gray-500`}
-        />
+        <Moon className={`${iconSize ? iconSize : "!w-6 !h-6"}`} />
       </div>
     </div>
   );

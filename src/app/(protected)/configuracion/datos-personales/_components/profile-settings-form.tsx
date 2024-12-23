@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
+import { PageTitle } from "@/components/page-title";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -82,7 +83,7 @@ export default function ProfileSettingsForm({ data }: Props) {
 
       setShowSuccess(true);
     } catch (error) {
-      console.error("Error al actualizar el perfil:", error);
+      console.error("Error al actualizar los datos personales:", error);
     } finally {
       setFormIsLoading(false);
       form.resetField("password");
@@ -93,13 +94,13 @@ export default function ProfileSettingsForm({ data }: Props) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="w-full max-w-2xl mx-auto pt-8">
+        className="w-full max-w-2xl mx-auto">
         <div className="space-y-6">
-          <h1 className="text-3xl font-bold">Configuración del Perfil</h1>
-          <p className="text-muted-foreground">
-            Administre la configuración de su cuenta y establezca las
-            preferencias de correo electrónico.
-          </p>
+          <PageTitle
+            title="Datos personales"
+            subtitle="Administre la configuración de su cuenta y establezca las
+            preferencias de correo electrónico."
+          />
         </div>
 
         <Separator />
@@ -196,7 +197,7 @@ export default function ProfileSettingsForm({ data }: Props) {
           <Alert className="fixed bottom-4 right-4 w-96">
             <AlertTitle>Éxito</AlertTitle>
             <AlertDescription>
-              Su perfil ha sido actualizado con éxito.
+              Sus datos personales se ha sido actualizado con éxito.
             </AlertDescription>
           </Alert>
         )}

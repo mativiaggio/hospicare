@@ -12,8 +12,8 @@ export const AdminSettingLinks = [
 
 export const SettingLinks = [
   {
-    label: "Perfil",
-    href: `/configuracion/perfil`,
+    label: "Datos personales",
+    href: `/configuracion/datos-personales`,
     icon: (
       <User className="h-6 w-6 flex-shrink-0 text-neutral-700 dark:text-neutral-200" />
     ),
