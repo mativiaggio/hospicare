@@ -1,6 +1,5 @@
 "use client";
 
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -21,11 +20,14 @@ import {
 } from "@/components/ui/form";
 import { userUpdatePassword } from "@/features/users/schemas";
 import { PageTitle } from "@/components/page-title";
+import { SuccessAlert } from "@/components/alerts/success-alert";
+import { ErrorAlert } from "@/components/alerts/error-alert";
 
 export default function ProfilePasswordForm() {
   const [disabled, setDisabled] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-  const [showSuccess, setShowSuccess] = useState(false);
+  const [showError, setShowError] = useState<boolean>(false);
+  const [showSuccess, setShowSuccess] = useState<boolean>(false);
 
   const { mutate } = useUpdateProfilePassword();
 
@@ -71,13 +73,18 @@ export default function ProfilePasswordForm() {
         mutate(
           { json: values },
           {
-            onSuccess: () => resolve(),
-            onError: (error) => reject(error),
+            onSuccess: () => {
+              resolve();
+              setShowSuccess(true);
+            },
+            onError: (error) => {
+              reject(error);
+              setShowError(true);
+            },
           }
         );
       });
 
-      setShowSuccess(true);
       setDisabled(true);
     } catch (error) {
       console.error("Error al actualizar los datos personales:", error);
@@ -183,13 +190,19 @@ export default function ProfilePasswordForm() {
           {isLoading ? "Guardando..." : "Guardar Cambios"}
         </Button>
 
+        {showError && (
+          <ErrorAlert
+            title="Ocurrió un error al guardar los datos."
+            message="Verifique su contraseña y vuelva a intentarlo. Si el error persiste, póngase en contacto con el soporte técnico."
+            onClose={() => setShowError(false)}
+          />
+        )}
         {showSuccess && (
-          <Alert className="fixed bottom-4 right-4 w-96">
-            <AlertTitle>Éxito</AlertTitle>
-            <AlertDescription>
-              Su contraseña ha sido actualizada con éxito.
-            </AlertDescription>
-          </Alert>
+          <SuccessAlert
+            title="Contraseña actualizada con éxito."
+            message="Te estamos redirigiendo al inicio de sesión."
+            onClose={() => setShowSuccess(false)}
+          />
         )}
       </form>
     </Form>

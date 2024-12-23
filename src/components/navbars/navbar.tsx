@@ -13,10 +13,11 @@ const Navbar: React.FC = () => {
 
   return (
     <>
-      <header className="fixed w-full top-0 z-10 bg-main print:hidden min-h-[65px] h-fit border-b">
-        {isDesktop ? <DesktopNavbar /> : <MobileTopNavbar />}
+      <header
+        className={`fixed w-full !max-w-[${width}px] top-0 z-10 bg-main print:hidden min-h-[65px] h-fit border-b`}>
+        {isDesktop ? <DesktopNavbar /> : <MobileTopNavbar width={width} />}
       </header>
-      {!isDesktop && <MobileBottomNavbar />}
+      {!isDesktop && <MobileBottomNavbar width={width} />}
     </>
   );
 };

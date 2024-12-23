@@ -1,93 +1,97 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Home, Users, Pill, Building2, HardHat } from "lucide-react";
-
-export const MobileBottomNavbar = () => {
+interface Props {
+  width?: number;
+}
+export const MobileBottomNavbar = ({ width }: Props) => {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-main m-[1rem] rounded-full shadow-md z-50 opacity-95 border">
-      <ul className="flex justify-between p-[1rem]">
-        <li className="min-w-1/5 w-fit">
-          <Link className="w-full flex justify-center items-center" href="/">
+    <nav
+      className={`fixed bottom-0 left-0 right-0 bg-main z-50 border print:hidden !w-[${width}px]`}>
+      <ul className={`flex justify-between !w-[${width}px]`}>
+        <li className="w-1/5">
+          <Link
+            className="`w-full flex flex-col gap-1 font-bold items-center rounded-full transition-all py-[1rem]"
+            href="/">
             <div
-              className={`flex gap-1 font-bold items-center rounded-full p-[0.5rem]  hover:bg-hover transition-all ${
-                pathname === "/" ? "bg-hover" : ""
+              className={`w-full flex flex-col gap-1 font-bold items-center rounded-full transition-all ${
+                pathname === "/" ? "" : "text-inactive-item"
               }`}>
-              <Home size={28} className={pathname === "/" ? "bg-hover" : ""} />
-              {pathname === "/" && <span className="text-sm">Inicio</span>}
+              <Home
+                size={28}
+                className={pathname === "/" ? "" : "text-inactive-item"}
+              />
+              <span className="text-xs">Inicio</span>
             </div>
           </Link>
         </li>
-        <li className="min-w-1/5 w-fit">
+        <li className="w-1/5">
           <Link
-            className="w-full flex justify-center items-center"
+            className="`w-full flex flex-col gap-1 font-bold items-center rounded-full transition-all py-[1rem]"
             href="/huespedes">
             <div
-              className={`flex gap-1 font-bold items-center rounded-full p-[0.5rem]  hover:bg-hover transition-all ${
-                pathname === "/huespedes" ? "bg-hover" : ""
+              className={`w-full flex flex-col gap-1 font-bold items-center rounded-full transition-all ${
+                pathname === "/huespedes" ? "" : "text-inactive-item"
               }`}>
               <Users
                 size={28}
-                className={pathname === "/huespedes" ? "bg-hover" : ""}
+                className={pathname === "/huespedes" ? "" : ""}
               />
-              {pathname === "/huespedes" && (
-                <span className="text-sm">Huéspedes</span>
-              )}
+              <span className="text-xs">Huéspedes</span>
             </div>
           </Link>
         </li>
-        <li className="min-w-1/5 w-fit">
+        <li className="w-1/5">
           <Link
-            className="w-full flex justify-center items-center"
+            className="`w-full flex flex-col gap-1 font-bold items-center rounded-full transition-all py-[1rem]"
             href="/medicamentos">
             <div
-              className={`flex gap-1 font-bold items-center rounded-full p-[0.5rem]  hover:bg-hover transition-all ${
-                pathname === "/medicamentos" ? "bg-hover" : ""
+              className={`w-full flex flex-col gap-1 font-bold items-center rounded-full transition-all ${
+                pathname === "/medicamentos" ? "" : "text-inactive-item"
               }`}>
               <Pill
                 size={28}
-                className={pathname === "/medicamentos" ? "bg-hover" : ""}
+                className={
+                  pathname === "/medicamentos" ? "" : "text-inactive-item"
+                }
               />
-              {pathname === "/medicamentos" && (
-                <span className="text-sm">Medicamentos</span>
-              )}
+              <span className="text-xs">Medicamentos</span>
             </div>
           </Link>
         </li>
-        <li className="min-w-1/5 w-fit">
+        <li className="w-1/5">
           <Link
-            className="w-full flex justify-center items-center"
+            className="`w-full flex flex-col gap-1 font-bold items-center rounded-full transition-all py-[1rem]"
             href="/obras-sociales">
             <div
-              className={`flex gap-1 font-bold items-center rounded-full p-[0.5rem]  hover:bg-hover transition-all ${
-                pathname === "/obras-sociales" ? "bg-hover" : ""
+              className={`w-full flex flex-col gap-1 font-bold items-center rounded-full transition-all ${
+                pathname === "/obras-sociales" ? "" : "text-inactive-item"
               }`}>
               <Building2
                 size={28}
-                className={pathname === "/obras-sociales" ? "bg-hover" : ""}
+                className={
+                  pathname === "/obras-sociales" ? "" : "text-inactive-item"
+                }
               />
-              {pathname === "/obras-sociales" && (
-                <span className="text-sm">Obras Sociales</span>
-              )}
+              <span className="text-xs">Obras Sociales</span>
             </div>
           </Link>
         </li>
-        <li className="min-w-1/5 w-fit">
+        <li className="w-1/5">
           <Link
-            className="w-full flex justify-center items-center"
+            className="`w-full flex flex-col gap-1 font-bold items-center rounded-full transition-all py-[1rem]"
             href="/personal">
             <div
-              className={`flex gap-1 font-bold items-center rounded-full p-[0.5rem]  hover:bg-hover transition-all ${
-                pathname === "/personal" ? "bg-hover" : ""
+              className={`w-full flex flex-col gap-1 font-bold items-center rounded-full transition-all ${
+                pathname === "/personal" ? "" : "text-inactive-item"
               }`}>
               <HardHat
                 size={28}
-                className={pathname === "/personal" ? "bg-hover" : ""}
+                className={pathname === "/personal" ? "" : "text-inactive-item"}
               />
-              {pathname === "/personal" && (
-                <span className="text-sm">Personal</span>
-              )}
+              <span className="text-xs">Personal</span>
             </div>
           </Link>
         </li>
