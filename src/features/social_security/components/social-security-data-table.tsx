@@ -56,6 +56,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
+import { useWindowSize } from "@/hooks/use-window-size";
 
 export const columns: ColumnDef<SocialSecurity>[] = [
   {
@@ -181,6 +182,9 @@ export function SocialSecurityDataTable({
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
 
+  const { width } = useWindowSize();
+  const isDesktop = width !== undefined && width >= 1280;
+
   const social_security = socialSecurityData;
 
   // Uso de useMemo para memoizar los datos
@@ -252,8 +256,8 @@ export function SocialSecurityDataTable({
         <div className="flex items-center gap-2">
           <Link href={"/obras-sociales/nuevo"}>
             <Button>
-              <Plus className="mr-1 h-4 w-4" />
-              Agregar obra social
+              <Plus className={isDesktop ? "mr-2 h-4 w-4" : "h-4 w-4"} />
+              {isDesktop && "Agregar Obra Social"}
             </Button>
           </Link>
         </div>

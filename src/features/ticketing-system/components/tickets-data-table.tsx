@@ -49,6 +49,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { useWindowSize } from "@/hooks/use-window-size";
 
 export const columns: ColumnDef<Tickets>[] = [
   {
@@ -234,6 +235,9 @@ export function TicketsDataTable({ ticketsData }: TicketsDataTableProps) {
   const tickets = ticketsData;
   const router = useRouter();
 
+  const { width } = useWindowSize();
+  const isDesktop = width !== undefined && width >= 1280;
+
   // Uso de useMemo para memoizar los datos
   const data = React.useMemo(() => {
     return (
@@ -416,7 +420,8 @@ export function TicketsDataTable({ ticketsData }: TicketsDataTableProps) {
           </DropdownMenu>
           <Link href="soporte/nuevo">
             <Button>
-              <Plus /> Nuevo ticket
+              <Plus className={isDesktop ? "mr-2 h-4 w-4" : "h-4 w-4"} />
+              {isDesktop && "Nuevo Ticket"}
             </Button>
           </Link>
         </div>

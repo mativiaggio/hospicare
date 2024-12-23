@@ -12,7 +12,7 @@ export default function SocialSecurityLayout({
     <PageWrapper>
       <PageTitle
         title="Obras sociales"
-        icon={<Hospital className="w-10 h-10" />}
+        icon={<Hospital className="w-6 h-6 md:w-8 md:h-8 xl:w-10 xl:h-10" />}
         subtitle="Comienza a gestionar las obras sociales y prepagas"
       />
       {children}

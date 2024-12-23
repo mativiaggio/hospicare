@@ -7,7 +7,7 @@ export default function StaffOutputPage() {
     <>
       <PageTitle
         title="Perosnal"
-        icon={<Users className="w-10 h-10" />}
+        icon={<Users className="w-6 h-6 md:w-8 md:h-8 xl:w-10 xl:h-10" />}
         subtitle="Comienza a gestionar los huéspedes"
       />
       <StaffDataContainer />

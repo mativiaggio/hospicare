@@ -23,10 +23,14 @@ import { useCurrent } from "@/features/auth/api/use-current";
 import Link from "next/link";
 import { Logout } from "../buttons/logout-button";
 import { useState } from "react";
+import { MobileModeToggle } from "../buttons/theme-toggle";
+import { useWindowSize } from "@/hooks/use-window-size";
 
 export function UserDropdown() {
   const { data, isLoading } = useCurrent();
   const [isOpen, setIsOpen] = useState(false);
+  const { width } = useWindowSize();
+  const isDesktop = width !== undefined && width >= 1280;
 
   const handleOpenChange = (open: boolean) => {
     setIsOpen(open);
@@ -138,6 +142,7 @@ export function UserDropdown() {
           </span>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
+        {!isDesktop && <MobileModeToggle />}
         <DropdownMenuItem onClick={handleLinkClick}>
           <Logout />
         </DropdownMenuItem>

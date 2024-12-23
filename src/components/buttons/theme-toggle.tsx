@@ -10,6 +10,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Label } from "../ui/label";
+import { Switch } from "../ui/switch";
 
 interface modelToggleProps {
   buttonClasses?: string;
@@ -54,5 +56,38 @@ export function ModeToggle({ buttonClasses, iconSize }: modelToggleProps) {
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
+  );
+}
+
+export function MobileModeToggle({
+  buttonClasses,
+  iconSize,
+}: modelToggleProps) {
+  const { theme, setTheme } = useTheme();
+
+  // Determine if the current theme is dark
+  const isDarkMode = theme === "dark";
+
+  return (
+    <div className="relative flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&>svg]:size-4 [&>svg]:shrink-0 hover:bg-hover">
+      <div className={`flex items-center gap-2 ${buttonClasses}`}>
+        <p className="text-xl xl:text-base">Tema</p>
+        <Sun
+          className={`${iconSize ? iconSize : "!w-6 !h-6"} text-yellow-500`}
+        />
+        <Label htmlFor="theme-switch" className="sr-only">
+          Toggle theme
+        </Label>
+        <Switch
+          id="theme-switch"
+          checked={isDarkMode}
+          onPointerDown={(e) => e.stopPropagation()} // Detén la propagación al interactuar con el Switch
+          onCheckedChange={(checked) => setTheme(checked ? "dark" : "light")}
+        />
+        <Moon
+          className={`${iconSize ? iconSize : "!w-6 !h-6"} text-gray-500`}
+        />
+      </div>
+    </div>
   );
 }

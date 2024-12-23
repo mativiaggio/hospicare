@@ -7,11 +7,11 @@ type WelcomeProps = {
 export function Welcome({ user }: WelcomeProps) {
   return (
     <div className="prose py-8">
-      <h1 className="text-4xl font-semibold">
+      <h1 className="text-2xl md:text-3xl xl:text-4xl font-semibold">
         Hola, {user?.name || "Invitado"}
         👋
       </h1>
-      <p className="text-muted-foreground">
+      <p className="text-sm md:text-base xl:text-xl text-muted-foreground">
         Comienza a gestionar la organización.
       </p>
     </div>

@@ -1,5 +1,5 @@
 import Footer from "@/components/footer";
-import Navbar from "@/components/navbar";
+import Navbar from "@/components/navbars/navbar";
 import { getCurrent } from "@/features/auth/actions";
 import { redirect } from "next/navigation";
 import React from "react";

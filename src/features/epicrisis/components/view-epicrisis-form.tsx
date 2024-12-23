@@ -60,63 +60,6 @@ function ViewEpicrisisForm() {
 
   const form = useForm<EpicrisisFormValues>({
     resolver: zodResolver(epicrisisSchema),
-    // defaultValues: {
-    //   guest_id: epicrisis?.documents[0].guest_id || "",
-    //   medical_emergency: epicrisis?.documents[0].medical_emergency || "no",
-    //   home_hospitalization:
-    //     epicrisis?.documents[0].home_hospitalization || "no",
-    //   home_nursing: epicrisis?.documents[0].home_nursing || "no",
-    //   home_nursing_frequency:
-    //     epicrisis?.documents[0].home_nursing_frequency || "",
-    //   home_doctor: epicrisis?.documents[0].home_doctor || "no",
-    //   home_doctor_frequency:
-    //     epicrisis?.documents[0].home_doctor_frequency || "",
-    //   palliative_care_assistance:
-    //     epicrisis?.documents[0].palliative_care_assistance || "no",
-    //   hospitalization_reason:
-    //     epicrisis?.documents[0].hospitalization_reason || "no_caregivers",
-    //   uncontrolled_symptoms:
-    //     epicrisis?.documents[0].uncontrolled_symptoms || null,
-    //   other_uncontrolled_symptoms:
-    //     epicrisis?.documents[0].other_uncontrolled_symptoms || "",
-    //   interconsultations: epicrisis?.documents[0].interconsultations || "no",
-    //   interconsultation_specialist:
-    //     epicrisis?.documents[0].interconsultation_specialist || "",
-    //   opioid_demo: epicrisis?.documents[0].opioid_demo || "",
-    //   opioid_method: epicrisis?.documents[0].opioid_method || "oral",
-    //   sedation: epicrisis?.documents[0].sedation || "no",
-    //   sedation_medication: epicrisis?.documents[0].sedation_medication || "",
-    //   delirium: epicrisis?.documents[0].delirium || "no",
-    //   dyspnoea: epicrisis?.documents[0].dyspnoea || "no",
-    //   pain: epicrisis?.documents[0].pain || "no",
-    //   suffering: epicrisis?.documents[0].suffering || "no",
-    //   family_care: epicrisis?.documents[0].family_care || "no",
-    //   family_meeting: epicrisis?.documents[0].family_meeting || "no",
-    //   meeting_medic: epicrisis?.documents[0].meeting_medic || "no",
-    //   meeting_psychologist:
-    //     epicrisis?.documents[0].meeting_psychologist || "no",
-    //   meeting_social_worker:
-    //     epicrisis?.documents[0].meeting_social_worker || "no",
-    //   meeting_nurse: epicrisis?.documents[0].meeting_nurse || "no",
-    //   meeting_other: epicrisis?.documents[0].meeting_other || "",
-    //   multifamily_meetings:
-    //     epicrisis?.documents[0].multifamily_meetings || "no",
-    //   spiritual_assistance:
-    //     epicrisis?.documents[0].spiritual_assistance || "no",
-    //   spiritual_assistance_type:
-    //     epicrisis?.documents[0].spiritual_assistance_type || null,
-    //   psychological_assistance:
-    //     epicrisis?.documents[0].psychological_assistance || "no",
-    //   previous_psychopathological_history:
-    //     epicrisis?.documents[0].previous_psychopathological_history || "no",
-    //   adaptation_difficulties:
-    //     epicrisis?.documents[0].adaptation_difficulties || "no",
-    //   comments: epicrisis?.documents[0].comments || "",
-    //   medic_in_charge: epicrisis?.documents[0].medic_in_charge?.$id || "",
-    //   psychologist_in_charge:
-    //     epicrisis?.documents[0].psychologist_in_charge?.$id || "",
-    //   communication: epicrisis?.documents[0].communication || "",
-    // },
   });
 
   useEffect(() => {
@@ -237,12 +180,14 @@ function ViewEpicrisisForm() {
           onSubmit={form.handleSubmit(onSubmit)}
           autoComplete="off"
           className="">
-          <h1 className="text-2xl font-bold print:hidden pt-4 pb-8">
-            Epicrisis de {guest?.name}{" "}
+          <div className="prose py-8">
+            <h1 className="text-4xl font-semibold flex gap-2 items-center">
+              Epicrisis de {guest?.name}{" "}
+            </h1>
             <span className="text-sm text-gray-500 dark:text-gray-400">
               (impresión hoja A4)
             </span>
-          </h1>
+          </div>
           <div className="flex flex-col items-center gap-4 bg-[#e0e0e0]">
             <A4Sheet>
               <div className="flex justify-between mb-4">
