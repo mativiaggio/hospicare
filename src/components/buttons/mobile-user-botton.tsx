@@ -62,43 +62,49 @@ export default function MobileUserButton() {
       </SheetTrigger>
       <SheetContent
         className="!w-full !max-w-[100vw] overflow-x-auto"
-        showClose={false}>
-        <div className="pt-2 xl:pt-8">
-          <div className="flex h-fit items-center">
-            <div className="w-1/3">
-              <Button
-                variant={"outline"}
-                className="p-0 aspect-square rounded-xl"
-                onClick={handleLinkClick}>
-                <ChevronLeft />
-              </Button>
-            </div>
-            <PageTitle
-              title="Configuración"
-              titleClassName="font-bold text-center"
-              className="w-1/3 flex justify-center"
-            />
-            <div className="!w-1/3"></div>
+        showClose={false}
+        style={{
+          scrollbarWidth: "none",
+          msOverflowStyle: "none",
+        }}>
+        <div className="flex h-fit items-center">
+          <div className="w-1/3">
+            <Button
+              variant={"outline"}
+              className="p-0 aspect-square rounded-xl"
+              onClick={handleLinkClick}>
+              <ChevronLeft />
+            </Button>
           </div>
-          <div className="pt-8 flex flex-col gap-8">
-            <div className="bg-main-card border-main-card rounded-xl p-4 flex gap-4">
-              <Avatar className="select-none cursor-pointer rounded-full h-14 w-14">
-                <AvatarImage
-                  src={`https://api.dicebear.com/6.x/initials/svg?seed=${data?.name}}`}
-                />
-                <AvatarFallback>
-                  <User />
-                </AvatarFallback>
-              </Avatar>
-              <div className="flex flex-col">
-                <div className="text-xl">{data?.name}</div>
-                <div className="text-base text-gray-600 dark:text-gray-400">
-                  {data?.email}
-                </div>
+          <PageTitle
+            title="Configuración"
+            titleClassName="font-bold text-center"
+            className="w-1/3 flex justify-center"
+          />
+          <div className="!w-1/3"></div>
+        </div>
+        <div className="pt-8 flex flex-col gap-8">
+          <div className="bg-main-card border-main-card rounded-xl p-4 flex gap-4">
+            <Avatar className="select-none cursor-pointer rounded-full h-14 w-14">
+              <AvatarImage
+                src={`https://api.dicebear.com/6.x/initials/svg?seed=${data?.name}}`}
+              />
+              <AvatarFallback>
+                <User />
+              </AvatarFallback>
+            </Avatar>
+            <div className="flex flex-col">
+              <div className="text-xl">{data?.name}</div>
+              <div className="text-base text-gray-600 dark:text-gray-400">
+                {data?.email}
               </div>
             </div>
+          </div>
+        </div>
+        <div className="pt-8 flex flex-col gap-8">
+          <div className="flex flex-col gap-4 h-fit">
             {data?.labels.includes("admin") && (
-              <div className="flex flex-col gap-4">
+              <>
                 <h2>Avanzado</h2>
                 <div className="bg-main-card border-main-card rounded-xl">
                   <div className="flex flex-col gap-4 p-8">
@@ -127,111 +133,109 @@ export default function MobileUserButton() {
                     </Link>
                   </div>
                 </div>
-                <h2>Mi cuenta</h2>
-                <div className="bg-main-card border-main-card rounded-xl">
-                  <div className="flex flex-col gap-4 p-8">
-                    <Link
-                      className="w-full"
-                      href={"/configuracion/datos-personales"}
-                      onClick={handleLinkClick}>
-                      <div className="w-full border-b border-white dark:border-muted pb-4">
-                        <div className="flex items-center gap-2 hover:opacity-50 transition-all">
-                          <div className="">
-                            <div className="aspect-square rounded-full bg-muted p-3 w-fit">
-                              <User2 className="h-5 w-5" />
-                            </div>
-                          </div>
-                          <div className="w-full flex flex-col ">
-                            <h3>Datos personales</h3>
-                            <p className="text-sm">Nombre, mail, DNI</p>
-                          </div>
-                          <div className="">
-                            <ChevronRight />
-                          </div>
-                        </div>
-                      </div>
-                    </Link>
-                    <Link
-                      className="w-full"
-                      href={"/configuracion/seguridad"}
-                      onClick={handleLinkClick}>
-                      <div className="w-full border-b border-white dark:border-muted pb-4">
-                        <div className="flex items-center gap-2 hover:opacity-50 transition-all">
-                          <div className="">
-                            <div className="aspect-square rounded-full bg-muted p-3 w-fit">
-                              <ShieldCheck className="h-5 w-5" />
-                            </div>
-                          </div>
-                          <div className="w-full flex flex-col ">
-                            <h3>Seguridad</h3>
-                            <p className="text-sm">Contraseña, 2FA</p>
-                          </div>
-                          <div className="">
-                            <ChevronRight />
-                          </div>
-                        </div>
-                      </div>
-                    </Link>
-                  </div>
-                </div>
-                <h2>Soporte</h2>
-                <div className="bg-main-card border-main-card rounded-xl">
-                  <div className="flex flex-col gap-4 p-8">
-                    <Link
-                      className="w-full"
-                      href={"/configuracion/soporte"}
-                      onClick={handleLinkClick}>
-                      <div className="w-full border-b border-white dark:border-muted pb-4">
-                        <div className="flex items-center gap-2 hover:opacity-50 transition-all">
-                          <div className="">
-                            <div className="aspect-square rounded-full bg-muted p-3 w-fit">
-                              <Cable className="h-5 w-5" />
-                            </div>
-                          </div>
-                          <div className="w-full flex flex-col ">
-                            <h3>Panel administrador</h3>
-                            <p className="text-sm">
-                              Links de registros, usuarios
-                            </p>
-                          </div>
-                          <div className="">
-                            <ChevronRight />
-                          </div>
-                        </div>
-                      </div>
-                    </Link>
-                    <Link
-                      className="w-full"
-                      href={"https://github.com/mativiaggio/hospicare"}
-                      onClick={handleLinkClick}>
-                      <div className="w-full border-b border-white dark:border-muted pb-4">
-                        <div className="flex items-center gap-2 hover:opacity-50 transition-all">
-                          <div className="">
-                            <div className="aspect-square rounded-full bg-muted p-3 w-fit">
-                              <Github className="h-5 w-5" />
-                            </div>
-                          </div>
-                          <div className="w-full flex flex-col ">
-                            <h3>Panel administrador</h3>
-                            <p className="text-sm">Repositorio del proyecto</p>
-                          </div>
-                          <div className="">
-                            <ChevronRight />
-                          </div>
-                        </div>
-                      </div>
-                    </Link>
-                  </div>
-                </div>
-                <div className="w-full flex justify-center items-center">
-                  <Logout
-                    className="!p-2 rounded-full transition-all"
-                    textClassName="!text-base text-red-500"
-                    iconClassName="text-red-500"
-                  />
-                </div>
-              </div>
+              </>
             )}
+            <h2>Mi cuenta</h2>
+            <div className="bg-main-card border-main-card rounded-xl">
+              <div className="flex flex-col gap-4 p-8">
+                <Link
+                  className="w-full"
+                  href={"/configuracion/datos-personales"}
+                  onClick={handleLinkClick}>
+                  <div className="w-full border-b border-white dark:border-muted pb-4">
+                    <div className="flex items-center gap-2 hover:opacity-50 transition-all">
+                      <div className="">
+                        <div className="aspect-square rounded-full bg-muted p-3 w-fit">
+                          <User2 className="h-5 w-5" />
+                        </div>
+                      </div>
+                      <div className="w-full flex flex-col ">
+                        <h3>Datos personales</h3>
+                        <p className="text-sm">Nombre, mail, DNI</p>
+                      </div>
+                      <div className="">
+                        <ChevronRight />
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+                <Link
+                  className="w-full"
+                  href={"/configuracion/seguridad"}
+                  onClick={handleLinkClick}>
+                  <div className="w-full border-b border-white dark:border-muted pb-4">
+                    <div className="flex items-center gap-2 hover:opacity-50 transition-all">
+                      <div className="">
+                        <div className="aspect-square rounded-full bg-muted p-3 w-fit">
+                          <ShieldCheck className="h-5 w-5" />
+                        </div>
+                      </div>
+                      <div className="w-full flex flex-col ">
+                        <h3>Seguridad</h3>
+                        <p className="text-sm">Contraseña, 2FA</p>
+                      </div>
+                      <div className="">
+                        <ChevronRight />
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              </div>
+            </div>
+            <h2>Soporte</h2>
+            <div className="bg-main-card border-main-card rounded-xl">
+              <div className="flex flex-col gap-4 p-8">
+                <Link
+                  className="w-full"
+                  href={"/soporte"}
+                  onClick={handleLinkClick}>
+                  <div className="w-full border-b border-white dark:border-muted pb-4">
+                    <div className="flex items-center gap-2 hover:opacity-50 transition-all">
+                      <div className="">
+                        <div className="aspect-square rounded-full bg-muted p-3 w-fit">
+                          <Cable className="h-5 w-5" />
+                        </div>
+                      </div>
+                      <div className="w-full flex flex-col ">
+                        <h3>Tickets</h3>
+                        <p className="text-sm">Links de registros, usuarios</p>
+                      </div>
+                      <div className="">
+                        <ChevronRight />
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+                <Link
+                  className="w-full"
+                  href={"https://github.com/mativiaggio/hospicare"}
+                  onClick={handleLinkClick}>
+                  <div className="w-full border-b border-white dark:border-muted pb-4">
+                    <div className="flex items-center gap-2 hover:opacity-50 transition-all">
+                      <div className="">
+                        <div className="aspect-square rounded-full bg-muted p-3 w-fit">
+                          <Github className="h-5 w-5" />
+                        </div>
+                      </div>
+                      <div className="w-full flex flex-col ">
+                        <h3>GitHub</h3>
+                        <p className="text-sm">Repositorio del proyecto</p>
+                      </div>
+                      <div className="">
+                        <ChevronRight />
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              </div>
+            </div>
+            <div className="w-full flex justify-center items-center">
+              <Logout
+                className="!p-2 rounded-full transition-all"
+                textClassName="!text-base text-red-500"
+                iconClassName="text-red-500"
+              />
+            </div>
           </div>
         </div>
       </SheetContent>
