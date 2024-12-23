@@ -1,8 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import MobileUserButtonSecurity from "@/components/buttons/mobile/mobile-user-button-security";
-import { PageTitle } from "@/components/page-title";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -97,16 +95,6 @@ export default function ProfileSettingsForm({ data, sheet }: Props) {
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         className="w-full max-w-2xl mx-auto">
-        <div className="space-y-6">
-          <PageTitle
-            title="Datos personales"
-            subtitle="Administre la configuración de su cuenta y establezca las
-            preferencias de correo electrónico."
-          />
-        </div>
-
-        <Separator />
-
         <section className="space-y-6">
           <h2 className="text-2xl font-semibold">Información Personal</h2>
           <div className="flex items-center space-x-4">
