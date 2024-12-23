@@ -49,6 +49,7 @@ import { capitalizeFirstLetter } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { useDeleteMedication } from "../api/use-delete-medication";
 import { ErrorAlert } from "@/components/alerts/error-alert";
+import { useWindowSize } from "@/hooks/use-window-size";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const CellActions = ({ row }: { row: any }) => {
@@ -213,6 +214,9 @@ export function MedicationsDataTable({
   const router = useRouter();
   const medications = medicationsData;
 
+  const { width } = useWindowSize();
+  const isDesktop = width !== undefined && width >= 1280;
+
   // Uso de useMemo para memoizar los datos
   const data = React.useMemo(
     () => medications?.medications.documents ?? [],
@@ -309,8 +313,8 @@ export function MedicationsDataTable({
         <div className="flex items-center gap-2">
           <Link href={"/medicamentos/nuevo"}>
             <Button>
-              <PillBottle className="mr-1 h-4 w-4" />
-              Agregar medicamento
+              <PillBottle className={isDesktop ? "mr-2 h-4 w-4" : "h-4 w-4"} />
+              {isDesktop && "Agregar Medicamento"}
             </Button>
           </Link>
         </div>

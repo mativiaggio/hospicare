@@ -48,6 +48,7 @@ import { ChevronDownIcon, Copy, FileX2, Filter, Plus } from "lucide-react";
 import Link from "next/link";
 import { StaffRole } from "@/constants/appwrite";
 import { useRouter } from "next/navigation";
+import { useWindowSize } from "@/hooks/use-window-size";
 
 export const columns: ColumnDef<Staff>[] = [
   {
@@ -234,6 +235,9 @@ export function StaffDataTable({ staffData }: StaffDataTableProps) {
   // Uso de useMemo para memoizar los datos
   const data = React.useMemo(() => staff?.staff.documents ?? [], [staff]);
 
+  const { width } = useWindowSize();
+  const isDesktop = width !== undefined && width >= 1280;
+
   // Inicializar la tabla
   const table = useReactTable<Staff>({
     data,
@@ -383,8 +387,8 @@ export function StaffDataTable({ staffData }: StaffDataTableProps) {
           </DropdownMenu>
           <Link href={"/personal/nuevo"}>
             <Button>
-              <Plus className="mr-1 h-4 w-4" />
-              Agregar personal
+              <Plus className={isDesktop ? "mr-2 h-4 w-4" : "h-4 w-4"} />
+              {isDesktop && "Agregar Personal"}
             </Button>
           </Link>
         </div>
