@@ -1,11 +1,27 @@
+"use client";
 import PageWrapper from "@/components/page-wrapper";
+import { useCurrent } from "@/features/auth/api/use-current";
+// import { getCurrent } from "@/features/auth/actions";
 import AuthNavbar from "@/features/auth/components/auth-navbar";
+import { Loader2 } from "lucide-react";
 
 interface AuthLayuotProps {
   children: React.ReactNode;
 }
 
 const AuthLayuot = ({ children }: AuthLayuotProps) => {
+  const { data, isLoading } = useCurrent();
+
+  if (data) window.location.replace("/");
+
+  if (isLoading) {
+    return (
+      <div className="h-[40px] w-[40px] bg-transparent rounded-full flex items-center justify-center">
+        <Loader2 className="animate-spin" />
+      </div>
+    );
+  }
+
   return (
     <main className="bg-neutral-100 dark:bg-main min-h-screen">
       <AuthNavbar />
