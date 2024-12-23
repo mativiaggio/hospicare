@@ -12,28 +12,29 @@ interface AuthLayuotProps {
 const AuthLayuot = ({ children }: AuthLayuotProps) => {
   const { data, isLoading } = useCurrent();
 
-  if (data) window.location.replace("/");
-
   if (isLoading) {
+    console.log("if", data);
     return (
-      <div className="h-[40px] w-[40px] bg-transparent rounded-full flex items-center justify-center">
-        <Loader2 className="animate-spin" />
+      <div className="h-screen w-screen flex items-center justify-center">
+        <Loader2 size={48} className="animate-spin" />
       </div>
     );
-  }
-
-  return (
-    <main className="bg-neutral-100 dark:bg-main min-h-screen">
-      <AuthNavbar />
-      <PageWrapper>
-        <div className="mx-auto max-w-screen-2xl">
-          <div className="flex flex-col items-center justify-center pt-4 md:pt-14">
-            {children}
+  } else {
+    if (data) window.location.replace("/");
+    console.log("else", data);
+    return (
+      <main className="bg-neutral-100 dark:bg-main min-h-screen">
+        <AuthNavbar />
+        <PageWrapper>
+          <div className="mx-auto max-w-screen-2xl">
+            <div className="flex flex-col items-center justify-center pt-4 md:pt-14">
+              {children}
+            </div>
           </div>
-        </div>
-      </PageWrapper>
-    </main>
-  );
+        </PageWrapper>
+      </main>
+    );
+  }
 };
 
 export default AuthLayuot;
