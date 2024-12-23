@@ -8,6 +8,7 @@ export const useCurrent = () => {
       const response = await client.api.auth.current.$get();
 
       if (!response.ok) {
+        // window.location.replace("/iniciar-sesion");
         return null;
       }
 
