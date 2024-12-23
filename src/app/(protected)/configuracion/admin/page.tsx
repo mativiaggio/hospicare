@@ -43,6 +43,12 @@ export default function ProfileSettings() {
 
   return (
     <>
+      <div className="space-y-6">
+        <PageTitle
+          title="Panel administrador"
+          subtitle="Desde aquí puedes administrar tu cuenta de administrador"
+        />
+      </div>
       <GenerateRegisterLink />
       <Separator />
       <PageTitle title="Usuarios" subtitle="Lista de usuarios del sistema" />

@@ -15,7 +15,7 @@
       "type": "image/png"
     }
   ],
-  "orientation": "portrait-primary",
+  "orientation": "",
   "display": "standalone",
   "dir": "auto",
   "lang": "es-419",

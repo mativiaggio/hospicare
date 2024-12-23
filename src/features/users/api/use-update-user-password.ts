@@ -15,7 +15,15 @@ export const useUpdateProfilePassword = () => {
       const response = await client.api.users["update-password"]["$post"]({
         json,
       });
+
+      if (!response.ok) {
+        throw new Error("Password reset failed");
+      }
+
       return await response.json();
+    },
+    onError: (error) => {
+      console.error("Password reset Error:", error.message);
     },
   });
 

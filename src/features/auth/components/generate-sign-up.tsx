@@ -17,7 +17,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { PageTitle } from "@/components/page-title";
 
 export default function GenerateRegisterLink() {
   const [loginLink, setLoginLink] = useState("");
@@ -78,13 +77,6 @@ export default function GenerateRegisterLink() {
 
   return (
     <>
-      <div className="space-y-6">
-        <PageTitle
-          title="Panel administrador"
-          subtitle="Desde aquí puedes administrar tu cuenta de administrador"
-        />
-      </div>
-
       <div className="space-y-4 w-full">
         <Button
           onClick={generateLink}
