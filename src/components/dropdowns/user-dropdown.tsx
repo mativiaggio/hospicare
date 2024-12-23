@@ -4,7 +4,6 @@ import {
   Loader,
   Loader2,
   Lock,
-  Settings,
   ShieldCheck,
   User,
 } from "lucide-react";
@@ -97,17 +96,6 @@ export function UserDropdown() {
               </DropdownMenuItem>
             </>
           )}
-          <DropdownMenuItem>
-            <Settings className="!w-6 !h-6" />
-            <span className="w-full flex">
-              <Link
-                className="!w-full text-xl xl:text-sm"
-                href={"/configuracion"}
-                onClick={handleLinkClick}>
-                Configuración
-              </Link>
-            </span>
-          </DropdownMenuItem>
           <DropdownMenuItem>
             <User className="!w-6 !h-6" />
             <span className="w-full flex">

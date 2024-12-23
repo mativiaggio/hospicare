@@ -1035,10 +1035,10 @@ function ViewEpicrisisForm() {
                 </div>
               </div>
             </A4Sheet>
-            <div className="pb-4 print:hidden sticky bottom-4 flex justify-between items-center w-full">
-              <div className="w-1/3"></div>
-              <div className="w-1/3 flex justify-center">
+            <div className="print:hidden sticky bottom-4 flex justify-between items-center w-full pb-[4.8rem]">
+              <div className="w-full flex justify-center">
                 <Button
+                  type="button"
                   onClick={handleClick}
                   variant={"invert"}
                   className="flex items-center justify-center rounded-full !h-12 !w-12 p-0"
@@ -1046,18 +1046,16 @@ function ViewEpicrisisForm() {
                   <Printer className="!h-6 !w-6" />
                 </Button>
               </div>
-              <div className="w-1/3 flex justify-end">
-                <Button
-                  variant={"invert"}
-                  type="submit"
-                  className="w-full md:w-auto"
-                  disabled={isSubmitting}>
-                  {isSubmitting
-                    ? "Guardando epicrisis..."
-                    : "Guardar epicrisis"}
-                </Button>
-              </div>
             </div>
+          </div>
+          <div className="sticky bottom-4 flex justify-end pt-4 pb-20 w-1/3 ml-auto print:hidden">
+            <Button
+              variant={"invert"}
+              type="submit"
+              className="w-full md:w-auto"
+              disabled={isSubmitting}>
+              {isSubmitting ? "Guardando epicrisis..." : "Guardar epicrisis"}
+            </Button>
           </div>
         </form>
       </Form>

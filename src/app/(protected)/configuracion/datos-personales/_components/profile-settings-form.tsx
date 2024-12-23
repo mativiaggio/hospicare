@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
+import MobileUserButtonSecurity from "@/components/buttons/mobile/mobile-user-button-security";
 import { PageTitle } from "@/components/page-title";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -28,9 +29,10 @@ import { z } from "zod";
 
 interface Props {
   data: { name: string; email: string };
+  sheet?: boolean;
 }
 
-export default function ProfileSettingsForm({ data }: Props) {
+export default function ProfileSettingsForm({ data, sheet }: Props) {
   const [formIsLoading, setFormIsLoading] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
 
@@ -174,11 +176,15 @@ export default function ProfileSettingsForm({ data }: Props) {
             </div>
           </div>
           <div className="space-y-2">
-            <Link
-              href={"/configuracion/seguridad"}
-              className="text-sm hover:underline font-semibold mt-2">
-              ¿Desea cambiar la contraseña? Click aquí
-            </Link>
+            {!sheet ? (
+              <Link
+                href={"/configuracion/seguridad"}
+                className="text-sm hover:underline font-semibold mt-2">
+                ¿Desea cambiar la contraseña? Click aquí
+              </Link>
+            ) : (
+              <MobileUserButtonSecurity textButton={true} />
+            )}
           </div>
         </section>
 
