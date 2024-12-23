@@ -3,7 +3,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import Image from "next/image";
 import { Menu } from "@/components/ui/navbar-menu";
-import { ModeToggle } from "@/components/buttons/theme-toggle";
+import { MobileModeToggle } from "@/components/buttons/theme-toggle";
 
 const AuthNavbar: React.FC = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -45,7 +45,7 @@ const AuthNavbar: React.FC = () => {
             <div className="w-full flex">
               <ul className="flex items-center justify-between gap-6">
                 <li>
-                  <ModeToggle />
+                  <MobileModeToggle />
                 </li>
               </ul>
             </div>
