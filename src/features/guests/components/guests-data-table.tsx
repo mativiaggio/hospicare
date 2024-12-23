@@ -53,6 +53,7 @@ import { cn } from "@/lib/utils";
 import { Copy, FileX2, Filter, UserPlus } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useWindowSize } from "@/hooks/use-window-size";
 
 export const columns: ColumnDef<Guest>[] = [
   {
@@ -298,6 +299,8 @@ export function GuestsDataTable({ guestsData }: GuestsDataTableProps) {
   const router = useRouter();
   const guests = guestsData;
   const data = React.useMemo(() => guests?.guests.documents ?? [], [guests]);
+  const { width } = useWindowSize();
+  const isDesktop = width !== undefined && width >= 1280;
 
   const table = useReactTable<Guest>({
     data,
@@ -467,8 +470,8 @@ export function GuestsDataTable({ guestsData }: GuestsDataTableProps) {
           </DropdownMenu>
           <Link href={"/huespedes/nuevo"}>
             <Button>
-              <UserPlus className="mr-2 h-4 w-4" />
-              Agregar Huésped
+              <UserPlus className={isDesktop ? "mr-2 h-4 w-4" : "h-4 w-4"} />
+              {isDesktop && "Agregar Huésped"}
             </Button>
           </Link>
         </div>

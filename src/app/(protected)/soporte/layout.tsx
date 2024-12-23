@@ -12,7 +12,7 @@ export default function SettingsLayout({
     <PageWrapper>
       <PageTitle
         title="Tickets"
-        icon={<TicketIcon className="w-10 h-10" />}
+        icon={<TicketIcon className="w-6 h-6 md:w-8 md:h-8 xl:w-10 xl:h-10" />}
         subtitle="Comienza a gestionar los tickets para soporte"
       />
       {children}
