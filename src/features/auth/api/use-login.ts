@@ -15,7 +15,7 @@ export const useLogin = () => {
       return await response.json();
     },
     onSuccess: () => {
-      window.location.reload();
+      window.location.replace("/");
     },
     onError: (error) => {
       console.error("Login Error:", error.message);
