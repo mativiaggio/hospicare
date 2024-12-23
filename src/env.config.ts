@@ -28,4 +28,6 @@ export const env = {
 
   // General
   HOSTNAME: process.env.NEXT_PUBLIC_HOSTNAME || "",
+  APP_TITLE:
+    process.env.NEXT_PUBLIC_APP_TITLE || "Hospicare por Hospice Madre Teresa",
 };

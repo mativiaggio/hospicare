@@ -4,10 +4,11 @@ import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
+import { env } from "@/env.config";
 
 // Define metadata for the page
 export const metadata: Metadata = {
-  title: "Hospicare por Hospice Madre Teresa",
+  title: env.APP_TITLE,
   description:
     "La aplicación de gestion de huéspedes del Hospice Madre Teresa.",
   keywords: [
@@ -26,7 +27,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: "https://hospicare-hmt.vercel.app/",
-    title: "Hospicare por Hospice Madre Teresa",
+    title: env.APP_TITLE,
     description:
       "La aplicación de gestión médica segura y eficiente del Hospice Madre Teresa.",
     images: [
@@ -34,14 +35,14 @@ export const metadata: Metadata = {
         url: "https://hospicemadreteresa.org.ar/wp-content/uploads/2017/07/bg-frente-casa-hospice.jpg",
         width: 1200,
         height: 630,
-        alt: "Hospicare por Hospice Madre Teresa",
+        alt: env.APP_TITLE,
       },
     ],
     siteName: "Hospicare",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Hospicare por Hospice Madre Teresa",
+    title: env.APP_TITLE,
     description:
       "La aplicación de gestión médica segura y eficiente del Hospice Madre Teresa.",
     images: [

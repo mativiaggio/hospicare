@@ -83,6 +83,7 @@ const config: Config = {
         "under-review-dark": "#31254f",
         "under-review-text-dark": "#c084fc",
         main: "hsl(var(--bg-primary-foreground))",
+        "main-card": "hsl(var(--card))",
       },
       borderRadius: {
         lg: "var(--radius)",
