@@ -1,13 +1,14 @@
 "use client";
 
 import { PageTitle } from "@/components/page-title";
+import LoadingScreen from "@/components/screens/loading-screen";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Separator } from "@/components/ui/separator";
 import { useCurrent } from "@/features/auth/api/use-current";
 import GenerateRegisterLink from "@/features/auth/components/generate-sign-up";
 import UsersDataContainer from "@/features/users/components/users-data-container";
 import { useWindowSize } from "@/hooks/use-window-size";
-import { AlertCircle, Loader2 } from "lucide-react";
+import { AlertCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -24,13 +25,7 @@ export default function ProfileSettings() {
   const isDesktop = width !== undefined && width >= 1280;
 
   if (isLoading) {
-    return (
-      <>
-        <div className="w-full h-screen flex justify-center items-center">
-          <Loader2 className="mr-2 h-16 w-16 animate-spin" />
-        </div>
-      </>
-    );
+    return <LoadingScreen />;
   }
 
   if (!data?.labels.includes("admin")) {

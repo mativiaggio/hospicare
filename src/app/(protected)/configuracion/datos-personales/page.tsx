@@ -6,7 +6,7 @@ import { Separator } from "@/components/ui/separator";
 import { useEffect, useState } from "react";
 import { useWindowSize } from "@/hooks/use-window-size";
 import { useCurrent } from "@/features/auth/api/use-current";
-import { Loader2 } from "lucide-react";
+import LoadingScreen from "@/components/screens/loading-screen";
 
 export default function ProfileSettings() {
   const { data, isLoading } = useCurrent();
@@ -20,11 +20,7 @@ export default function ProfileSettings() {
   const isDesktop = width !== undefined && width >= 1280;
 
   if (isLoading) {
-    return (
-      <>
-        <Loader2 className="animate-spin" size={42} />
-      </>
-    );
+    return <LoadingScreen />;
   } else {
     return (
       <>

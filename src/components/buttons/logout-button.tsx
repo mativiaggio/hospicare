@@ -3,8 +3,9 @@
 import { Button } from "@/components/ui/button";
 import { useLogout } from "@/features/auth/api/use-logout";
 import { cn } from "@/lib/utils";
-import { Loader2, LogOut } from "lucide-react";
+import { LogOut } from "lucide-react";
 import { useState } from "react";
+import LoadingScreen from "../screens/loading-screen";
 
 interface LogoutProps {
   className?: string;
@@ -31,7 +32,8 @@ export const Logout = ({
         variant={"inherit"}
         className={cn("[&>svg]:size-4 [&>svg]:shrink-0", className)}>
         {loading ? (
-          <Loader2 className={cn("!w-6 !h-6 animate-spin", iconClassName)} />
+          // <Loader2 className={cn("!w-6 !h-6 animate-spin", iconClassName)} />
+          <LoadingScreen />
         ) : (
           <LogOut className={cn("!w-6 !h-6", iconClassName)} />
         )}

@@ -1,9 +1,9 @@
 "use client";
 import PageWrapper from "@/components/page-wrapper";
+import LoadingScreen from "@/components/screens/loading-screen";
 import { useCurrent } from "@/features/auth/api/use-current";
 // import { getCurrent } from "@/features/auth/actions";
 import AuthNavbar from "@/features/auth/components/auth-navbar";
-import { Loader2 } from "lucide-react";
 
 interface AuthLayuotProps {
   children: React.ReactNode;
@@ -13,11 +13,7 @@ const AuthLayuot = ({ children }: AuthLayuotProps) => {
   const { data, isLoading } = useCurrent();
 
   if (isLoading) {
-    return (
-      <div className="h-screen w-screen flex items-center justify-center">
-        <Loader2 size={48} className="animate-spin" />
-      </div>
-    );
+    return <LoadingScreen />;
   } else {
     if (data) {
       window.location.replace("/");
