@@ -1,7 +1,7 @@
 "use client";
 import { useCurrent } from "@/features/auth/api/use-current";
 import React, { useState } from "react";
-import { ChevronLeft, ChevronRight, Github, Loader2, User } from "lucide-react";
+import { ChevronLeft, ChevronRight, Github, User } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
 import Link from "next/link";
 import {
@@ -23,6 +23,7 @@ import MobileUserButtonTickets from "./mobile-user-button-tickets";
 import { env } from "@/env.config";
 import { useGetUserDocument } from "@/features/users/api/use-find-user-document";
 import { useGetFilePreviewById } from "@/features/files/api/use-get-preview";
+import LoadingScreen from "@/components/screens/loading-screen";
 
 interface MobileUserButtonProps {
   title?: string;
@@ -36,8 +37,9 @@ export default function MobileUserButton({
   const { data, isLoading } = useCurrent();
   const { data: userDocument, isLoading: isLoadingDocument } =
     useGetUserDocument(data?.$id || null);
+
   const [isOpen, setIsOpen] = useState(false);
-  const { data: fileUrl } = useGetFilePreviewById(
+  const { data: fileUrl, isLoading: isLoadingFileUrl } = useGetFilePreviewById(
     userDocument?.document?.imageId || ""
   );
 
@@ -49,12 +51,8 @@ export default function MobileUserButton({
     setIsOpen(false);
   };
 
-  if (isLoading || isLoadingDocument) {
-    return (
-      <div className="!h-screen !w-screen flex justify-center items-center">
-        <Loader2 size={42} className="animate-spin" />
-      </div>
-    );
+  if (isLoading || isLoadingDocument || isLoadingFileUrl) {
+    return <LoadingScreen />;
   }
 
   return (
