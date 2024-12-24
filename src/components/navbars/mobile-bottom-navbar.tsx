@@ -9,7 +9,7 @@ export const MobileBottomNavbar = ({ width }: Props) => {
 
   return (
     <nav
-      className={`fixed bottom-0 left-0 right-0 bg-main z-50 border print:hidden !w-[${width}px]`}>
+      className={`fixed bottom-0 left-0 right-0 bg-main z-50 border print:hidden !w-[${width}px] border-t`}>
       <ul className={`flex justify-between !w-[${width}px]`}>
         <li className="w-1/5">
           <Link

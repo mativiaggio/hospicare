@@ -20,7 +20,7 @@ export default function Footer() {
   return (
     <>
       {isDesktop && (
-        <footer className="text-primary border-t print:hidden bg-background">
+        <footer className="text-primary print:hidden bg-main">
           <div className="container p-4 sm:p-6 md:p-8 lg:p-10">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
               <div>

@@ -1,7 +1,6 @@
 "use client";
 import { useCurrent } from "@/features/auth/api/use-current";
 import React, { useState } from "react";
-import { DropdownMenu, DropdownMenuTrigger } from "../../ui/dropdown-menu";
 import { ChevronLeft, ChevronRight, Github, Loader2, User } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
 import Link from "next/link";
@@ -34,13 +33,16 @@ export default function MobileUserButton() {
 
   if (isLoading) {
     return (
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <div className="h-[40px] w-[40px] bg-transparent rounded-full flex items-center justify-center">
-            <Loader2 className="animate-spin" />
-          </div>
-        </DropdownMenuTrigger>
-      </DropdownMenu>
+      // <DropdownMenu>
+      //   <DropdownMenuTrigger asChild>
+      //     <div className="h-[40px] w-[40px] bg-transparent rounded-full flex items-center justify-center">
+      //       <Loader2 className="animate-spin" />
+      //     </div>
+      //   </DropdownMenuTrigger>
+      // </DropdownMenu>
+      <div className="!h-screen !w-screen flex justify-center items-center">
+        <Loader2 size={42} className="animate-spin" />
+      </div>
     );
   }
 
