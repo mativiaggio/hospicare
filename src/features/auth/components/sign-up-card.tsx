@@ -22,6 +22,7 @@ import { registerSchema } from "../schemas";
 import { useFindSecretBySecret } from "../api/use-get-secret-by-secret";
 import CustomFormField, { FormFieldType } from "@/components/custom-formfield";
 import { useRouter } from "next/navigation";
+import LoadingScreen from "@/components/screens/loading-screen";
 
 type SignUpFormValues = z.infer<typeof registerSchema>;
 
@@ -98,17 +99,11 @@ export default function SignUpCard({ secret }: SignUptFormProps) {
 
   if (!secret) {
     router.push("/acceso-denegado");
-    return (
-      <div className="h-[50vh] flex justify-center items-center">
-        <Loader2 className="h-16 w-16 animate-spin" />
-      </div>
-    );
+    return <LoadingScreen />;
   }
 
   if (isLoadingSecret || isFetchingSecret) {
-    <div className="w-full h-screen">
-      <Loader2 className="h-6 w-6 animate-spin" />
-    </div>;
+    <LoadingScreen />;
   }
 
   return (

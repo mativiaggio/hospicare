@@ -1,12 +1,4 @@
-import {
-  Cable,
-  Github,
-  Loader,
-  Loader2,
-  Lock,
-  ShieldCheck,
-  User,
-} from "lucide-react";
+import { Cable, Github, Loader2, Lock, ShieldCheck, User } from "lucide-react";
 
 import {
   DropdownMenu,
@@ -27,13 +19,14 @@ import { MobileModeToggle } from "../buttons/theme-toggle";
 import { useWindowSize } from "@/hooks/use-window-size";
 import { useGetUserDocument } from "@/features/users/api/use-find-user-document";
 import { useGetFilePreviewById } from "@/features/files/api/use-get-preview";
+import LoadingScreen from "../screens/loading-screen";
 
 export function UserDropdown() {
   const { data, isLoading } = useCurrent();
   const { data: userDocument, isLoading: isLoadingDocument } =
     useGetUserDocument(data?.$id || null);
 
-  const { data: fileUrl } = useGetFilePreviewById(
+  const { data: fileUrl, isLoading: isLoadingUrl } = useGetFilePreviewById(
     userDocument?.document?.imageId || ""
   );
 
@@ -49,16 +42,8 @@ export function UserDropdown() {
     setIsOpen(false);
   };
 
-  if (isLoading || isLoadingDocument) {
-    return (
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <div className="h-[40px] w-[40px] bg-transparent rounded-full flex items-center justify-center">
-            <Loader className="animate-spin" />
-          </div>
-        </DropdownMenuTrigger>
-      </DropdownMenu>
-    );
+  if (isLoading || isLoadingDocument || isLoadingUrl) {
+    return <LoadingScreen />;
   }
 
   return (
