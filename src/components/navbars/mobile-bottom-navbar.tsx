@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Users, Pill, Building2, HardHat } from "lucide-react";
+import { Home, Users, HardHat } from "lucide-react";
+import MobileBottomNavbarMore from "../buttons/mobile/mobile-bottom-navbar-more";
 interface Props {
   width?: number;
 }
@@ -46,42 +47,6 @@ export const MobileBottomNavbar = ({ width }: Props) => {
         <li className="w-1/5">
           <Link
             className="`w-full flex flex-col gap-1 font-bold items-center rounded-full transition-all py-[1rem]"
-            href="/medicamentos">
-            <div
-              className={`w-full flex flex-col gap-1 font-bold items-center rounded-full transition-all ${
-                pathname === "/medicamentos" ? "" : "text-inactive-item"
-              }`}>
-              <Pill
-                size={28}
-                className={
-                  pathname === "/medicamentos" ? "" : "text-inactive-item"
-                }
-              />
-              <span className="text-xs">Medic.</span>
-            </div>
-          </Link>
-        </li>
-        <li className="w-1/5">
-          <Link
-            className="`w-full flex flex-col gap-1 font-bold items-center rounded-full transition-all py-[1rem]"
-            href="/obras-sociales">
-            <div
-              className={`w-full flex flex-col gap-1 font-bold items-center rounded-full transition-all ${
-                pathname === "/obras-sociales" ? "" : "text-inactive-item"
-              }`}>
-              <Building2
-                size={28}
-                className={
-                  pathname === "/obras-sociales" ? "" : "text-inactive-item"
-                }
-              />
-              <span className="text-xs">Obras S.</span>
-            </div>
-          </Link>
-        </li>
-        <li className="w-1/5">
-          <Link
-            className="`w-full flex flex-col gap-1 font-bold items-center rounded-full transition-all py-[1rem]"
             href="/personal">
             <div
               className={`w-full flex flex-col gap-1 font-bold items-center rounded-full transition-all ${
@@ -94,6 +59,9 @@ export const MobileBottomNavbar = ({ width }: Props) => {
               <span className="text-xs">Personal</span>
             </div>
           </Link>
+        </li>
+        <li className="w-1/5">
+          <MobileBottomNavbarMore />
         </li>
       </ul>
     </nav>

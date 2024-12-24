@@ -5,76 +5,27 @@ import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 import {
-  Activity,
-  Building,
-  Pill,
+  HardHat,
+  Hospital,
+  PillBottle,
   PlusCircle,
   Search,
-  Users,
+  Users2,
 } from "lucide-react";
 import React from "react";
+import GuestCard from "./guest-card";
+import StaffCard from "./staff-card";
+import Link from "next/link";
 
 export default function HomeDashboard() {
   const [typing, setTyping] = React.useState<boolean>(false);
 
   return (
-    <div className="flex flex-col min-h-screen py-4">
-      <main className="flex-grow">
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                Total Huéspedes
-              </CardTitle>
-              <Users className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">245</div>
-              <p className="text-xs text-muted-foreground">
-                +4% desde el último mes
-              </p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                Medicamentos Activos
-              </CardTitle>
-              <Pill className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">89</div>
-              <p className="text-xs text-muted-foreground">
-                +2 nuevos esta semana
-              </p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                Obras Sociales
-              </CardTitle>
-              <Building className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">15</div>
-              <p className="text-xs text-muted-foreground">
-                3 convenios en revisión
-              </p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                Actividades Hoy
-              </CardTitle>
-              <Activity className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">23</div>
-              <p className="text-xs text-muted-foreground">7 pendientes</p>
-            </CardContent>
-          </Card>
+    <div className="flex flex-col py-4">
+      <main className="flex-grow pb-[80px]">
+        <div className="grid gap-6 md:grid-cols-2">
+          <GuestCard />
+          <StaffCard />
         </div>
 
         <div className="mt-6">
@@ -83,16 +34,35 @@ export default function HomeDashboard() {
               <CardTitle>Acciones Rápidas</CardTitle>
             </CardHeader>
             <CardContent className="grid gap-4">
-              <div className="flex items-center space-x-4">
-                <Button>
-                  <PlusCircle className="mr-2 h-4 w-4" /> Nuevo Huésped
-                </Button>
-                <Button>
-                  <PlusCircle className="mr-2 h-4 w-4" /> Nuevo Medicamento
-                </Button>
-                <Button>
-                  <PlusCircle className="mr-2 h-4 w-4" /> Nueva Obra Social
-                </Button>
+              <div className="grid gap-2 md:grid-cols-2">
+                <Link href={"/huespedes/nuevo"} className="w-full">
+                  <Button className="w-full">
+                    <PlusCircle className="w-fit h-4 flex justify-end" />
+                    <p className="w-full">Nuevo Huésped</p>
+                    <Users2 className="w-fit h-4 flex justify-en" />
+                  </Button>
+                </Link>
+                <Link href={"/personal/nuevo"} className="w-full">
+                  <Button className="w-full">
+                    <PlusCircle className="w-fit h-4 flex justify-end" />
+                    <p className="w-full">Nuevo Personal</p>
+                    <HardHat className="w-fit h-4 flex justify-en" />
+                  </Button>
+                </Link>
+                <Link href={"/medicamentos/nuevo"} className="w-full">
+                  <Button className="w-full">
+                    <PlusCircle className="w-fit h-4 flex justify-end" />
+                    <p className="w-full">Nuevo Medicamento</p>
+                    <PillBottle className="w-fit h-4 flex justify-en" />
+                  </Button>
+                </Link>
+                <Link href={"/obras-sociales/nuevo"} className="w-full">
+                  <Button className="w-full">
+                    <PlusCircle className="w-fit h-4 flex justify-end" />
+                    <p className="w-full">Nueva Obra Social</p>
+                    <Hospital className="w-fit h-4 flex justify-en" />
+                  </Button>
+                </Link>
               </div>
               <div
                 className={cn(

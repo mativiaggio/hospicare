@@ -36,7 +36,7 @@ const AuthNavbar: React.FC = () => {
               <span className="flex flex-col text-primary ml-2 font-bold">
                 <h1 className="text-2xl">Hospicare</h1>
                 <p className="text-xs text-nowrap font-normal">
-                  por Hospice Madre Teresa
+                  por Madre Teresa Hospice
                 </p>
               </span>
             </Link>

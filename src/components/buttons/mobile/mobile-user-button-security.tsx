@@ -57,8 +57,8 @@ export default function MobileUserButtonSecurity({ textButton }: Props) {
         className="!max-w-[100vw] flex flex-col h-full max-h-screen w-screen max-w-screen"
         showClose={false}>
         <SheetHeader className="flex-shrink-0">
-          <div className="flex h-fit items-center w-full">
-            <div className="w-1/3 flex justify-start">
+          <div className="flex flex-col h-fit items-start w-full">
+            <div className="w-full flex justify-start">
               <Button
                 variant={"outline"}
                 className="p-0 aspect-square rounded-xl"
@@ -71,7 +71,6 @@ export default function MobileUserButtonSecurity({ textButton }: Props) {
               titleClassName="font-bold text-center"
               className="w-full flex justify-center"
             />
-            <div className="w-1/3"></div>
           </div>
         </SheetHeader>
         <ProfilePasswordForm />
