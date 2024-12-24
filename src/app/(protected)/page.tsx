@@ -2,6 +2,7 @@ import { Welcome } from "@/components/welcome";
 import { getCurrent } from "@/features/auth/actions";
 import { redirect } from "next/navigation";
 import PageWrapper from "@/components/page-wrapper";
+import HomeDashboard from "./_components/home-dashboard";
 
 export default async function Home() {
   const user = await getCurrent();
@@ -12,7 +13,7 @@ export default async function Home() {
     <>
       <PageWrapper>
         <Welcome user={user} />
-        {/* <HomeDashboard /> */}
+        <HomeDashboard />
       </PageWrapper>
     </>
   );

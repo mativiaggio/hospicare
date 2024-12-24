@@ -27,7 +27,8 @@ export const env = {
   BUCKET_ID: process.env.NEXT_PUBLIC_BUCKET_ID || "",
 
   // General
+  APP_VERSION: process.env.NEXT_PUBLIC_APP_VERSION || "",
   HOSTNAME: process.env.NEXT_PUBLIC_HOSTNAME || "",
   APP_TITLE:
-    process.env.NEXT_PUBLIC_APP_TITLE || "Hospicare por Hospice Madre Teresa",
+    process.env.NEXT_PUBLIC_APP_TITLE || "Hospicare por Madre Teresa Hospice",
 };
