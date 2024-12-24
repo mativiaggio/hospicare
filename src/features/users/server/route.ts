@@ -3,7 +3,7 @@ import { userSchema, userUpdatePassword } from "../schemas";
 import { generalMiddleware, sessionMiddleware } from "@/lib/middlwares";
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
-import { Query } from "node-appwrite";
+import { ID, Query } from "node-appwrite";
 
 const app = new Hono()
   .get("/", sessionMiddleware, generalMiddleware, async (c) => {
@@ -48,6 +48,76 @@ const app = new Hono()
 
     return c.json({ users: response.documents });
   })
+  .post(
+    "/update-image",
+    sessionMiddleware,
+    zValidator("form", userSchema),
+    async (c) => {
+      try {
+        const { image } = c.req.valid("form");
+        const storage = c.get("storage");
+        const user = c.get("user");
+        const databases = c.get("databases");
+
+        let uploadedImageId: string | undefined;
+
+        if (image instanceof File) {
+          const fileExt = image.name.split(".").at(-1) ?? "png";
+          const fileName = `${ID.unique()}.${fileExt}`;
+
+          const renamedImage = new File([image], fileName, {
+            type: image.type,
+          });
+          const file = await storage.createFile(
+            env.IMAGES_BUCKET_ID,
+            ID.unique(),
+            renamedImage
+          );
+
+          uploadedImageId = file.$id;
+
+          const document = await databases.listDocuments(
+            env.DATABASE_ID,
+            env.USERS_ID,
+            [Query.equal("user_id", user.$id)]
+          );
+
+          // Delete previous image
+          if (document.documents[0].imageId) {
+            await storage.deleteFile(
+              env.IMAGES_BUCKET_ID, // bucketId
+              document.documents[0].imageId // fileId
+            );
+          }
+
+          await databases.updateDocument(
+            env.DATABASE_ID,
+            env.USERS_ID,
+            document.documents[0].$id,
+            {
+              imageId: uploadedImageId,
+            }
+          );
+        }
+
+        return c.json({ success: true });
+      } catch (error) {
+        if ((error as { code?: number }).code === 401) {
+          return c.json(
+            {
+              success: false,
+              message: "User not authenticated. Please log in.",
+            },
+            401
+          );
+        }
+        return c.json(
+          { success: false, message: (error as Error).message },
+          500
+        );
+      }
+    }
+  )
   .post(
     "/update-name",
     sessionMiddleware,
@@ -200,7 +270,11 @@ const app = new Hono()
       }
 
       // Devolver el primer documento encontrado (asumiendo que `user_id` es único)
-      return c.json({ success: true, documentId: response.documents[0].$id });
+      return c.json({
+        success: true,
+        documentId: response.documents[0].$id,
+        document: response.documents[0],
+      });
     } catch (error) {
       console.error("Error fetching user document:", error);
       return c.json({ success: false, message: (error as Error).message }, 500);

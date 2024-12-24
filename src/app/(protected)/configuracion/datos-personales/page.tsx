@@ -1,18 +1,15 @@
 "use client";
 
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { useCurrent } from "@/features/auth/api/use-current";
-import { AlertCircle } from "lucide-react";
 import ProfileSettingsForm from "./_components/profile-settings-form";
-import ProfileSettingsSkeleton from "./_components/profile-settings-skeleton";
 import { PageTitle } from "@/components/page-title";
 import { Separator } from "@/components/ui/separator";
 import { useEffect, useState } from "react";
 import { useWindowSize } from "@/hooks/use-window-size";
+import { useCurrent } from "@/features/auth/api/use-current";
+import { Loader2 } from "lucide-react";
 
 export default function ProfileSettings() {
   const { data, isLoading } = useCurrent();
-
   const [isClient, setIsClient] = useState(false);
   const { width } = useWindowSize();
 
@@ -21,44 +18,32 @@ export default function ProfileSettings() {
   }, []);
 
   const isDesktop = width !== undefined && width >= 1280;
+
   if (isLoading) {
     return (
       <>
-        <ProfileSettingsSkeleton />
+        <Loader2 className="animate-spin" size={42} />
+      </>
+    );
+  } else {
+    return (
+      <>
+        {" "}
+        {isClient && isDesktop && (
+          <>
+            <div className="space-y-6">
+              <PageTitle
+                title="Datos personales"
+                subtitle="Administre la configuración de su cuenta y establezca las preferencias de correo electrónico."
+              />
+            </div>
+            <Separator />
+          </>
+        )}
+        <div className={(isClient && !isDesktop && "pt-6") || ""}>
+          <ProfileSettingsForm data={data!} />
+        </div>
       </>
     );
   }
-
-  if (!data) {
-    return (
-      <Alert variant="destructive">
-        <AlertCircle className="h-4 w-4" />
-        <AlertTitle>Error</AlertTitle>
-        <AlertDescription>
-          Ocurrió un error y no podemos encontrar tu cuenta. Si el error
-          persiste, comunicate con soporte.
-        </AlertDescription>
-      </Alert>
-    );
-  }
-
-  return (
-    <>
-      {" "}
-      {isClient && isDesktop && (
-        <>
-          <div className="space-y-6">
-            <PageTitle
-              title="Datos personales"
-              subtitle="Administre la configuración de su cuenta y establezca las preferencias de correo electrónico."
-            />
-          </div>
-          <Separator />
-        </>
-      )}
-      <div className={(isClient && !isDesktop && "pt-6") || ""}>
-        <ProfileSettingsForm data={data!} />
-      </div>
-    </>
-  );
 }
