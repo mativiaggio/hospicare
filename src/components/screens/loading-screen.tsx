@@ -1,11 +1,6 @@
-"use client";
 import React from "react";
 
 export default function LoadingScreen() {
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth",
-  });
   return (
     <div className="!h-screen !w-screen overflow-hidden flex justify-center items-center pb-[100px] z-50 absolute bg-main top-0 left-0 right-0 bottom-0">
       <div className="flex flex-col gap-2 animate-bounce w-full justify-center items-center bg-main">
