@@ -39,13 +39,13 @@ export const DesktopNavbar = () => {
             <Link href="/huespedes">Huéspedes</Link>
           </li>
           <li>
+            <Link href="/personal">Personal</Link>
+          </li>
+          <li>
             <Link href="/medicamentos">Medicamentos</Link>
           </li>
           <li>
             <Link href="/obras-sociales">Obras Sociales</Link>
-          </li>
-          <li>
-            <Link href="/personal">Personal</Link>
           </li>
           <li>
             <ModeToggle />

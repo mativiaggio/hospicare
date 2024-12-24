@@ -4,7 +4,9 @@ import { ChevronLeft, ChevronRight, Palette } from "lucide-react";
 import {
   Sheet,
   SheetContent,
+  SheetDescription,
   SheetHeader,
+  SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Button } from "../../ui/button";
@@ -49,7 +51,11 @@ export default function MobileUserButtonPersonalization() {
       <SheetContent
         className="!max-w-[100vw] flex flex-col h-full max-h-screen w-screen max-w-screen"
         showClose={false}>
+        <SheetTitle className="sr-only">Personalización</SheetTitle>
         <SheetHeader className="flex-shrink-0">
+          <SheetDescription className="sr-only">
+            Notificaciones, modo oscuro, etc
+          </SheetDescription>
           <div className="flex flex-col h-fit items-start w-full">
             <div className="w-full flex justify-start">
               <Button

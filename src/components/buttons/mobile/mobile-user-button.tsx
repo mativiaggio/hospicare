@@ -7,7 +7,9 @@ import Link from "next/link";
 import {
   Sheet,
   SheetContent,
+  SheetDescription,
   SheetHeader,
+  SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Button } from "../../ui/button";
@@ -19,6 +21,8 @@ import MobileUserButtonSecurity from "./mobile-user-button-security";
 import MobileUserButtonAdminPanel from "./mobile-user-button-admin-panel";
 import MobileUserButtonTickets from "./mobile-user-button-tickets";
 import { env } from "@/env.config";
+import { useGetUserDocument } from "@/features/users/api/use-find-user-document";
+import { useGetFilePreviewById } from "@/features/files/api/use-get-preview";
 
 interface MobileUserButtonProps {
   title?: string;
@@ -30,7 +34,12 @@ export default function MobileUserButton({
   subtitle,
 }: MobileUserButtonProps) {
   const { data, isLoading } = useCurrent();
+  const { data: userDocument, isLoading: isLoadingDocument } =
+    useGetUserDocument(data?.$id || null);
   const [isOpen, setIsOpen] = useState(false);
+  const { data: fileUrl } = useGetFilePreviewById(
+    userDocument?.document?.imageId || ""
+  );
 
   const handleOpenChange = (open: boolean) => {
     setIsOpen(open);
@@ -40,7 +49,7 @@ export default function MobileUserButton({
     setIsOpen(false);
   };
 
-  if (isLoading) {
+  if (isLoading || isLoadingDocument) {
     return (
       <div className="!h-screen !w-screen flex justify-center items-center">
         <Loader2 size={42} className="animate-spin" />
@@ -64,7 +73,10 @@ export default function MobileUserButton({
           <div className="flex gap-2 items-center border rounded-full p-2 hover:bg-muted">
             <Avatar className="select-none cursor-pointer rounded-full h-8 w-8">
               <AvatarImage
-                src={`https://api.dicebear.com/6.x/initials/svg?seed=${data?.name}}`}
+                src={
+                  fileUrl ||
+                  `https://api.dicebear.com/6.x/initials/svg?seed=${data?.name}}`
+                }
               />
               <AvatarFallback>
                 <User />
@@ -78,8 +90,11 @@ export default function MobileUserButton({
         <SheetContent
           className="!max-w-[100vw] flex flex-col h-full max-h-screen w-screen max-w-screen"
           showClose={false}>
+          <SheetTitle className="sr-only">Menú de Usuario</SheetTitle>
           <SheetHeader className="flex-shrink-0">
-            {/* <SheetTitle> */}
+            <SheetDescription className="sr-only">
+              Este menú tiene diversas opciones para los usuarios
+            </SheetDescription>
             <div className="flex flex-col h-fit items-start w-full">
               <div className="w-full flex justify-start">
                 <Button
@@ -95,12 +110,14 @@ export default function MobileUserButton({
                 className="w-full flex justify-center"
               />
             </div>
-            {/* </SheetTitle> */}
             <div className="flex flex-col gap-8">
               <div className="bg-main-card border-main-card rounded-xl p-4 flex gap-4">
                 <Avatar className="select-none cursor-pointer rounded-full h-14 w-14">
                   <AvatarImage
-                    src={`https://api.dicebear.com/6.x/initials/svg?seed=${data?.name}}`}
+                    src={
+                      fileUrl ||
+                      `https://api.dicebear.com/6.x/initials/svg?seed=${data?.name}}`
+                    }
                   />
                   <AvatarFallback>
                     <User />

@@ -4,7 +4,9 @@ import { ChevronLeft, ChevronRight, LayoutPanelTop } from "lucide-react";
 import {
   Sheet,
   SheetContent,
+  SheetDescription,
   SheetHeader,
+  SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Button } from "../../ui/button";
@@ -57,7 +59,11 @@ export default function MobileUserButtonAdminPanel({ data }: Props) {
       <SheetContent
         className="!max-w-[100vw] flex flex-col h-full max-h-screen w-screen max-w-screen"
         showClose={false}>
+        <SheetTitle className="sr-only">Panel Administrador</SheetTitle>
         <SheetHeader className="flex-shrink-0">
+          <SheetDescription className="sr-only">
+            Links de registro, usuarios
+          </SheetDescription>
           <div className="flex flex-col h-fit items-start w-full">
             <div className="w-full flex justify-start">
               <Button

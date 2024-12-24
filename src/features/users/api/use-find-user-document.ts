@@ -1,13 +1,11 @@
+import { Users } from "@/lib/appwrite-types";
 import { client } from "@/lib/rpc";
 import { useQuery } from "@tanstack/react-query";
-// import { InferResponseType } from "hono";
 
-// type ResponseType = InferResponseType<
-//   (typeof client.api.users)["find-user-document"]["$get"]
-// >;
 type ResponseType = {
   success: boolean;
   documentId?: string;
+  document?: Users;
   message?: string;
 };
 

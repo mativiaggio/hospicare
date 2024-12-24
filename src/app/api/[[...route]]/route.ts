@@ -6,6 +6,8 @@ import users from "@/features/users/server/route";
 import tickets from "@/features/ticketing-system/server/route";
 import staff from "@/features/staff/server/route";
 import epicrisis from "@/features/epicrisis/server/route";
+import files from "@/features/files/server/route";
+
 import { Hono } from "hono";
 import { handle } from "hono/vercel";
 const app = new Hono().basePath("/api");
@@ -19,7 +21,8 @@ const routes = app
   .route("/social_security", social_security)
   .route("/tickets", tickets)
   .route("/staff", staff)
-  .route("/epicrisis", epicrisis);
+  .route("/epicrisis", epicrisis)
+  .route("/files", files);
 
 export const GET = handle(app);
 export const POST = handle(app);

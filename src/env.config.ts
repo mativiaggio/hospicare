@@ -24,7 +24,7 @@ export const env = {
   SECRETS_ID: process.env.NEXT_PUBLIC_SECRETS_ID || "",
 
   // Configuración del almacenamiento (buckets)
-  BUCKET_ID: process.env.NEXT_PUBLIC_BUCKET_ID || "",
+  IMAGES_BUCKET_ID: process.env.NEXT_PUBLIC_IMAGES_BUCKET_ID || "",
 
   // General
   APP_VERSION: process.env.NEXT_PUBLIC_APP_VERSION || "",
