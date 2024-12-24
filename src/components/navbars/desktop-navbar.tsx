@@ -5,7 +5,7 @@ import { UserDropdown } from "../dropdowns/user-dropdown";
 
 export const DesktopNavbar = () => {
   return (
-    <div className="flex w-full items-center justify-between border-b px-10 py-2">
+    <div className="flex w-full items-center justify-between px-10 py-2">
       <div className="flex w-1/6">
         <Link className="flex items-center justify-center" href="/">
           <Image
