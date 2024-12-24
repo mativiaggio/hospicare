@@ -25,9 +25,18 @@ import { Logout } from "../buttons/logout-button";
 import { useState } from "react";
 import { MobileModeToggle } from "../buttons/theme-toggle";
 import { useWindowSize } from "@/hooks/use-window-size";
+import { useGetUserDocument } from "@/features/users/api/use-find-user-document";
+import { useGetFilePreviewById } from "@/features/files/api/use-get-preview";
 
 export function UserDropdown() {
   const { data, isLoading } = useCurrent();
+  const { data: userDocument, isLoading: isLoadingDocument } =
+    useGetUserDocument(data?.$id || null);
+
+  const { data: fileUrl } = useGetFilePreviewById(
+    userDocument?.document?.imageId || ""
+  );
+
   const [isOpen, setIsOpen] = useState(false);
   const { width } = useWindowSize();
   const isDesktop = width !== undefined && width >= 1280;
@@ -40,7 +49,7 @@ export function UserDropdown() {
     setIsOpen(false);
   };
 
-  if (isLoading) {
+  if (isLoading || isLoadingDocument) {
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
@@ -57,7 +66,10 @@ export function UserDropdown() {
       <DropdownMenuTrigger asChild>
         <Avatar className="select-none cursor-pointer">
           <AvatarImage
-            src={`https://api.dicebear.com/6.x/initials/svg?seed=${data?.name}}`}
+            src={
+              fileUrl ||
+              `https://api.dicebear.com/6.x/initials/svg?seed=${data?.name}}`
+            }
           />
           <AvatarFallback>
             <User />

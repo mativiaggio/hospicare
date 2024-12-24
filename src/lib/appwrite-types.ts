@@ -244,6 +244,7 @@ export interface Users {
   email?: string;
   birthdate?: string;
   bio?: string;
+  imageId?: string;
   labels?: string[];
 }
 
@@ -343,6 +344,20 @@ export interface Secrets {
   used?: boolean;
 }
 
+export interface Files {
+  $id: string;
+  bucketId: string;
+  $createdAt: string;
+  $updatedAt: string;
+  $permissions: string[];
+  name: string;
+  signature: string;
+  mimeType: string;
+  sizeOriginal: number;
+  chunksTotal: number;
+  chunksUploaded: number;
+}
+
 // Api response
 
 export interface GuestsApiResponse {
@@ -398,5 +413,12 @@ export interface SecretsApiResponse {
   secrets: {
     total: number;
     documents: Secrets[];
+  };
+}
+
+export interface FilesApiResponse {
+  files: {
+    total: number;
+    files: Files[];
   };
 }
