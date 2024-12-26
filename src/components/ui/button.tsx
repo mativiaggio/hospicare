@@ -10,7 +10,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         primary:
-          "bg-gradient-to-b from-gray-800 to-gray-900 dark:from-neutral-100 dark:to-neutral-200 text-primary-foreground hover:from-gray-900 hover:to-gray-900 dark:hover:from-neutral-200 dark:hover:to-neutral-200 dark:border-transparent",
+          "bg-gradient-to-b from-main-blue to-[#013a63] dark:from-neutral-100 dark:to-neutral-200 text-primary-foreground hover:from-[#013a63] hover:to-[#013a63] dark:hover:from-neutral-200 dark:hover:to-neutral-200 dark:border-transparent",
         destructive:
           "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
         outline:
@@ -25,7 +25,7 @@ const buttonVariants = cva(
         inherit:
           "!p-0 !border-none !ourline-none !m-0 !bg-transparent !h-fit font-normal",
         invert:
-          "bg-gradient-to-b from-gray-800 to-gray-900 text-white hover:from-gray-900 hover:to-gray-900",
+          "bg-gradient-to-b from-main-blue to-[#013a63] text-white hover:from-[#013a63] hover:to-[#013a63]",
       },
       size: {
         default: "h-10 px-4 py-2",
