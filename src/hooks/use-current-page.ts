@@ -14,21 +14,25 @@ export function useCurrentPage() {
         break;
 
       case "/huespedes":
+      case "/huespedes/nuevo":
         setPageTitle("Huéspedes");
         setPageSubtitle("Comienza a gestionar los huéspedes");
         break;
 
       case "/medicamentos":
+      case "/medicamentos/nuevo":
         setPageTitle("Medicamentos");
         setPageSubtitle("Comienza a gestionar los medicamentos");
         break;
 
       case "/obras-sociales":
+      case "/obras-sociales/nuevo":
         setPageTitle("Obras Sociales");
         setPageSubtitle("Comienza a gestionar las obras sociales");
         break;
 
       case "/personal":
+      case "/personal/nuevo":
         setPageTitle("Personal");
         setPageSubtitle("Comienza a gestionar al personal");
         break;
