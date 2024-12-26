@@ -93,7 +93,7 @@ export default function PasswordRecoveryForm() {
               <Link
                 href={"https://hospicemadreteresa.org.ar/"}
                 className="hover:underline">
-                Hospice Madre Teresa
+                Madre Teresa Hospice
               </Link>
             </CardDescription>
           </CardHeader>

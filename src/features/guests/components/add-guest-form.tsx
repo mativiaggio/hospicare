@@ -33,11 +33,11 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { useNewGuest } from "../api/use-new-guest";
 import { useGetSocialSecurity } from "@/features/social_security/api/use-get-social-security";
-import { LoaderCircle } from "lucide-react";
 import ReactDatePicker from "react-datepicker";
 import { Label } from "@/components/ui/label";
 import { ErrorAlert } from "@/components/alerts/error-alert";
 import { guestSchema } from "../schemas";
+import LoadingScreen from "@/components/screens/loading-screen";
 
 type GuestFormValues = z.infer<typeof guestSchema>;
 
@@ -152,11 +152,7 @@ export default function AddGuestForm() {
   }
 
   if (isLoadingSocialSecurity) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <LoaderCircle className="animate-spin" size={48} />
-      </div>
-    );
+    return <LoadingScreen />;
   }
 
   return (

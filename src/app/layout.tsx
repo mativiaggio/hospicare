@@ -10,16 +10,18 @@ import { env } from "@/env.config";
 export const metadata: Metadata = {
   title: env.APP_TITLE,
   description:
-    "La aplicación de gestion de huéspedes del Hospice Madre Teresa.",
+    "La aplicación de gestion de huéspedes del Madre Teresa Hospice de Luján.",
   keywords: [
     "gestión médica",
     "software",
     "salud",
     "cuidado paliativo",
-    "Hospice Madre Teresa",
-    "Hospicare",
+    "hospice madre teresa",
+    "madre teresa hospice",
+    "hospicare",
+    "gestión de huéspedes",
   ],
-  authors: [{ name: "Hospice Madre Teresa" }],
+  authors: [{ name: "Matías Viaggio" }],
   robots: {
     index: true,
     follow: true,
@@ -29,7 +31,7 @@ export const metadata: Metadata = {
     url: "https://hospicare-hmt.vercel.app/",
     title: env.APP_TITLE,
     description:
-      "La aplicación de gestión médica segura y eficiente del Hospice Madre Teresa.",
+      "La aplicación de gestión médica segura y eficiente del Madre Teresa Hospice de Luján.",
     images: [
       {
         url: "https://hospicemadreteresa.org.ar/wp-content/uploads/2017/07/bg-frente-casa-hospice.jpg",
@@ -44,7 +46,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: env.APP_TITLE,
     description:
-      "La aplicación de gestión médica segura y eficiente del Hospice Madre Teresa.",
+      "La aplicación de gestión médica segura y eficiente del Madre Teresa Hospice.",
     images: [
       "https://hospicemadreteresa.org.ar/wp-content/uploads/2017/07/bg-frente-casa-hospice.jpg",
     ],

@@ -14,7 +14,7 @@ import { StaffRole } from "@/constants/appwrite";
 import { useUpdateStaff } from "../api/use-update-staff";
 import { useParams } from "next/navigation";
 import { useFindStaffById } from "../api/use-find-by-id";
-import { LoaderCircle } from "lucide-react";
+import LoadingScreen from "@/components/screens/loading-screen";
 
 type StaffFormValues = z.infer<typeof staffSchema>;
 
@@ -79,11 +79,7 @@ export default function ViewStaffForm() {
   }
 
   if (isLoadingStaff || isFetchingStaff) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <LoaderCircle className="animate-spin" size={48} />
-      </div>
-    );
+    return <LoadingScreen />;
   }
 
   return (
