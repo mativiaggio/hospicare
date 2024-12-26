@@ -1,6 +1,6 @@
 {
-  "theme_color": "#000000",
-  "background_color": "#000000",
+  "theme_color": "transparent",
+  "background_color": "#FFFFFF",
   "icons": [
     {
       "purpose": "maskable",
@@ -19,7 +19,7 @@
   "display": "standalone",
   "dir": "auto",
   "lang": "es-419",
-  "name": "Hospicare by Hospice Madre Teresa",
+  "name": "Hospicare por Madre Teresa Hospice",
   "short_name": "Hospicare",
   "start_url": "/",
   "scope": "/"

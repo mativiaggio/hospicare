@@ -6,10 +6,11 @@ import { cn } from "@/lib/utils";
 import { Loader2 } from "lucide-react";
 
 import React, { ReactNode, useState } from "react";
+import { UserDropdown } from './dropdowns/user-dropdown';
 
 interface RootLayoutProps {
   children: React.ReactNode;
-  adminLinks: Links[];
+  adminLinks?: Links[];
   links: Links[];
 }
 
@@ -34,7 +35,7 @@ export default function SidebarComponent({
         "h-fit min-h-screen"
       )}>
       <Sidebar open={open} setOpen={setOpen}>
-        <SidebarBody className="justify-between gap-10">
+        <SidebarBody className="justify-between gap-10 !h-screen">
           <div
             className={cn(
               "flex flex-2 flex-col mt-16",
@@ -49,7 +50,7 @@ export default function SidebarComponent({
                   className={cn(
                     (!data?.labels.includes("admin") && "hidden") || "block"
                   )}>
-                  {adminLinks.map((link, idx) => (
+                  {adminLinks?.map((link, idx) => (
                     <SidebarLink
                       key={idx}
                       link={link}
@@ -57,7 +58,7 @@ export default function SidebarComponent({
                     />
                   ))}
                 </span>
-                {links.map((link, idx) => (
+                {links?.map((link, idx) => (
                   <SidebarLink
                     key={idx}
                     link={link}
@@ -67,7 +68,9 @@ export default function SidebarComponent({
               </div>
             )}
           </div>
-          <div></div>
+          <div>
+            <UserDropdown/>
+          </div>
         </SidebarBody>
       </Sidebar>
       <Content>{children}</Content>

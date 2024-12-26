@@ -13,8 +13,8 @@ import { SelectItem } from "@/components/ui/select";
 import { RouteOfAdministration } from "@/constants/appwrite";
 import { useFindMedicationById } from "../api/use-find-by-id";
 import { useParams } from "next/navigation";
-import { LoaderCircle } from "lucide-react";
 import { useUpdateMedication } from "../api/use-update-medication";
+import LoadingScreen from "@/components/screens/loading-screen";
 
 type MedicationFormValues = z.infer<typeof medicationSchema>;
 
@@ -79,11 +79,7 @@ export default function ViewMedicationForm() {
   }
 
   if (isLoadingMedication || isFetchingMedication) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <LoaderCircle className="animate-spin" size={48} />
-      </div>
-    );
+    return <LoadingScreen />;
   }
 
   return (
