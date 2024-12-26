@@ -33,13 +33,13 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { useGetSocialSecurity } from "@/features/social_security/api/use-get-social-security";
-import { LoaderCircle } from "lucide-react";
 import ReactDatePicker from "react-datepicker";
 import { useFindGuestById } from "../api/use-find-by-id";
 import { useUpdateGuest } from "../api/use-update-guest";
 import { Label } from "@/components/ui/label";
 import { ErrorAlert } from "@/components/alerts/error-alert";
 import { guestSchema } from "../schemas";
+import LoadingScreen from "@/components/screens/loading-screen";
 
 type GuestFormValues = z.infer<typeof guestSchema>;
 
@@ -225,11 +225,7 @@ export default function ViewGuestForm() {
   }
 
   if (isLoadingSocialSecurity || isLoadingGuest || isFetchingGuest) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <LoaderCircle className="animate-spin" size={48} />
-      </div>
-    );
+    return <LoadingScreen />;
   }
 
   return (

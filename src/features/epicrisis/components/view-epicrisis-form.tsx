@@ -3,7 +3,7 @@ import A4Sheet from "@/components/prints/A4/a4-sheet";
 import { Button } from "@/components/ui/button";
 import { useFindGuestById } from "@/features/guests/api/use-find-by-id";
 import { calcularEdad, dateFormat } from "@/lib/utils";
-import { LoaderCircle, Printer } from "lucide-react";
+import { Printer } from "lucide-react";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -27,6 +27,7 @@ import {
   UncontrolledSymptoms,
 } from "@/constants/appwrite";
 import { useGetStaff } from "@/features/staff/api/use-get-staff";
+import LoadingScreen from "@/components/screens/loading-screen";
 
 type EpicrisisFormValues = z.infer<typeof epicrisisSchema>;
 
@@ -167,11 +168,7 @@ function ViewEpicrisisForm() {
     isFetchingEpicrisis ||
     firstTimeLoad
   ) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <LoaderCircle className="animate-spin" size={48} />
-      </div>
-    );
+    return <LoadingScreen />;
   }
   return (
     <div>

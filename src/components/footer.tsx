@@ -20,8 +20,10 @@ export default function Footer() {
   return (
     <>
       {isDesktop && (
-        <footer className="text-white dark:text-primary print:hidden bg-main-blue dark:bg-main">
-          <div className="container p-4 sm:p-6 md:p-8 lg:p-10">
+        <footer
+          className="py-[100px]
+ px-4 sm:px-6 md:px-8 lg:px-10 text-white dark:text-primary print:hidden bg-main-blue dark:bg-main flex justify-center">
+          <div className="w-full max-w-[63.5rem]">
             <div className="flex gap-2 text-lg font-semibold w-full justify-center items-center pb-4 sm:pb-6 md:pb-8 lg:pb-10">
               <Link className="flex items-center justify-center" href="/">
                 <span className="flex items-center justify-between gap-2 w-full">
