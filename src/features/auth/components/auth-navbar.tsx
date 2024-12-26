@@ -18,14 +18,14 @@ const AuthNavbar: React.FC = () => {
               <span className="flex items-center justify-between gap-2 w-full">
                 <span className="flex items-center gap-2">
                   <Image
-                    src={"/static/svg/logo2.svg"}
+                    src={"/static/svg/logo.svg"}
                     height={30}
                     width={30}
                     alt="Logo"
                     className="block dark:hidden h-[30px] max-h-[30px] w-[30px] max-w-[30px]"
                   />
                   <Image
-                    src={"/static/svg/logo2-dark.svg"}
+                    src={"/static/svg/logo-dark.svg"}
                     height={30}
                     width={30}
                     alt="Logo"

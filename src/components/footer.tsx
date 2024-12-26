@@ -20,35 +20,47 @@ export default function Footer() {
   return (
     <>
       {isDesktop && (
-        <footer className="text-primary print:hidden bg-main">
+        <footer className="text-white dark:text-primary print:hidden bg-main-blue dark:bg-main">
           <div className="container p-4 sm:p-6 md:p-8 lg:p-10">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div className="flex gap-2 text-lg font-semibold w-full justify-center items-center pb-4 sm:pb-6 md:pb-8 lg:pb-10">
+              <Link className="flex items-center justify-center" href="/">
+                <span className="flex items-center justify-between gap-2 w-full">
+                  <span className="flex items-center gap-2">
+                    <Image
+                      src={"/static/svg/logo-dark.svg"}
+                      height={40}
+                      width={40}
+                      alt="Logo"
+                      className="h-[40px] max-h-[40px] w-[40px] max-w-[40px]"
+                    />
+                  </span>
+                </span>
+                <span className="flex flex-col ml-2 font-bold">
+                  <h1 className="text-xl">Hospicare</h1>
+                  <p className="text-xs text-nowrap font-normal">
+                    por Madre Teresa Hospice
+                  </p>
+                </span>
+              </Link>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <div>
                 <div className="flex gap-2 text-lg font-semibold mb-4">
-                  <Link className="flex items-center justify-center" href="/">
+                  <Link
+                    className="flex items-center justify-center"
+                    href="https://hospicemadreteresa.org.ar/">
                     <span className="flex items-center justify-between gap-2 w-full">
                       <span className="flex items-center gap-2">
                         <Image
-                          src={"/static/svg/logo2.svg"}
-                          height={40}
-                          width={40}
+                          src={
+                            "/static/svg/hospice-madre-teresa-logo-blanco.svg"
+                          }
+                          height={35}
+                          width={35}
                           alt="Logo"
-                          className="block dark:hidden h-[40px] max-h-[40px] w-[40px] max-w-[40px]"
-                        />
-                        <Image
-                          src={"/static/svg/logo2-dark.svg"}
-                          height={40}
-                          width={40}
-                          alt="Logo"
-                          className="hidden dark:block h-[40px] max-h-[40px] w-[40px] max-w-[40px]"
+                          className="h-[35px] max-h-[35px] w-full"
                         />
                       </span>
-                    </span>
-                    <span className="flex flex-col text-primary ml-2 font-bold">
-                      <h1 className="text-xl">Hospicare</h1>
-                      <p className="text-xs text-nowrap font-normal">
-                        por Madre Teresa Hospice
-                      </p>
                     </span>
                   </Link>
                 </div>
@@ -72,6 +84,11 @@ export default function Footer() {
                     </Link>
                   </li>
                   <li>
+                    <Link href="/personal" className="text-sm hover:underline">
+                      Personal
+                    </Link>
+                  </li>
+                  <li>
                     <Link
                       href="/medicamentos"
                       className="text-sm hover:underline">
@@ -85,36 +102,31 @@ export default function Footer() {
                       Obras Sociales
                     </Link>
                   </li>
-                  <li>
-                    <Link href="/personal" className="text-sm hover:underline">
-                      Personal
-                    </Link>
-                  </li>
                 </ul>
               </div>
               <div>
                 <h3 className="text-lg font-semibold mb-4">Contacto</h3>
                 <ul className="space-y-2">
                   <li className="flex items-center">
-                    <Mail className="h-4 w-4 mr-2" />
+                    <Mail className="!h-4 !w-4 mr-2" />
                     <a
-                      href="mailto:info@hospicare.org"
+                      href="mailto:info@hospicemadreteresa.org.ar"
                       className="text-sm hover:underline">
-                      info@hospicare.org
+                      info@hospicemadreteresa.org.ar
                     </a>
                   </li>
                   <li className="flex items-center">
-                    <Phone className="h-4 w-4 mr-2" />
+                    <Phone className="!h-4 !w-4 mr-2" />
                     <a
-                      href="tel:+541234567890"
+                      href="tel:+5492323625976"
                       className="text-sm hover:underline">
-                      +54 (123) 456-7890
+                      (+54 9 2323) 625976
                     </a>
                   </li>
                   <li className="flex items-center">
-                    <MapPin className="h-4 w-4 mr-2" />
+                    <MapPin className="!h-4 !w-4 mr-2" />
                     <span className="text-sm">
-                      Calle Principal 123, Ciudad, País
+                      Adolfo Alsina 2316, B6700 CWL, Provincia de Buenos Aires
                     </span>
                   </li>
                 </ul>
