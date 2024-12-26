@@ -10,7 +10,7 @@ export const MobileBottomNavbar = ({ width }: Props) => {
 
   return (
     <nav
-      className={`fixed bottom-0 left-0 right-0 bg-main z-49 border print:hidden !w-[${width}px] border-t`}>
+      className={`fixed bottom-0 left-0 right-0 bg-main z-49 border print:hidden !w-[${width}px] border-t z-[1]`}>
       <ul className={`flex justify-between !w-[${width}px]`}>
         <li className="w-1/5">
           <Link
@@ -18,11 +18,17 @@ export const MobileBottomNavbar = ({ width }: Props) => {
             href="/">
             <div
               className={`w-full flex flex-col gap-1 font-bold items-center rounded-full transition-all ${
-                pathname === "/" ? "" : "text-inactive-item"
+                pathname === "/"
+                  ? "text-main-blue dark:text-primary"
+                  : "text-inactive-item"
               }`}>
               <Home
                 size={28}
-                className={pathname === "/" ? "" : "text-inactive-item"}
+                className={
+                  pathname === "/"
+                    ? "text-main-blue dark:text-primary"
+                    : "text-inactive-item"
+                }
               />
               <span className="text-xs">Inicio</span>
             </div>
@@ -34,11 +40,17 @@ export const MobileBottomNavbar = ({ width }: Props) => {
             href="/huespedes">
             <div
               className={`w-full flex flex-col gap-1 font-bold items-center rounded-full transition-all ${
-                pathname === "/huespedes" ? "" : "text-inactive-item"
+                pathname === "/huespedes"
+                  ? "text-main-blue dark:text-primary"
+                  : "text-inactive-item"
               }`}>
               <Users
                 size={28}
-                className={pathname === "/huespedes" ? "" : ""}
+                className={
+                  pathname === "/huespedes"
+                    ? "text-main-blue dark:text-primary"
+                    : ""
+                }
               />
               <span className="text-xs">Huéspedes</span>
             </div>
@@ -50,11 +62,17 @@ export const MobileBottomNavbar = ({ width }: Props) => {
             href="/personal">
             <div
               className={`w-full flex flex-col gap-1 font-bold items-center rounded-full transition-all ${
-                pathname === "/personal" ? "" : "text-inactive-item"
+                pathname === "/personal"
+                  ? "text-main-blue dark:text-primary"
+                  : "text-inactive-item"
               }`}>
               <HardHat
                 size={28}
-                className={pathname === "/personal" ? "" : "text-inactive-item"}
+                className={
+                  pathname === "/personal"
+                    ? "text-main-blue dark:text-primary"
+                    : "text-inactive-item"
+                }
               />
               <span className="text-xs">Personal</span>
             </div>

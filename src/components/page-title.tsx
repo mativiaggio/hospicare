@@ -19,7 +19,7 @@ export function PageTitle({
     <div className={cn("prose py-6 xl:py-8 w-full max-w-2xl", className)}>
       <h1
         className={cn(
-          "text-3xl xl:text-4xl font-bold flex gap-2 items-center text-main-blue dark:text-primary",
+          "text-3xl xl:text-4xl font-bold flex gap-2 items-center text-primary",
           titleClassName
         )}>
         {title} {icon}
