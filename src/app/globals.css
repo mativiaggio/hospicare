@@ -20,6 +20,7 @@ body {
 
 @layer base {
   :root {
+    --main-blue: 205, 100%, 28%;
     --background: 0 0% 100%;
     --bg-primary-foreground: 0 0% 98%;
     --foreground: 0 0% 3.9%;
@@ -59,8 +60,9 @@ body {
     --inactive-item: 0, 0%, 50%;
   }
   .dark {
+    --main-blue: 205, 100%, 28%;
     --background: 0 0% 3.9%;
-    --bg-primary-foreground: 0 0% 2%;
+    --bg-primary-foreground: 0, 0%, 4%;
     --foreground: 0 0% 98%;
     --card: 0 0% 3.9%;
     --card-foreground: 0 0% 98%;
@@ -128,7 +130,7 @@ body {
   }
 
   .input-phone img {
-    @apply ml-0 ml-2 mr-3 h-6 w-6 fill-current;
+    @apply ml-2 mr-3 h-6 w-6 fill-current;
   }
 
   .input-phone div {
