@@ -35,6 +35,31 @@ const app = new Hono()
 
       return c.json({ epicrisis: epicrisis });
     }
+  )
+  .put(
+    "/update/:id",
+    sessionMiddleware,
+    zValidator("json", epicrisisSchema),
+    async (c) => {
+      const database = c.get("databases");
+      const epicrisisId = c.req.param("id");
+      const data = c.req.valid("json");
+
+      if (!epicrisisId) {
+        return c.json({ success: false, message: "Guest ID is required" }, 400);
+      }
+
+      const epicrisisData = { ...data };
+
+      const epicrisis = await database.updateDocument(
+        env.DATABASE_ID,
+        env.EPICRISIS_ID,
+        epicrisisId,
+        epicrisisData
+      );
+
+      return c.json({ epicrisis });
+    }
   );
 
 export default app;

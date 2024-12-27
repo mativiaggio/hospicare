@@ -134,7 +134,6 @@ export const columns: ColumnDef<Users>[] = [
     },
     cell: ({ row }) => {
       const labels = row.getValue("labels") as string[] | undefined;
-      console.log("labels", labels);
       return (
         <div className="flex flex-wrap gap-2">
           {labels && labels.length > 0 ? (

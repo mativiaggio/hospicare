@@ -24,8 +24,6 @@ export const useDeleteMedication = () => {
         );
       }
 
-      console.log("response", response);
-
       return response.status;
     },
     onSuccess: () => {

@@ -72,7 +72,7 @@ export const calcularEdad = (fechaNacimiento: string | undefined): number => {
   }
 };
 
-export const dateFormat = (fecha: string | undefined): string => {
+export const dateFormat = (fecha: string | null | undefined): string => {
   if (fecha != undefined) {
     const fechaDate = new Date(fecha);
 
@@ -87,7 +87,32 @@ export const dateFormat = (fecha: string | undefined): string => {
     const anio = fechaDate.getFullYear();
 
     return `${dia}/${mes}/${anio}`;
-  } else {
+  } else if (fecha == undefined) {
     return "";
+  } else {
+    return "00/00/00";
+  }
+};
+
+export const calcularDiasEntreFechas = (
+  fecha1: string | undefined,
+  fecha2: string | undefined
+): number => {
+  // Verifica si ambas fechas son válidas
+  if (fecha1 && fecha2) {
+    const fechaInicio = new Date(fecha1);
+    const fechaFin = new Date(fecha2);
+
+    const diferenciaEnMilisegundos = Math.abs(
+      fechaFin.getTime() - fechaInicio.getTime()
+    );
+    const diferenciaEnDias = Math.ceil(
+      diferenciaEnMilisegundos / (1000 * 3600 * 24)
+    );
+
+    // Si los días son 0, devolver 1
+    return diferenciaEnDias === 0 ? 1 : diferenciaEnDias;
+  } else {
+    return 0; // Si alguna de las fechas es inválida, retorna 0
   }
 };

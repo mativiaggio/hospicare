@@ -42,7 +42,6 @@ export default function ViewMedicationForm() {
 
   useEffect(() => {
     if (medication) {
-      console.log("guest", medication);
       form.reset({
         name: medication?.name || "",
         manufacturer: medication?.manufacturer || "",

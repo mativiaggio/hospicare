@@ -57,7 +57,6 @@ export default function ViewTicketForm() {
         solution: ticket.solution,
         status: ticket.status,
       });
-      console.log("setIsResetDone true");
       setIsResetDone(true);
     }
   }, [ticket, form]);
@@ -129,10 +128,7 @@ export default function ViewTicketForm() {
                 name="status"
                 label="Estado"
                 control={form.control}
-                value={form.watch("status")} // Aseguramos que siempre use el valor dinámico
-                onChange={(val) =>
-                  console.log("Valor seleccionado desde CustomFormField:", val)
-                }
+                value={form.watch("status")}
                 disabled={
                   isSubmitting ||
                   isLoadingTicket ||

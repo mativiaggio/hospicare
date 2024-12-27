@@ -2,7 +2,7 @@
 import A4Sheet from "@/components/prints/A4/a4-sheet";
 import { Button } from "@/components/ui/button";
 import { useFindGuestById } from "@/features/guests/api/use-find-by-id";
-import { calcularEdad, dateFormat } from "@/lib/utils";
+import { calcularDiasEntreFechas, calcularEdad } from "@/lib/utils";
 import { Printer } from "lucide-react";
 import Image from "next/image";
 import { useParams } from "next/navigation";
@@ -28,6 +28,8 @@ import {
 } from "@/constants/appwrite";
 import { useGetStaff } from "@/features/staff/api/use-get-staff";
 import LoadingScreen from "@/components/screens/loading-screen";
+import ReactDatePicker from "react-datepicker";
+import { useUpdateEpicrisis } from "../api/use-update-epicrisis";
 
 type EpicrisisFormValues = z.infer<typeof epicrisisSchema>;
 
@@ -51,6 +53,7 @@ function ViewEpicrisisForm() {
   const { data: staffResponse, isLoading: isLoadingStaff } = useGetStaff();
 
   const { mutate } = useNewEpicrisis();
+  const { mutate: mutateUpdate } = useUpdateEpicrisis();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showError, setShowError] = useState<boolean>(false);
   const [isResetDone, setIsResetDone] = useState(false);
@@ -78,6 +81,7 @@ function ViewEpicrisisForm() {
       } else {
         setFirstTimeLoad(false);
         form.reset({
+          $id: epicrisis?.documents[0].$id || "",
           guest_id: epicrisis?.documents[0].guest_id || "",
           medical_emergency: epicrisis?.documents[0].medical_emergency || "no",
           home_hospitalization:
@@ -133,32 +137,84 @@ function ViewEpicrisisForm() {
           psychologist_in_charge:
             epicrisis?.documents[0].psychologist_in_charge?.$id || "",
           communication: epicrisis?.documents[0].communication || "",
+          guest_name:
+            epicrisis?.documents[0].guest_name !== null
+              ? epicrisis?.documents[0].guest_name
+              : guest?.name,
+          guest_social_security_name:
+            epicrisis?.documents[0].guest_social_security_name !== null
+              ? epicrisis?.documents[0].guest_social_security_name
+              : guest?.social_security?.name,
+          guest_address:
+            epicrisis?.documents[0].guest_address !== null
+              ? epicrisis?.documents[0].guest_address
+              : guest?.address,
+          guest_tumor:
+            epicrisis?.documents[0].guest_tumor !== null
+              ? epicrisis?.documents[0].guest_tumor
+              : guest?.tumor,
+          guest_metastasis_location:
+            epicrisis?.documents[0].guest_metastasis_location !== null
+              ? epicrisis?.documents[0].guest_metastasis_location
+              : guest?.metastasis_location,
+          guest_hospitalization_date:
+            epicrisis?.documents[0].guest_hospitalization_date !== null
+              ? epicrisis?.documents[0].guest_hospitalization_date
+              : guest?.hospitalization_date
+              ? new Date(guest?.hospitalization_date)
+              : undefined,
+          guest_date_of_death:
+            epicrisis?.documents[0].guest_date_of_death !== null
+              ? epicrisis?.documents[0].guest_date_of_death
+              : guest?.date_of_death
+              ? new Date(guest?.date_of_death)
+              : undefined,
+          guest_hospitalization_days:
+            epicrisis?.documents[0].guest_hospitalization_days !== null
+              ? epicrisis?.documents[0].guest_hospitalization_days
+              : calcularDiasEntreFechas(
+                  guest?.hospitalization_date,
+                  guest?.date_of_death
+                ) || 0,
+          guest_hydration_method:
+            epicrisis?.documents[0].guest_hydration_method !== null
+              ? epicrisis?.documents[0].guest_hydration_method
+              : guest?.hydration_method,
+          guest_opioid_name:
+            epicrisis?.documents[0].guest_opioid_name !== null
+              ? epicrisis?.documents[0].guest_opioid_name
+              : guest?.opioid_name,
         });
-        console.log("form", form);
         setIsResetDone(true);
       }
     }
-  }, [epicrisis, mutate, params.id, form]);
+  }, [epicrisis, mutate, params, form, guest]);
 
   useEffect(() => {
     if (isResetDone) {
+      form.setValue(
+        "guest_hydration_method",
+        epicrisis?.documents[0].guest_hydration_method !== null
+          ? epicrisis?.documents[0].guest_hydration_method
+          : guest?.hydration_method || "oral"
+      );
       setIsResetDone(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isResetDone, form, epicrisis]);
 
-  async function onSubmit() {
+  async function onSubmit(values: EpicrisisFormValues) {
     setIsSubmitting(true);
 
-    // mutate(
-    //   { param: { id: params.id }, json: values },
-    //   {
-    //     onError: () => {
-    //       setShowError(true);
-    //       setIsSubmitting(false);
-    //     },
-    //   }
-    // );
+    mutateUpdate(
+      { param: { id: form.getValues("$id") || "" }, json: values },
+      {
+        onError: () => {
+          setShowError(true);
+          setIsSubmitting(false);
+        },
+      }
+    );
   }
 
   if (
@@ -173,10 +229,7 @@ function ViewEpicrisisForm() {
   return (
     <div>
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          autoComplete="off"
-          className="">
+        <form onSubmit={form.handleSubmit(onSubmit)} autoComplete="off">
           <div className="prose py-8 print:hidden">
             <h1 className="text-4xl font-semibold flex gap-2 items-center">
               Epicrisis de {guest?.name}{" "}
@@ -200,13 +253,13 @@ function ViewEpicrisisForm() {
                 <div className="w-1/3"></div>
               </div>
               <div className="text-xs flex justify-between pb-2 print:pb-3">
-                <span className="flex gap-1">
-                  <p>Nombre y apellido:</p>
-                  <div className="border-b print:border-none">
+                <span className="flex gap-1 w-1/2">
+                  <p className="whitespace-nowrap">Nombre y apellido:</p>
+                  <div className="border-b print:border-none w-full">
                     <CustomFormField
                       fieldType={FormFieldType.INPUT}
-                      name=""
-                      defaultValue={guest?.name}
+                      name="guest_name"
+                      defaultValue={form.getValues("guest_name")}
                       inputCustomClasses="border-none p-0 h-fit text-xs"
                       control={form.control}
                     />
@@ -219,8 +272,8 @@ function ViewEpicrisisForm() {
                 <div className="border-b print:border-none">
                   <CustomFormField
                     fieldType={FormFieldType.INPUT}
-                    name=""
-                    defaultValue={guest?.social_security?.name}
+                    name="guest_social_security_name"
+                    defaultValue={form.getValues("guest_social_security_name")}
                     inputCustomClasses="border-none p-0 h-fit text-xs"
                     control={form.control}
                   />
@@ -231,8 +284,8 @@ function ViewEpicrisisForm() {
                 <div className="border-b print:border-none">
                   <CustomFormField
                     fieldType={FormFieldType.INPUT}
-                    name=""
-                    defaultValue={guest?.address}
+                    name="guest_address"
+                    defaultValue={form.getValues("guest_address")}
                     inputCustomClasses="border-none p-0 h-fit text-xs"
                     control={form.control}
                   />
@@ -243,7 +296,7 @@ function ViewEpicrisisForm() {
                 <div className="border-b print:border-none">
                   <CustomFormField
                     fieldType={FormFieldType.INPUT}
-                    name=""
+                    name="guest_tumor"
                     defaultValue={guest?.tumor}
                     inputCustomClasses="border-none p-0 h-fit text-xs"
                     control={form.control}
@@ -255,7 +308,7 @@ function ViewEpicrisisForm() {
                 <div className="border-b print:border-none">
                   <CustomFormField
                     fieldType={FormFieldType.INPUT}
-                    name=""
+                    name="guest_metastasis_location"
                     defaultValue={guest?.metastasis_location}
                     inputCustomClasses="border-none p-0 h-fit text-xs"
                     control={form.control}
@@ -266,12 +319,19 @@ function ViewEpicrisisForm() {
                 <span className="flex gap-1">
                   <p>Fecha de internación:</p>
                   <div className="border-b print:border-none">
-                    <CustomFormField
-                      fieldType={FormFieldType.INPUT}
-                      name=""
-                      defaultValue={dateFormat(guest?.hospitalization_date)}
-                      inputCustomClasses="border-none p-0 h-fit text-xs"
-                      control={form.control}
+                    <ReactDatePicker
+                      selected={form.watch("guest_hospitalization_date")}
+                      onChange={(date) =>
+                        form.setValue(
+                          "guest_hospitalization_date",
+                          date || new Date()
+                        )
+                      }
+                      dateFormat="dd/MM/yyyy"
+                      showMonthDropdown
+                      showYearDropdown
+                      dropdownMode="select"
+                      className="border-none p-0 h-fit"
                     />
                   </div>
                 </span>
@@ -279,12 +339,16 @@ function ViewEpicrisisForm() {
                 <span className="flex gap-1">
                   <p>Fecha de fallecimiento:</p>
                   <div className="border-b print:border-none">
-                    <CustomFormField
-                      fieldType={FormFieldType.INPUT}
-                      name=""
-                      defaultValue={"00/00/00"}
-                      inputCustomClasses="border-none p-0 h-fit text-xs"
-                      control={form.control}
+                    <ReactDatePicker
+                      selected={form.watch("guest_date_of_death")}
+                      onChange={(date) =>
+                        form.setValue("guest_date_of_death", date || new Date())
+                      }
+                      dateFormat="dd/MM/yyyy"
+                      showMonthDropdown
+                      showYearDropdown
+                      dropdownMode="select"
+                      className="border-none p-0 h-fit"
                     />
                   </div>
                 </span>
@@ -294,9 +358,8 @@ function ViewEpicrisisForm() {
                   <p>Total de días de internación:</p>
                   <div className="border-b print:border-none">
                     <CustomFormField
-                      fieldType={FormFieldType.INPUT}
-                      name=""
-                      defaultValue={"0"}
+                      fieldType={FormFieldType.NUMBER}
+                      name="guest_hospitalization_days"
                       inputCustomClasses="border-none p-0 h-fit text-xs"
                       control={form.control}
                     />
@@ -559,16 +622,18 @@ function ViewEpicrisisForm() {
                   <p>Hidratación:</p>
                   <div className="border-b print:border-none">
                     <CustomFormField
-                      fieldType={FormFieldType.INPUT}
-                      name=""
-                      defaultValue={
-                        HydrationMethod.find(
-                          (level) => level.value === guest?.hydration_method
-                        )?.name
-                      }
+                      fieldType={FormFieldType.SELECT}
+                      name="guest_hydration_method"
                       inputCustomClasses="border-none p-0 h-fit text-xs"
-                      control={form.control}
-                    />
+                      control={form.control}>
+                      {HydrationMethod.map((index, i) => (
+                        <SelectItem key={index.id + i} value={index.value}>
+                          <div className="flex cursor-pointer items-center gap-2">
+                            <p>{index.name}</p>
+                          </div>
+                        </SelectItem>
+                      ))}
+                    </CustomFormField>
                   </div>
                 </span>
               </div>
@@ -578,8 +643,8 @@ function ViewEpicrisisForm() {
                   <div className="border-b print:border-none">
                     <CustomFormField
                       fieldType={FormFieldType.INPUT}
-                      name=""
-                      defaultValue={guest?.opioid_name}
+                      name="guest_opioid_name"
+                      defaultValue={form.getValues("guest_opioid_name")}
                       inputCustomClasses="border-none p-0 h-fit text-xs"
                       control={form.control}
                     />

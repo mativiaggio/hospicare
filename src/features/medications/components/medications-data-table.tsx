@@ -58,12 +58,10 @@ const CellActions = ({ row }: { row: any }) => {
   const [showError, setShowError] = React.useState<boolean>(false);
 
   function deleteRecord(id: string) {
-    console.log("Deleting record with ID:", id);
     mutate(
       { param: { id } },
       {
         onError: () => {
-          console.log("Ocurrio un error");
           setShowError(true);
         },
       }

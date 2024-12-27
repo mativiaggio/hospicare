@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 export const epicrisisSchema = z.object({
+  $id: z.string().optional(),
   guest_id: z.string(),
   guests: z.string().optional(),
   medical_emergency: z.enum(["no", "yes"]).optional(),
@@ -60,4 +61,36 @@ export const epicrisisSchema = z.object({
   medic_in_charge: z.string().optional(),
   psychologist_in_charge: z.string().optional(),
   communication: z.string().optional(),
+  guest_name: z.string().optional(),
+  guest_social_security_name: z.string().optional(),
+  guest_address: z.string().optional(),
+  guest_tumor: z.string().optional(),
+  guest_metastasis_location: z.string().optional(),
+  guest_hospitalization_date: z.preprocess(
+    (val) => {
+      if (val === null || val === undefined) return null;
+      return val instanceof Date ? val : new Date(val as string);
+    },
+    z
+      .date()
+      .nullable()
+      .refine((val) => val === null || !isNaN(val.getTime()), {
+        message: "La fecha de hospitalización debe ser una fecha válida o null",
+      })
+  ),
+  guest_date_of_death: z.preprocess(
+    (val) => {
+      if (val === null || val === undefined) return null;
+      return val instanceof Date ? val : new Date(val as string);
+    },
+    z
+      .date()
+      .nullable()
+      .refine((val) => val === null || !isNaN(val.getTime()), {
+        message: "La fecha de fallecimiento debe ser una fecha válida o null",
+      })
+  ),
+  guest_hospitalization_days: z.coerce.number().optional().default(0),
+  guest_hydration_method: z.enum(["oral", "sc", "iv", ""]).optional(),
+  guest_opioid_name: z.string().optional(),
 });
