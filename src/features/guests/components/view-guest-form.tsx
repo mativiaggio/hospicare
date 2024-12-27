@@ -65,7 +65,6 @@ export default function ViewGuestForm() {
 
   useEffect(() => {
     if (guest) {
-      console.log("guest", guest);
       form.reset({
         admission_date: guest.admission_date
           ? new Date(guest.admission_date)

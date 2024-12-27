@@ -43,7 +43,6 @@ export default function ViewStaffForm() {
 
   useEffect(() => {
     if (staff) {
-      console.log("guest", staff);
       form.reset({
         name: staff?.name || "",
         dni: staff?.dni || undefined,
