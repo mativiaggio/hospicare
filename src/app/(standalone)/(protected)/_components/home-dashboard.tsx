@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+// import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 import {
   HardHat,
@@ -81,7 +81,7 @@ export default function HomeDashboard() {
           </Card>
         </div>
 
-        <div className="mt-6">
+        {/* <div className="mt-6">
           <Tabs defaultValue="actividades" className="w-full">
             <TabsList>
               <TabsTrigger value="actividades">
@@ -150,7 +150,7 @@ export default function HomeDashboard() {
               </Card>
             </TabsContent>
           </Tabs>
-        </div>
+        </div> */}
       </main>
     </div>
   );
