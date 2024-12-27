@@ -56,7 +56,6 @@ export default function AddTicketForm() {
       users: [userDocument.documentId],
     };
 
-    console.log({ formattedValues });
     mutate({ json: formattedValues });
     setIsSubmitting(false);
     router.push("/soporte");

@@ -29,7 +29,7 @@ export default function HomeDashboard() {
         </div>
 
         <div className="mt-6">
-          <Card className="col-span-5">
+          <Card className="col-span-5 shadow-none">
             <CardHeader>
               <CardTitle>Acciones Rápidas</CardTitle>
             </CardHeader>
@@ -90,7 +90,7 @@ export default function HomeDashboard() {
               <TabsTrigger value="tareas">Tareas Pendientes</TabsTrigger>
             </TabsList>
             <TabsContent value="actividades">
-              <Card>
+              <Card className="shadow-none">
                 <CardHeader>
                   <CardTitle>Actividades Recientes</CardTitle>
                 </CardHeader>

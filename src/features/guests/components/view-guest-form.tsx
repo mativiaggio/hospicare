@@ -65,7 +65,6 @@ export default function ViewGuestForm() {
 
   useEffect(() => {
     if (guest) {
-      console.log("guest", guest);
       form.reset({
         admission_date: guest.admission_date
           ? new Date(guest.admission_date)
@@ -1118,7 +1117,7 @@ export default function ViewGuestForm() {
             </div>
           </div>
 
-          <div className="sticky bottom-4 flex justify-end pt-4">
+          <div className="sticky bottom-4 flex justify-end pt-4 pb-[100px]">
             <Button
               type="submit"
               className="w-full md:w-auto"

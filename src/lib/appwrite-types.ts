@@ -230,6 +230,7 @@ export interface Guest {
   status?: "alive" | "pending" | "dead";
   medications?: Medications[];
   hospitalization_date?: Date;
+  date_of_death?: Date;
 }
 
 export interface Users {
@@ -330,7 +331,17 @@ export interface Epicrisis {
   comments?: string;
   medic_in_charge?: Staff[];
   psychologist_in_charge?: Staff[];
-  communication: string;
+  communication?: string;
+  guest_name?: string;
+  guest_social_security_name?: string;
+  guest_address?: string;
+  guest_tumor?: string;
+  guest_metastasis_location?: string;
+  guest_hospitalization_date?: Date;
+  guest_date_of_death?: Date;
+  guest_hospitalization_days?: number;
+  guest_hydration_method?: "oral" | "sc" | "iv";
+  guest_opioid_name?: string;
 }
 
 export interface Secrets {
