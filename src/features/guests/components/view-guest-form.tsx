@@ -56,6 +56,11 @@ export default function ViewGuestForm() {
     isLoading: isLoadingGuest,
     isFetching: isFetchingGuest,
   } = useFindGuestById(params.id);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [provinces, setProvinces] = useState<any>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [municipios, setMunicipios] = useState<any>(null);
+
   const validInformationLevels = ["total", "partial", "none"];
   const ecogOptions = ["0", "1", "2", "3", "4"];
 
@@ -71,8 +76,13 @@ export default function ViewGuestForm() {
           : undefined,
         birthdate: guest.birthdate ? new Date(guest.birthdate) : undefined,
         name: guest.name,
+        lastname: guest.lastname,
         dni: guest.dni,
-        address: guest.address,
+        street_name: guest.street_name,
+        street_number: guest.street_number,
+        province: guest.province,
+        city: guest.city,
+        zip_code: guest.zip_code,
         social_security: guest.social_security?.$id,
         social_security_number: guest.social_security_number,
         contact_name: guest.contact_name,
@@ -199,10 +209,32 @@ export default function ViewGuestForm() {
       form.setValue("social_security", guest?.social_security?.$id || "");
       form.setValue("status", guest?.status || "alive");
 
+      form.setValue("province", guest?.province || "");
+      form.setValue("city", guest?.city || "");
+      fetch(
+        `https://apis.datos.gob.ar/georef/api/municipios?provincia=${guest?.province}&max=1000`
+      )
+        .then((response) => response.json())
+        .then((data) => setMunicipios(data));
+
       setIsResetDone(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isResetDone, form, guest]);
+
+  useEffect(() => {
+    fetch("https://apis.datos.gob.ar/georef/api/provincias")
+      .then((response) => response.json())
+      .then((data) => setProvinces(data));
+  }, []);
+
+  function handleMunicipios(value: string) {
+    fetch(
+      `https://apis.datos.gob.ar/georef/api/municipios?provincia=${value}&max=1000`
+    )
+      .then((response) => response.json())
+      .then((data) => setMunicipios(data));
+  }
 
   async function onSubmit(values: GuestFormValues) {
     setIsSubmitting(true);
@@ -241,7 +273,7 @@ export default function ViewGuestForm() {
                 <CustomFormField
                   fieldType={FormFieldType.INPUT}
                   name="name"
-                  label="Nombre Completo"
+                  label="Nombres"
                   placeholder=""
                   control={form.control}
                   defaultValue={form.getValues("name")}
@@ -250,8 +282,18 @@ export default function ViewGuestForm() {
               <div>
                 <CustomFormField
                   fieldType={FormFieldType.INPUT}
+                  name="lastname"
+                  label="Apellidos"
+                  placeholder=""
+                  control={form.control}
+                  defaultValue={form.getValues("lastname")}
+                />
+              </div>
+              <div>
+                <CustomFormField
+                  fieldType={FormFieldType.NUMBER}
                   name="dni"
-                  label="DNI"
+                  label="DNI (sin puntos)"
                   placeholder=""
                   defaultValue={form.getValues("dni")}
                   control={form.control}
@@ -260,10 +302,71 @@ export default function ViewGuestForm() {
               <div>
                 <CustomFormField
                   fieldType={FormFieldType.TEXTAREA}
-                  name="address"
-                  label="Dirección"
+                  name="street_name"
+                  label="Calle"
                   placeholder=""
-                  defaultValue={form.getValues("address")}
+                  defaultValue={form.getValues("street_name")}
+                  control={form.control}
+                />
+              </div>
+              <div>
+                <CustomFormField
+                  fieldType={FormFieldType.NUMBER}
+                  name="street_number"
+                  label="Número"
+                  placeholder=""
+                  defaultValue={form.getValues("street_number")}
+                  control={form.control}
+                />
+              </div>
+              <div>
+                <CustomFormField
+                  fieldType={FormFieldType.SELECT}
+                  name="province"
+                  label="Provincia"
+                  control={form.control}
+                  onValueChange={(value) => handleMunicipios(value)}>
+                  {provinces && provinces.provincias.length > 0 ? (
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    provinces.provincias.map((index: any) => (
+                      <SelectItem key={index.id} value={index.id}>
+                        <div className="flex cursor-pointer items-center gap-2">
+                          <p>{index.nombre}</p>
+                        </div>
+                      </SelectItem>
+                    ))
+                  ) : (
+                    <p>No se encontraron provincias</p>
+                  )}
+                </CustomFormField>
+              </div>
+              <div>
+                <CustomFormField
+                  fieldType={FormFieldType.SELECT}
+                  name="city"
+                  label="Municipio"
+                  control={form.control}>
+                  {municipios && municipios.municipios?.length > 0 ? (
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    municipios.municipios.map((index: any) => (
+                      <SelectItem key={index.id} value={index.id}>
+                        <div className="flex cursor-pointer items-center gap-2">
+                          <p>{index.nombre}</p>
+                        </div>
+                      </SelectItem>
+                    ))
+                  ) : (
+                    <p>No se encontraron municipios</p>
+                  )}
+                </CustomFormField>
+              </div>
+              <div>
+                <CustomFormField
+                  fieldType={FormFieldType.NUMBER}
+                  name="zip_code"
+                  label="Código Postal"
+                  placeholder=""
+                  defaultValue={form.getValues("zip_code")}
                   control={form.control}
                 />
               </div>
@@ -589,7 +692,7 @@ export default function ViewGuestForm() {
                 <label
                   className="block mb-2 font-medium text-sm"
                   htmlFor="hospitalization_date">
-                  Fecha de admisión
+                  Fecha de internación
                 </label>
                 <ReactDatePicker
                   selected={form.watch("hospitalization_date")}
@@ -1117,7 +1220,7 @@ export default function ViewGuestForm() {
             </div>
           </div>
 
-          <div className="sticky bottom-4 flex justify-end pt-4 pb-[100px]">
+          <div className="sticky bottom-4 flex justify-end pt-4 pb-[100px] w-fit float-end">
             <Button
               type="submit"
               className="w-full md:w-auto"

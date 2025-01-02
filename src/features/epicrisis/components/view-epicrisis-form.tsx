@@ -36,6 +36,10 @@ type EpicrisisFormValues = z.infer<typeof epicrisisSchema>;
 function ViewEpicrisisForm() {
   const params = useParams<{ id: string }>();
   const [firstTimeLoad, setFirstTimeLoad] = useState<boolean>(true);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [province, setProvince] = useState<any>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [municipio, setMunicipio] = useState<any>(null);
 
   const {
     data: guest,
@@ -67,128 +71,155 @@ function ViewEpicrisisForm() {
   });
 
   useEffect(() => {
-    if (epicrisis) {
-      if (epicrisis.documents.length === 0) {
-        const values = { guest_id: params.id };
-        mutate(
-          { json: values },
-          {
-            onSuccess: () => {
-              window.location.reload();
-            },
-          }
+    const fetchData = async () => {
+      if (guest) {
+        const municipioResponse = await fetch(
+          `https://apis.datos.gob.ar/georef/api/municipios?id=${guest?.city}`
         );
-      } else {
-        setFirstTimeLoad(false);
-        form.reset({
-          $id: epicrisis?.documents[0].$id || "",
-          guest_id: epicrisis?.documents[0].guest_id || "",
-          medical_emergency: epicrisis?.documents[0].medical_emergency || "no",
-          home_hospitalization:
-            epicrisis?.documents[0].home_hospitalization || "no",
-          home_nursing: epicrisis?.documents[0].home_nursing || "no",
-          home_doctor: epicrisis?.documents[0].home_doctor || "no",
-          home_doctor_frequency:
-            epicrisis?.documents[0].home_doctor_frequency || "",
-          palliative_care_assistance:
-            epicrisis?.documents[0].palliative_care_assistance || "no",
-          hospitalization_reason:
-            epicrisis?.documents[0].hospitalization_reason || "no_caregivers",
-          uncontrolled_symptoms:
-            epicrisis?.documents[0].uncontrolled_symptoms || null,
-          other_uncontrolled_symptoms:
-            epicrisis?.documents[0].other_uncontrolled_symptoms || "",
-          interconsultations:
-            epicrisis?.documents[0].interconsultations || "no",
-          interconsultation_specialist:
-            epicrisis?.documents[0].interconsultation_specialist || "",
-          opioid_demo: epicrisis?.documents[0].opioid_demo || "",
-          opioid_method: epicrisis?.documents[0].opioid_method || "oral",
-          sedation: epicrisis?.documents[0].sedation || "no",
-          sedation_medication:
-            epicrisis?.documents[0].sedation_medication || "",
-          delirium: epicrisis?.documents[0].delirium || "no",
-          dyspnoea: epicrisis?.documents[0].dyspnoea || "no",
-          pain: epicrisis?.documents[0].pain || "no",
-          suffering: epicrisis?.documents[0].suffering || "no",
-          family_care: epicrisis?.documents[0].family_care || "no",
-          family_meeting: epicrisis?.documents[0].family_meeting || "no",
-          meeting_medic: epicrisis?.documents[0].meeting_medic || "no",
-          meeting_psychologist:
-            epicrisis?.documents[0].meeting_psychologist || "no",
-          meeting_social_worker:
-            epicrisis?.documents[0].meeting_social_worker || "no",
-          meeting_nurse: epicrisis?.documents[0].meeting_nurse || "no",
-          meeting_other: epicrisis?.documents[0].meeting_other || "",
-          multifamily_meetings:
-            epicrisis?.documents[0].multifamily_meetings || "no",
-          spiritual_assistance:
-            epicrisis?.documents[0].spiritual_assistance || "no",
-          spiritual_assistance_type:
-            epicrisis?.documents[0].spiritual_assistance_type || null,
-          psychological_assistance:
-            epicrisis?.documents[0].psychological_assistance || "no",
-          previous_psychopathological_history:
-            epicrisis?.documents[0].previous_psychopathological_history || "no",
-          adaptation_difficulties:
-            epicrisis?.documents[0].adaptation_difficulties || "no",
-          comments: epicrisis?.documents[0].comments || "",
-          medic_in_charge: epicrisis?.documents[0].medic_in_charge?.$id || "",
-          psychologist_in_charge:
-            epicrisis?.documents[0].psychologist_in_charge?.$id || "",
-          communication: epicrisis?.documents[0].communication || "",
-          guest_name:
-            epicrisis?.documents[0].guest_name !== null
-              ? epicrisis?.documents[0].guest_name
-              : guest?.name,
-          guest_social_security_name:
-            epicrisis?.documents[0].guest_social_security_name !== null
-              ? epicrisis?.documents[0].guest_social_security_name
-              : guest?.social_security?.name,
-          guest_address:
-            epicrisis?.documents[0].guest_address !== null
-              ? epicrisis?.documents[0].guest_address
-              : guest?.address,
-          guest_tumor:
-            epicrisis?.documents[0].guest_tumor !== null
-              ? epicrisis?.documents[0].guest_tumor
-              : guest?.tumor,
-          guest_metastasis_location:
-            epicrisis?.documents[0].guest_metastasis_location !== null
-              ? epicrisis?.documents[0].guest_metastasis_location
-              : guest?.metastasis_location,
-          guest_hospitalization_date:
-            epicrisis?.documents[0].guest_hospitalization_date !== null
-              ? epicrisis?.documents[0].guest_hospitalization_date
-              : guest?.hospitalization_date
-              ? new Date(guest?.hospitalization_date)
-              : undefined,
-          guest_date_of_death:
-            epicrisis?.documents[0].guest_date_of_death !== null
-              ? epicrisis?.documents[0].guest_date_of_death
-              : guest?.date_of_death
-              ? new Date(guest?.date_of_death)
-              : undefined,
-          guest_hospitalization_days:
-            epicrisis?.documents[0].guest_hospitalization_days !== null
-              ? epicrisis?.documents[0].guest_hospitalization_days
-              : calcularDiasEntreFechas(
-                  guest?.hospitalization_date,
-                  guest?.date_of_death
-                ) || 0,
-          guest_hydration_method:
-            epicrisis?.documents[0].guest_hydration_method !== null
-              ? epicrisis?.documents[0].guest_hydration_method
-              : guest?.hydration_method,
-          guest_opioid_name:
-            epicrisis?.documents[0].guest_opioid_name !== null
-              ? epicrisis?.documents[0].guest_opioid_name
-              : guest?.opioid_name,
-        });
-        setIsResetDone(true);
+        const municipioData = await municipioResponse.json();
+        const municipio = municipioData?.municipios?.[0]?.nombre || "";
+        const provincia =
+          municipioData?.municipios?.[0]?.provincia.nombre || "";
+
+        // Actualizar los estados de provincia y municipio
+        setProvince(provincia);
+        setMunicipio(municipio);
+
+        if (epicrisis) {
+          if (epicrisis.documents.length === 0) {
+            const values = { guest_id: params.id };
+            mutate(
+              { json: values },
+              {
+                onSuccess: () => {
+                  window.location.reload();
+                },
+              }
+            );
+          } else {
+            setFirstTimeLoad(false);
+            form.reset({
+              $id: epicrisis?.documents[0].$id || "",
+              guest_id: epicrisis?.documents[0].guest_id || "",
+              medical_emergency:
+                epicrisis?.documents[0].medical_emergency || "no",
+              home_hospitalization:
+                epicrisis?.documents[0].home_hospitalization || "no",
+              home_nursing: epicrisis?.documents[0].home_nursing || "no",
+              home_doctor: epicrisis?.documents[0].home_doctor || "no",
+              home_doctor_frequency:
+                epicrisis?.documents[0].home_doctor_frequency || "",
+              palliative_care_assistance:
+                epicrisis?.documents[0].palliative_care_assistance || "no",
+              hospitalization_reason:
+                epicrisis?.documents[0].hospitalization_reason ||
+                "no_caregivers",
+              uncontrolled_symptoms:
+                epicrisis?.documents[0].uncontrolled_symptoms || null,
+              other_uncontrolled_symptoms:
+                epicrisis?.documents[0].other_uncontrolled_symptoms || "",
+              interconsultations:
+                epicrisis?.documents[0].interconsultations || "no",
+              interconsultation_specialist:
+                epicrisis?.documents[0].interconsultation_specialist || "",
+              opioid_demo: epicrisis?.documents[0].opioid_demo || "",
+              opioid_method: epicrisis?.documents[0].opioid_method || "oral",
+              sedation: epicrisis?.documents[0].sedation || "no",
+              sedation_medication:
+                epicrisis?.documents[0].sedation_medication || "",
+              delirium: epicrisis?.documents[0].delirium || "no",
+              dyspnoea: epicrisis?.documents[0].dyspnoea || "no",
+              pain: epicrisis?.documents[0].pain || "no",
+              suffering: epicrisis?.documents[0].suffering || "no",
+              family_care: epicrisis?.documents[0].family_care || "no",
+              family_meeting: epicrisis?.documents[0].family_meeting || "no",
+              meeting_medic: epicrisis?.documents[0].meeting_medic || "no",
+              meeting_psychologist:
+                epicrisis?.documents[0].meeting_psychologist || "no",
+              meeting_social_worker:
+                epicrisis?.documents[0].meeting_social_worker || "no",
+              meeting_nurse: epicrisis?.documents[0].meeting_nurse || "no",
+              meeting_other: epicrisis?.documents[0].meeting_other || "",
+              multifamily_meetings:
+                epicrisis?.documents[0].multifamily_meetings || "no",
+              spiritual_assistance:
+                epicrisis?.documents[0].spiritual_assistance || "no",
+              spiritual_assistance_type:
+                epicrisis?.documents[0].spiritual_assistance_type || null,
+              psychological_assistance:
+                epicrisis?.documents[0].psychological_assistance || "no",
+              previous_psychopathological_history:
+                epicrisis?.documents[0].previous_psychopathological_history ||
+                "no",
+              adaptation_difficulties:
+                epicrisis?.documents[0].adaptation_difficulties || "no",
+              comments: epicrisis?.documents[0].comments || "",
+              medic_in_charge:
+                epicrisis?.documents[0].medic_in_charge?.$id || "",
+              psychologist_in_charge:
+                epicrisis?.documents[0].psychologist_in_charge?.$id || "",
+              communication: epicrisis?.documents[0].communication || "",
+              guest_name:
+                epicrisis?.documents[0].guest_name !== null
+                  ? epicrisis?.documents[0].guest_name
+                  : guest?.name + " " + guest?.lastname,
+              guest_social_security_name:
+                epicrisis?.documents[0].guest_social_security_name !== null
+                  ? epicrisis?.documents[0].guest_social_security_name
+                  : guest?.social_security?.name,
+              guest_address:
+                epicrisis?.documents[0].guest_address !== null
+                  ? epicrisis?.documents[0].guest_address
+                  : guest?.street_name +
+                    " " +
+                    guest?.street_number +
+                    " " +
+                    municipio +
+                    " " +
+                    province,
+              guest_tumor:
+                epicrisis?.documents[0].guest_tumor !== null
+                  ? epicrisis?.documents[0].guest_tumor
+                  : guest?.tumor,
+              guest_metastasis_location:
+                epicrisis?.documents[0].guest_metastasis_location !== null
+                  ? epicrisis?.documents[0].guest_metastasis_location
+                  : guest?.metastasis_location,
+              guest_hospitalization_date:
+                epicrisis?.documents[0].guest_hospitalization_date !== null
+                  ? epicrisis?.documents[0].guest_hospitalization_date
+                  : guest?.hospitalization_date
+                  ? new Date(guest?.hospitalization_date)
+                  : undefined,
+              guest_date_of_death:
+                epicrisis?.documents[0].guest_date_of_death !== null
+                  ? epicrisis?.documents[0].guest_date_of_death
+                  : guest?.date_of_death
+                  ? new Date(guest?.date_of_death)
+                  : undefined,
+              guest_hospitalization_days:
+                epicrisis?.documents[0].guest_hospitalization_days !== null
+                  ? epicrisis?.documents[0].guest_hospitalization_days
+                  : calcularDiasEntreFechas(
+                      guest?.hospitalization_date,
+                      guest?.date_of_death
+                    ) || 0,
+              guest_hydration_method:
+                epicrisis?.documents[0].guest_hydration_method !== null
+                  ? epicrisis?.documents[0].guest_hydration_method
+                  : guest?.hydration_method,
+              guest_opioid_name:
+                epicrisis?.documents[0].guest_opioid_name !== null
+                  ? epicrisis?.documents[0].guest_opioid_name
+                  : guest?.opioid_name,
+            });
+            setIsResetDone(true);
+          }
+        }
       }
-    }
-  }, [epicrisis, mutate, params, form, guest]);
+    };
+    fetchData();
+  }, [epicrisis, mutate, params, form, guest, municipio, province]);
 
   useEffect(() => {
     if (isResetDone) {
@@ -281,7 +312,7 @@ function ViewEpicrisisForm() {
               </div>
               <div className="text-xs flex gap-1 pb-2 print:pb-3">
                 <p>Dirección:</p>
-                <div className="border-b print:border-none">
+                <div className="border-b print:border-none w-full">
                   <CustomFormField
                     fieldType={FormFieldType.INPUT}
                     name="guest_address"
@@ -293,7 +324,7 @@ function ViewEpicrisisForm() {
               </div>
               <div className="text-xs flex gap-1 pb-2 print:pb-3">
                 <p>Tumor (si el diagnóstico es cáncer):</p>
-                <div className="border-b print:border-none">
+                <div className="border-b print:border-none w-1/2">
                   <CustomFormField
                     fieldType={FormFieldType.INPUT}
                     name="guest_tumor"
@@ -305,7 +336,7 @@ function ViewEpicrisisForm() {
               </div>
               <div className="text-xs flex gap-1 pb-2 print:pb-3">
                 <p>Metástasis:</p>
-                <div className="border-b print:border-none">
+                <div className="border-b print:border-none w-full">
                   <CustomFormField
                     fieldType={FormFieldType.INPUT}
                     name="guest_metastasis_location"
