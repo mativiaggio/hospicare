@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { E164Number } from "libphonenumber-js/core";
-import React, { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import DatePicker from "react-datepicker";
 import { Control } from "react-hook-form";
 import PhoneInput from "react-phone-number-input";
@@ -52,6 +52,10 @@ interface CustomProps {
   onFocus?: (event: FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   onBlur?: (event: FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   onChange?: (value: string | number | boolean | Date | null) => void;
+  onValueChange?: (value: string) => void;
+  onSelectChange?: (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => void;
   formItemCustomClasses?: string;
   iconType?: string;
   iconAlt?: string;
@@ -90,6 +94,7 @@ const RenderField = ({
     description,
     onFocus,
     onBlur,
+    onValueChange,
     iconAlt,
     disabled,
     fieldCustomClasses,
@@ -287,11 +292,11 @@ const RenderField = ({
           <FormControl>
             <Select
               value={field.value || ""}
-              onValueChange={(val) => {
-                field.onChange(val);
-                if (props.onChange) props.onChange(val);
-              }}
-              disabled={props.disabled}>
+              disabled={props.disabled}
+              onValueChange={(value) => {
+                field.onChange(value); // Asegúrate de que se llama a field.onChange
+                if (props.onValueChange) props.onValueChange(value); // Llama a tu función personalizada también
+              }}>
               <FormControl>
                 <SelectTrigger className={`${inputCustomClasses}`}>
                   <SelectValue placeholder={props.placeholder} />

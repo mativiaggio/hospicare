@@ -123,10 +123,15 @@ export interface Guest {
   // Propiedades del huésped
   admission_date?: Date;
   name?: string;
+  lastname?: string;
   birthdate?: Date;
   age?: number;
-  dni?: string;
-  address?: string;
+  dni?: number;
+  street_name?: string;
+  street_number?: number;
+  province?: string;
+  city?: string;
+  zip_code?: number;
   contact_name?: string;
   contact_phone?: string;
   contact_email?: string;
