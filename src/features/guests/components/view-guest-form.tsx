@@ -62,7 +62,7 @@ export default function ViewGuestForm() {
   const [municipios, setMunicipios] = useState<any>(null);
 
   const validInformationLevels = ["total", "partial", "none"];
-  const ecogOptions = ["0", "1", "2", "3", "4"];
+  const ecogOptions = ["0", "1", "2", "3", "4", "5"];
 
   const form = useForm<GuestFormValues>({
     resolver: zodResolver(guestSchema),
@@ -171,7 +171,7 @@ export default function ViewGuestForm() {
       form.setValue(
         "ecog",
         ecogOptions.includes(guest?.ecog || "")
-          ? (guest?.ecog as "0" | "1" | "2" | "3" | "4")
+          ? (guest?.ecog as "0" | "1" | "2" | "3" | "4" | "5")
           : "0"
       );
       form.setValue(
@@ -266,9 +266,27 @@ export default function ViewGuestForm() {
           onSubmit={form.handleSubmit(onSubmit)}
           autoComplete="off"
           className="">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 gap-6">
             <div className="space-y-4">
               <h2 className="text-xl font-bold">Información Personal</h2>
+              <div>
+                <label
+                  className="block mb-2 font-medium text-sm"
+                  htmlFor="admission_date">
+                  Fecha de admisión
+                </label>
+                <ReactDatePicker
+                  selected={form.watch("admission_date")}
+                  onChange={(date) =>
+                    form.setValue("admission_date", date || new Date())
+                  }
+                  dateFormat="dd/MM/yyyy"
+                  showMonthDropdown
+                  showYearDropdown
+                  dropdownMode="select"
+                  className="w-full px-3 py-2 border rounded-md"
+                />
+              </div>
               <div>
                 <CustomFormField
                   fieldType={FormFieldType.INPUT}
@@ -673,24 +691,6 @@ export default function ViewGuestForm() {
               <div>
                 <label
                   className="block mb-2 font-medium text-sm"
-                  htmlFor="admission_date">
-                  Fecha de admisión
-                </label>
-                <ReactDatePicker
-                  selected={form.watch("admission_date")}
-                  onChange={(date) =>
-                    form.setValue("admission_date", date || new Date())
-                  }
-                  dateFormat="dd/MM/yyyy"
-                  showMonthDropdown
-                  showYearDropdown
-                  dropdownMode="select"
-                  className="w-full px-3 py-2 border rounded-md"
-                />
-              </div>
-              <div>
-                <label
-                  className="block mb-2 font-medium text-sm"
                   htmlFor="hospitalization_date">
                   Fecha de internación
                 </label>
@@ -746,7 +746,6 @@ export default function ViewGuestForm() {
               </div>
             </div>
             <div className="space-y-4">
-              <h2 className="text-xl font-bold">Evaluación cognitiva</h2>
               <div className="flex items-center space-x-2">
                 <CustomFormField
                   fieldType={FormFieldType.CHECKBOX}
@@ -984,7 +983,6 @@ export default function ViewGuestForm() {
               </div>
             </div>
             <div className="space-y-4">
-              <h2 className="text-xl font-bold">Evaluación física</h2>
               <div>
                 <CustomFormField
                   fieldType={FormFieldType.SELECT}
