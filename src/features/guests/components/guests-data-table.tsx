@@ -86,13 +86,30 @@ export const columns: ColumnDef<Guest>[] = [
           variant="ghost"
           className="pl-0 hover:bg-transparent"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-          Nombre
+          Nombres
           <CaretSortIcon className="ml-2 h-4 w-4" />
         </Button>
       );
     },
     cell: ({ row }) => (
       <div className="whitespace-nowrap">{row.getValue("name")}</div>
+    ),
+  },
+  {
+    accessorKey: "lastname",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          className="pl-0 hover:bg-transparent"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+          Apellidos
+          <CaretSortIcon className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => (
+      <div className="whitespace-nowrap">{row.getValue("lastname")}</div>
     ),
   },
   {
@@ -204,31 +221,6 @@ export const columns: ColumnDef<Guest>[] = [
         {row.getValue("contact_phone")}
       </div>
     ),
-  },
-  {
-    accessorKey: "address",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          className="pl-0 hover:bg-transparent"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-          Dirección
-          <CaretSortIcon className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => {
-      const address = row.getValue<string>("address");
-
-      if (typeof address === "string") {
-        const displayAddress =
-          address.length > 30 ? `${address.substring(0, 30)}...` : address;
-        return <div className="whitespace-nowrap">{displayAddress}</div>;
-      } else {
-        return;
-      }
-    },
   },
   {
     accessorKey: "referring_person",

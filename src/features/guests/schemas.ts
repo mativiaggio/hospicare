@@ -17,11 +17,22 @@ export const guestSchema = z.object({
     .string()
     .min(1, "Este campo es obligatorio")
     .max(100, "Máximo de caracteres excedido (100)"),
-  dni: z
+  lastname: z
     .string()
     .min(1, "Este campo es obligatorio")
-    .max(8, "Máximo de caracteres excedido (8)"),
-  address: z.string().max(100, "La dirección es demasiado larga").optional(),
+    .max(100, "Máximo de caracteres excedido (100)"),
+  dni: z.coerce.number().max(99999999, "El DNI es inválido"),
+  street_name: z
+    .string()
+    .max(100, "La dirección es demasiado larga")
+    .optional(),
+  street_number: z.coerce
+    .number()
+    .max(99999999, "El número es inválido")
+    .optional(),
+  province: z.string().max(100, "La provioncia es demasiado larga").optional(),
+  city: z.string().max(100, "La cuidad es demasiado larga").optional(),
+  zip_code: z.coerce.number().max(100000, "El DNI es inválido").optional(),
   contact_name: z
     .string()
     .min(1, "Este campo es obligatorio")

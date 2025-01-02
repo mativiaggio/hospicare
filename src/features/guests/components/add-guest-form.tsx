@@ -28,7 +28,7 @@ import {
   UrineCharacteristics,
 } from "@/constants/appwrite";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { useNewGuest } from "../api/use-new-guest";
@@ -47,15 +47,24 @@ export default function AddGuestForm() {
   const [showError, setShowError] = useState<boolean>(false);
   const { data: ssResponse, isLoading: isLoadingSocialSecurity } =
     useGetSocialSecurity();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [provinces, setProvinces] = useState<any>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [municipios, setMunicipios] = useState<any>(null);
 
   const form = useForm<GuestFormValues>({
     resolver: zodResolver(guestSchema),
     defaultValues: {
       admission_date: new Date(),
       name: "",
+      lastname: "",
       birthdate: new Date(),
-      dni: "",
-      address: "",
+      dni: undefined,
+      street_name: "",
+      street_number: undefined,
+      province: "",
+      city: "",
+      zip_code: undefined,
       social_security: "",
       social_security_number: "",
       contact_name: "",
@@ -128,6 +137,20 @@ export default function AddGuestForm() {
     },
   });
 
+  useEffect(() => {
+    fetch("https://apis.datos.gob.ar/georef/api/provincias")
+      .then((response) => response.json())
+      .then((data) => setProvinces(data));
+  }, []);
+
+  function handleMunicipios(value: string) {
+    fetch(
+      `https://apis.datos.gob.ar/georef/api/municipios?provincia=${value}&max=1000`
+    )
+      .then((response) => response.json())
+      .then((data) => setMunicipios(data));
+  }
+
   async function onSubmit(values: GuestFormValues) {
     setIsSubmitting(true);
 
@@ -169,7 +192,16 @@ export default function AddGuestForm() {
                 <CustomFormField
                   fieldType={FormFieldType.INPUT}
                   name="name"
-                  label="Nombre Completo"
+                  label="Nombres"
+                  placeholder=""
+                  control={form.control}
+                />
+              </div>
+              <div>
+                <CustomFormField
+                  fieldType={FormFieldType.INPUT}
+                  name="lastname"
+                  label="Apellidos"
                   placeholder=""
                   control={form.control}
                 />
@@ -186,8 +218,67 @@ export default function AddGuestForm() {
               <div>
                 <CustomFormField
                   fieldType={FormFieldType.TEXTAREA}
-                  name="address"
-                  label="Dirección"
+                  name="street_name"
+                  label="Calle"
+                  placeholder=""
+                  control={form.control}
+                />
+              </div>
+              <div>
+                <CustomFormField
+                  fieldType={FormFieldType.NUMBER}
+                  name="street_number"
+                  label="Número"
+                  placeholder=""
+                  control={form.control}
+                />
+              </div>
+              <div>
+                <CustomFormField
+                  fieldType={FormFieldType.SELECT}
+                  name="province"
+                  label="Provincia"
+                  control={form.control}
+                  onValueChange={(value) => handleMunicipios(value)}>
+                  {provinces && provinces.provincias.length > 0 ? (
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    provinces.provincias.map((index: any) => (
+                      <SelectItem key={index.id} value={index.id}>
+                        <div className="flex cursor-pointer items-center gap-2">
+                          <p>{index.nombre}</p>
+                        </div>
+                      </SelectItem>
+                    ))
+                  ) : (
+                    <p>No se encontraron provincias</p>
+                  )}
+                </CustomFormField>
+              </div>
+              <div>
+                <CustomFormField
+                  fieldType={FormFieldType.SELECT}
+                  name="city"
+                  label="Municipio"
+                  control={form.control}>
+                  {municipios && municipios.municipios?.length > 0 ? (
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    municipios.municipios.map((index: any) => (
+                      <SelectItem key={index.id} value={index.id}>
+                        <div className="flex cursor-pointer items-center gap-2">
+                          <p>{index.nombre}</p>
+                        </div>
+                      </SelectItem>
+                    ))
+                  ) : (
+                    <p>No se encontraron municipios</p>
+                  )}
+                </CustomFormField>
+              </div>
+              <div>
+                <CustomFormField
+                  fieldType={FormFieldType.INPUT}
+                  name="zip_code"
+                  label="Código Postal"
                   placeholder=""
                   control={form.control}
                 />
@@ -474,7 +565,7 @@ export default function AddGuestForm() {
               </div>
               <div>
                 <label
-                  className="block mb-2 font-medium"
+                  className="block mb-2 font-medium text-sm"
                   htmlFor="admission_date">
                   Fecha de admisión
                 </label>
@@ -492,7 +583,7 @@ export default function AddGuestForm() {
               </div>
               <div>
                 <label
-                  className="block mb-2 font-medium"
+                  className="block mb-2 font-medium text-sm"
                   htmlFor="hospitalization_date">
                   Fecha de internación
                 </label>
@@ -1009,7 +1100,7 @@ export default function AddGuestForm() {
             </div>
           </div>
 
-          <div className="sticky bottom-4 flex justify-end pt-4 pb-[100px]">
+          <div className="sticky bottom-4 flex justify-end pt-4 pb-[100px] w-fit float-end">
             <Button
               type="submit"
               className="w-full md:w-auto"
