@@ -38,9 +38,7 @@ export const guestSchema = z.object({
     .min(1, "Este campo es obligatorio")
     .max(100, "Máximo de caracteres excedido (100)"),
   contact_phone: z.string().min(1, "Este campo es obligatorio").optional(),
-  contact_email: z
-    .string()
-    .email({ message: "Es obligatorio ingresar un email válido" }),
+  contact_email: z.string().optional().nullable(),
   relation_with_guest: z
     .string()
     .max(512, "Máximo de caracteres excedido (512)")
