@@ -1,0 +1,500 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Mobility {
+  NORMAL
+  W_ASSISTANCE
+  WHEELCHAIR
+  NON_AMBULATORY
+}
+
+enum MobilityCause {
+  DISEASE_PROGRESSION
+  NEUROLOGICAL_LESION
+}
+
+enum Hygiene {
+  INDEPENDENT
+  BED_DEPENDENT
+  BATH_DEPENDENT
+}
+
+enum BathTransfer {
+  YES
+  W_ASSISTANCE
+  NO
+}
+
+enum OralHealth {
+  HEALTHY
+  DRY
+  PAINFUL
+  BLEEDING
+  MUCOSITIS
+  MYCOSIS
+  PROSTHESIS
+}
+
+enum Swallowing {
+  NORMAL
+  MILD_DISORDER
+  MODERATE_DISORDER
+  SEVERE_DISORDER
+}
+
+enum Nutrition {
+  EATS_ALONE
+  W_ASSISTANCE
+  NO_INTAKE
+  NG_TUBE
+}
+
+enum Hydration {
+  NORMAL
+  DEHYDRATED
+}
+
+enum HydrationMethod {
+  ORAL
+  SC
+  IV
+}
+
+enum AbdominalStatus {
+  NORMAL
+  DISTENDED
+  PAINFUL
+}
+
+enum UrinaryFunctions {
+  NORMAL
+  DIAPER
+  INCONTINENCE
+  URINARY_CATHETER
+}
+
+enum UrineCharacteristics {
+  HEMATURIC
+  COLURIC
+  W_SEDIMENT
+}
+
+enum BowelFunction {
+  NORMAL
+  DIAPER
+  INCONTINENCE
+  CONSTIPATION
+  DIARRHEA
+}
+
+enum StoolConsistency {
+  NORMAL
+  HARD
+  W_BLOOD
+}
+
+enum RespiratorySystem {
+  NORMAL
+  RESPIRATORY_DIFFICULTY
+  DYSPNEA
+  COUGH
+}
+
+enum PressureUlcers {
+  NONE
+  ONE
+  TWO
+  THREE
+  FOUR
+}
+
+enum Religion {
+  NONE
+  CATHOLIC
+  JEWISH
+  EVANGELICAL
+  MORMON
+  JEHOVAHS_WITNESS
+  OTHER
+}
+
+enum InformationLevel {
+  TOTAL
+  PARTIAL
+  NONE
+}
+
+enum Ecog {
+  ZERO
+  ONE
+  TWO
+  THREE
+  FOUR
+  FIVE
+}
+
+enum SpecificOncologicalTreatment {
+  NONE
+  DEFINITIVE_SUSPENSION
+  NON_CONVENTIONAL
+}
+
+enum Status {
+  ALIVE
+  PENDING
+  DEAD
+}
+
+enum OpioidMethod {
+  ORAL
+  SC
+  IV
+}
+
+enum Role {
+  VOLUNTEER
+  ADMINISTRATIVE
+  NURSE
+  PSYCHOLOGIST
+  DOCTOR
+}
+
+enum TicketStatus {
+  OPEN
+  IN_PROGRESS
+  SOLVED
+  CLOSED
+  UNDER_REVIEW
+}
+
+enum YesNo {
+  YES
+  NO
+}
+
+enum RouteOfAdministration {
+  ORAL
+  INTRAVENOUS
+}
+
+enum HospitalizationReason {
+  NO_CAREGIVERS
+  FAMILY_CLAUDICATION
+  HIGH_DEMAND_FOR_NURSING_CARE
+}
+
+enum UncontrolledSymptoms {
+  PAIN
+  DYSPNOEA
+  DELIRIUM
+}
+
+enum SpiritualAssistanceType {
+  PRIEST
+  DEACON
+  MINISTER_OF_FAITH
+  VOLUNTEER
+  THERAPEUTIC_TEAM
+}
+
+enum PreviousPsychopathologicalHistory {
+  NO
+  YES
+  UNKNOWN
+}
+
+model User {
+  id                              String @id @default(uuid())
+  name                            String?
+  email                           String?
+  birthdate                       DateTime?
+  bio                             String?
+  createdAt                       DateTime @default(now())
+  updatedAt                       DateTime @updatedAt
+
+  Ticket Ticket[]
+}
+
+model SocialSecurity {
+  id                              String @id @default(uuid())
+  name                            String?
+  private                         Boolean?
+  createdAt                       DateTime @default(now())
+  updatedAt                       DateTime @updatedAt
+
+  Guest                           Guest[]
+}
+
+model Doctor {
+  id                              String @id @default(uuid())
+  name                            String
+  phoneNumber                     String
+  createdAt                       DateTime @default(now())
+  updatedAt                       DateTime @updatedAt
+}
+
+model Guest {
+  id                              String @id @default(uuid())
+  admissionDate                   DateTime
+  name                            String
+  lastname                        String
+  birthdate                       DateTime
+  age                             Int?
+  dni                             Int
+  streetName                      String?
+  streetNumber                    Int?
+  province                        String?
+  city                            String?
+  zipCode                         Int?
+  contactName                     String?
+  contactPhone                    String?
+  contactEmail                    String?
+  relationWithGuest               String?
+  referringPerson                 String?
+  informationLevel                InformationLevel?
+  religion                        Religion?
+  funeralService                  Boolean?
+  tumor                           String?
+  metastasis                      Boolean?
+  metastasisLocation              String?
+  personalHistory                 String?
+  ecog                            Ecog?
+  specificOncologicalTreatment    SpecificOncologicalTreatment?
+  surgery                         String?
+  radiotherapy                    String?
+  chemotherapy                    String?
+  hormonetherapy                  String?
+  opioidTreatment                 Boolean?
+  opioidName                      String?
+  otherMedications                String?
+  socialSecurityNumber            String?
+  socialSecurityId                String?
+  socialSecurity                  SocialSecurity? @relation(fields: [socialSecurityId], references: [id], onDelete: SetNull)
+  status                          Status?
+  hospitalizationDate             DateTime?
+  dateOfDeath                     DateTime?
+  cognitiveEvaluation             CognitiveEvaluation[]
+  fluctuatingCourse               Boolean?
+  attentionDisturbance            Boolean?
+  disorganizedThinking            Boolean?
+  alteredConsciousnessLevel       Boolean?
+  physicalEvaluation              PhysicalEvaluation[]
+  heartRate                       Int?
+  bloodPressureSystolic           Int?
+  bloodPressureDiastolic          Int?
+  respiratoryRate                 Int?
+  temperature                     Float?
+  pain                            Int?
+  tiredness                       Int?
+  nausea                          Int?
+  depression                      Int?
+  anxiety                         Int?
+  sleepiness                      Int?
+  appetite                        Int?
+  dyspnoea                        Int?
+  difficultySleeping              Int?
+  wellBeing                       Int?
+  mobility                        Mobility?
+  mobilityCause                   MobilityCause?
+  hygiene                         Hygiene?
+  bathTransfer                    BathTransfer?
+  oralHealth                      OralHealth?
+  swallowing                      Swallowing?
+  nutrition                       Nutrition?
+  hydration                       Hydration?
+  hydrationMethod                 HydrationMethod?
+  abdominalStatus                 AbdominalStatus?
+  urinaryFunctions                UrinaryFunctions?
+  urineCharacteristics            UrineCharacteristics?
+  bowelFunction                   BowelFunction?
+  stoolConsistency                StoolConsistency?
+  respiratorySystem               RespiratorySystem?
+  sputumType                      String?
+  pressureUlcers                  PressureUlcers?
+  pressureUlcersLocation          String?
+  skinLesions                     String?
+  edema                           Boolean?
+  edemaLocation                   String?
+  ostomies                        Boolean?
+  ostomyType                      String?
+  otherDisorders                  String?
+  carePlan                        String?
+  medications                     Medication[]
+  Epicrisis                       Epicrisis[]
+  createdAt                       DateTime @default(now())
+  updatedAt                       DateTime @updatedAt
+
+  @@index([socialSecurityId])
+}
+
+model CognitiveEvaluation {
+  id                              String @id @default(uuid())
+  guestId                         String
+  guest                           Guest @relation(fields: [guestId], references: [id], onDelete: Cascade)
+  fluctuatingCourse               Boolean
+  attentionDisturbance            Boolean
+  disorganizedThinking            Boolean
+  alteredConsciousnessLevel       Boolean
+  createdAt                       DateTime @default(now())
+  updatedAt                       DateTime @updatedAt
+
+  @@index([guestId])
+}
+
+model PhysicalEvaluation {
+  id                              String @id @default(uuid())
+  guestId                         String
+  guest                           Guest @relation(fields: [guestId], references: [id], onDelete: Cascade)
+  heartRate                       Int
+  bloodPressureSystolic           Int
+  bloodPressureDiastolic          Int
+  respiratoryRate                 Int
+  temperature                     Float
+  pain                            Int
+  tiredness                       Int
+  nausea                          Int
+  depression                      Int
+  anxiety                         Int
+  sleepiness                      Int
+  appetite                        Int
+  dyspnoea                        Int
+  difficultySleeping              Int
+  wellBeing                       Int
+  mobility                        Mobility
+  mobilityCause                   MobilityCause
+  hygiene                         Hygiene
+  bathTransfer                    BathTransfer
+  oralHealth                      OralHealth
+  swallowing                      Swallowing
+  nutrition                       Nutrition
+  hydration                       Hydration
+  hydrationMethod                 HydrationMethod
+  abdominalStatus                 AbdominalStatus
+  urinaryFunctions                UrinaryFunctions
+  urineCharacteristics            UrineCharacteristics
+  bowelFunction                   BowelFunction
+  stoolConsistency                StoolConsistency
+  respiratorySystem               RespiratorySystem
+  sputumType                      String
+  pressureUlcers                  PressureUlcers
+  pressureUlcersLocation          String
+  skinLesions                     String
+  edema                           Boolean
+  edemaLocation                   String
+  ostomies                        Boolean
+  ostomyType                      String
+  otherDisorders                  String
+  carePlan                        String
+  createdAt                       DateTime @default(now())
+  updatedAt                       DateTime @updatedAt
+
+  @@index([guestId])
+}
+
+model Medication {
+  id                              String @id @default(uuid())
+  name                            String?
+  routeOfAdministration           RouteOfAdministration?
+  manufacturer                    String?
+  createdAt                       DateTime @default(now())
+  updatedAt                       DateTime @updatedAt
+
+  Guest Guest[]
+}
+
+model Ticket {
+  id                              String @id @default(uuid())
+  title                           String
+  description                     String
+  userId                          String
+  user                            User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  solution                        String?
+  status                          TicketStatus?
+  createdAt                       DateTime @default(now())
+  updatedAt                       DateTime @updatedAt
+}
+
+model Staff {
+  id                              String @id @default(uuid())
+  name                            String
+  dni                             Int
+  email                           String
+  birthdate                       DateTime?
+  phoneNumber                     String
+  role                            Role
+  createdAt                       DateTime @default(now())
+  updatedAt                       DateTime @updatedAt
+}
+
+model Epicrisis {
+  id                              String @id @default(uuid())
+  guestId                         String
+  guest                           Guest @relation(fields: [guestId], references: [id], onDelete: Cascade)
+  medicalEmergency                YesNo?
+  homeHospitalization             YesNo?
+  homeNursing                     YesNo?
+  homeNursingFrequency            String?
+  homeDoctor                      YesNo?
+  homeDoctorFrequency             String?
+  palliativeCareAssistance        YesNo?
+  hospitalizationReason           HospitalizationReason?
+  uncontrolledSymptoms            UncontrolledSymptoms?
+  otherUncontrolledSymptoms       String?
+  interconsultations              YesNo?
+  interconsultationSpecialist     String?
+  opioidDemo                      String?
+  opioidMethod                    OpioidMethod?
+  sedation                        YesNo?
+  sedationMedication              String?
+  delirium                        YesNo?
+  dyspnoea                        YesNo?
+  pain                            YesNo?
+  suffering                       YesNo?
+  familyCare                      YesNo?
+  familyMeeting                   YesNo?
+  meetingMedic                    YesNo?
+  meetingPsychologist             YesNo?
+  meetingSocialWorker             YesNo?
+  meetingNurse                    YesNo?
+  meetingOther                    String?
+  multifamilyMeetings             YesNo?
+  spiritualAssistance             YesNo?
+  spiritualAssistanceType         SpiritualAssistanceType?
+  psychologicalAssistance         YesNo?
+  previousPsychopathologicalHistory PreviousPsychopathologicalHistory?
+  adaptationDifficulties          YesNo?
+  comments                        String?
+  communication                   String?
+  guestName                       String?
+  guestSocialSecurityName         String?
+  guestAddress                    String?
+  guestTumor                      String?
+  guestMetastasisLocation         String?
+  guestHospitalizationDate        DateTime?
+  guestDateOfDeath                DateTime?
+  guestHospitalizationDays        Int?
+  guestHydrationMethod            HydrationMethod?
+  guestOpioidName                 String?
+  createdAt                       DateTime @default(now())
+  updatedAt                       DateTime @updatedAt
+}
+
+model Secret {
+  id                              String   @id @default(uuid())
+  secret                          String
+  used                            Boolean  @default(false)
+  createdAt                       DateTime @default(now())
+  updatedAt                       DateTime @updatedAt
+}
