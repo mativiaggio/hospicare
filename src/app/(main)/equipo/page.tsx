@@ -1,9 +1,14 @@
-import React from 'react'
+import React from "react";
+import ErrorPage from "@/components/pages/error";
+import { getAll } from "@/modules/users/backend/queries";
+import { DataTable } from "@/modules/users/frontend/data-table";
 
-const TeamsPage = () => {
-  return (
-    <div>Teams Page</div>
-  )
-}
+const TeamsPage = async () => {
+  const users = await getAll();
 
-export default TeamsPage
+  if (users === null) return <ErrorPage />;
+
+  return <DataTable data={users} />;
+};
+
+export default TeamsPage;

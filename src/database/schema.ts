@@ -433,7 +433,7 @@ export const users = pgTable(
     clerkId: text("clerk_id"),
     firstNames: text("first_names").notNull(),
     lastNames: text("last_names").notNull(),
-    email: text("email"),
+    email: text("email").unique(),
     imageUrl: text("image_url"),
 
     createdAt: timestamp("created_at").defaultNow().notNull(),
