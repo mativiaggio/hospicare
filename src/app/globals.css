@@ -13,225 +13,192 @@ html {
 
 @layer base {
   :root {
-    --main-blue: 205, 100%, 28%;
+    --main-100: 205, 87%, 94%;
+
+    --main-200: 207, 89%, 86%;
+
+    --main-300: 207, 90%, 77%;
+
+    --main-400: 207, 89%, 68%;
+
+    --main-500: 207, 90%, 61%;
+
+    --main-600: 207, 90%, 54%;
+
+    --main-700: 208, 79%, 51%;
+
+    --main-800: 210, 79%, 46%;
+
+    --main-900: 212, 80%, 42%;
+
+    --main-1000: 216, 85%, 34%;
+
+    --main-primary: 208, 79%, 51%;
+
+    --main-primary-foreground: 207, 90%, 54%;
+
     --background: 0 0% 100%;
+
     --foreground: 240 10% 3.9%;
+
     --card: 0 0% 100%;
+
     --card-foreground: 240 10% 3.9%;
+
     --popover: 0 0% 100%;
+
     --popover-foreground: 240 10% 3.9%;
+
     --primary: 240 5.9% 10%;
+
     --primary-foreground: 0 0% 98%;
+
     --secondary: 240 4.8% 95.9%;
+
     --secondary-foreground: 240 5.9% 10%;
+
     --muted: 240 4.8% 95.9%;
+
     --muted-foreground: 240 3.8% 46.1%;
+
     --accent: 240 4.8% 95.9%;
+
     --accent-foreground: 240 5.9% 10%;
+
     --destructive: 0 84.2% 60.2%;
+
     --destructive-foreground: 0 0% 98%;
+
     --border: 240 5.9% 90%;
+
     --input: 240 5.9% 90%;
+
     --ring: 240 10% 3.9%;
+
     --chart-1: 12 76% 61%;
+
     --chart-2: 173 58% 39%;
+
     --chart-3: 197 37% 24%;
+
     --chart-4: 43 74% 66%;
+
     --chart-5: 27 87% 67%;
+
     --radius: 0.5rem;
+
     --sidebar-background: 0 0% 98%;
+
     --sidebar-foreground: 240 5.3% 26.1%;
+
     --sidebar-primary: 240 5.9% 10%;
+
     --sidebar-primary-foreground: 0 0% 98%;
+
     --sidebar-accent: 240 4.8% 95.9%;
+
     --sidebar-accent-foreground: 240 5.9% 10%;
+
     --sidebar-border: 220 13% 91%;
+
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
   .dark {
-    --main-blue: 205, 100%, 28%;
+    --main-100: 205, 87%, 94%;
+
+    --main-200: 207, 89%, 86%;
+
+    --main-300: 207, 90%, 77%;
+
+    --main-400: 207, 89%, 68%;
+
+    --main-500: 207, 90%, 61%;
+
+    --main-600: 207, 90%, 54%;
+
+    --main-700: 208, 79%, 51%;
+
+    --main-800: 210, 79%, 46%;
+
+    --main-900: 212, 80%, 42%;
+
+    --main-1000: 216, 85%, 34%;
+
+    --main-primary: 208, 79%, 51%;
+
+    --main-primary-foreground: 207, 90%, 54%;
+
     --background: 240 10% 3.9%;
+
     --foreground: 0 0% 98%;
+
     --card: 240 10% 3.9%;
+
     --card-foreground: 0 0% 98%;
+
     --popover: 240 10% 3.9%;
+
     --popover-foreground: 0 0% 98%;
+
     --primary: 0 0% 98%;
+
     --primary-foreground: 240 5.9% 10%;
+
     --secondary: 240 3.7% 15.9%;
+
     --secondary-foreground: 0 0% 98%;
+
     --muted: 240 3.7% 15.9%;
+
     --muted-foreground: 240 5% 64.9%;
+
     --accent: 240 3.7% 15.9%;
+
     --accent-foreground: 0 0% 98%;
+
     --destructive: 0 62.8% 30.6%;
+
     --destructive-foreground: 0 0% 98%;
+
     --border: 240 3.7% 15.9%;
+
     --input: 240 3.7% 15.9%;
+
     --ring: 240 4.9% 83.9%;
+
     --chart-1: 220 70% 50%;
+
     --chart-2: 160 60% 45%;
+
     --chart-3: 30 80% 55%;
+
     --chart-4: 280 65% 60%;
+
     --chart-5: 340 75% 55%;
+
     --sidebar-background: 240 5.9% 10%;
+
     --sidebar-foreground: 240 4.8% 95.9%;
+
     --sidebar-primary: 224.3 76.3% 48%;
+
     --sidebar-primary-foreground: 0 0% 100%;
+
     --sidebar-accent: 240 3.7% 15.9%;
+
     --sidebar-accent-foreground: 240 4.8% 95.9%;
+
     --sidebar-border: 240 3.7% 15.9%;
+
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-border outline-ring/50;
   }
   body {
     @apply bg-background text-foreground;
   }
-
-  .input-phone {
-    @apply mt-2 flex h-11 rounded-md pl-3 text-sm border !important;
-  }
-
-  .input-phone img {
-    @apply ml-2 mr-3 h-6 w-6 fill-current;
-  }
-
-  .input-phone div {
-    @apply flex items-center justify-center;
-  }
-
-  .input-phone div select {
-    @apply hidden;
-  }
-
-  .input-phone input {
-    @apply w-full bg-transparent focus:bg-transparent active:bg-transparent focus:outline-none;
-  }
-
-  .react-datepicker__day--selected {
-    @apply dark:bg-[#fafafa] text-black !important;
-  }
-
-  .react-datepicker__time-list-item--selected {
-    @apply dark:bg-[#fafafa] !important;
-  }
-}
-
-.react-datepicker__input-container input {
-  background-color: #ffffff00 !important;
-  width: 100%;
-  outline: none;
-}
-
-/* =====  REACT-DATEPICKER OVERRIDES */
-.react-datepicker-wrapper * {
-  font-family: "Plus Jakarta Sans", sans-serif;
-}
-.react-datepicker-wrapper {
-  width: 100% !important;
-  font-size: 14px !important;
-}
-
-.react-datepicker__header {
-  background-color: white !important;
-}
-
-.react-datepicker__header h2 {
-  font-weight: bold !important;
-  /* font-family: "Plus Jakarta Sans", sans-serif; */
-}
-
-.react-datepicker-wrapper.date-picker {
-  display: flex;
-  align-items: center;
-}
-
-.react-datepicker,
-.react-datepicker__time,
-.react-datepicker__header,
-.react-datepicker__current-month,
-.react-datepicker__day,
-.react-datepicker-time__header {
-  background-color: #ffffff;
-  color: #abb8c4;
-  border-color: #e5e5e5 !important;
-}
-
-/* .react-datepicker.dark,
-.react-datepicker__time.dark,
-.react-datepicker__header.dark,
-.react-datepicker__current-month.dark,
-.react-datepicker__day.dark,
-.react-datepicker-time__header.dark {
-  background-color: #141414;
-} */
-
-.react-datepicker__day-name {
-  background-color: #ffffff;
-  color: #abb8c4;
-  border-color: #363a3d;
-}
-
-.react-datepicker__current-month,
-.react-datepicker__day-name,
-.react-datepicker-time__header {
-  color: #ffffff;
-}
-
-/* .react-datepicker__triangle {
-  fill: #141414;
-  color: #141414;
-  stroke: #141414;
-} */
-
-.react-datepicker__time-list-item:hover {
-  background-color: #363a3d;
-}
-
-.react-datepicker-wrapper {
-  width: 100%;
-  display: block;
-}
-
-.react-datepicker__input-container {
-  width: 100%;
-}
-
-.react-datepicker__input-container input {
-  background-color: #f0f0f0;
-  width: 100%;
-  outline: none;
-}
-
-/* .react-datepicker__input-container input.dark {
-  background-color: #141414;
-} */
-
-.react-datepicker__day--selected {
-  background-color: #141414 !important;
-  color: #ffffff;
-  border-radius: 4px;
-}
-
-/* .react-datepicker__time-list-item--selected {
-  background-color: #141414 !important;
-} */
-
-/* .react-datepicker__time-container {
-  border-left: 1px solid #363a3d;
-}
-
-.react-datepicker__time-list-item {
-  display: flex;
-  align-items: center;
-} */
-
-.react-datepicker__month-select,
-.react-datepicker__year-select {
-  background-color: transparent !important;
 }

@@ -10,7 +10,11 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-main-blue text-primary-foreground shadow hover:bg-main-blue",
+          "bg-primary text-primary-foreground shadow hover:bg-primary/90",
+        primary:
+          "bg-main-primary text-primary-foreground dark:border dark:border-border dark:bg-transparent dark:text-primary dark:hover:border-border dark:hover:!bg-border dark:hover:border-[#3c3c3e] shadow hover:bg-main-primary-foreground",
+        "primary-outline":
+          "border border-border text-main-600 dark:text-primary font-normal bg-white/80 dark:bg-transparent hover:border-main-200 hover:!bg-main-100  dark:hover:border-border dark:hover:!bg-border dark:hover:border-[#3c3c3e]",
         destructive:
           "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
         outline:
@@ -19,8 +23,8 @@ const buttonVariants = cva(
           "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
-        inherit:
-          "!p-0 !border-none !ourline-none !m-0 !bg-transparent !h-fit font-normal",
+        "data-table-filter":
+          "hover:bg-transparent hover:text-accent-foreground !p-0",
       },
       size: {
         default: "h-9 px-4 py-2",

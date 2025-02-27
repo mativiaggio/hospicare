@@ -1,13 +1,24 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
-import { ClerkProvider } from "@clerk/nextjs";
+import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "@/components/theme-provider";
-import { env } from "@/env.config";
-import { cn } from "@/lib/utils";
-import ModalProvider from "@/lib/providers/modal-provider";
 
-// Define metadata for the page
+import { ClerkProvider } from "@clerk/nextjs";
+import { esMX } from "@clerk/localizations";
+
+import { ThemeProvider } from "@/providers/theme-provider";
+import { env } from "@/lib/env.config";
+import ModalProvider from "@/providers/modal-provider";
+
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
 export const metadata: Metadata = {
   title: env.APP_TITLE,
   description:
@@ -29,7 +40,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: "website",
-    url: "https://hospicare-hmt.vercel.app/",
+    url: "https://hospicare.com.ar/",
     title: env.APP_TITLE,
     description:
       "La aplicación de gestión médica segura y eficiente del Madre Teresa Hospice de Luján.",
@@ -62,21 +73,16 @@ export const metadata: Metadata = {
   manifest: "/manifest.json",
 };
 
-const plusJakartaSans = Plus_Jakarta_Sans({ subsets: ["latin"] });
-
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
+    <ClerkProvider localization={esMX}>
       <html lang="en" suppressHydrationWarning>
         <body
-          className={cn(
-            plusJakartaSans.className,
-            "antialiased text-lg print:!mt-0 bg-main"
-          )}>
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"

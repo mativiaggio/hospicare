@@ -1,21 +1,11 @@
-"use client";
-import AuthNavbar from "./_components/auth-navbar";
+import React from "react";
 
-interface AuthLayuotProps {
-  children: React.ReactNode;
-}
-
-const AuthLayuot = ({ children }: AuthLayuotProps) => {
+const layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <main className="min-h-screen flex flex-col gap-8">
-      <AuthNavbar />
-      <div className="mx-auto max-w-screen-2xl">
-        <div className="flex flex-col items-center justify-center pt-4 md:pt-14">
-          {children}
-        </div>
-      </div>
-    </main>
+    <div className="flex w-full h-screen justify-center items-center">
+      {children}
+    </div>
   );
 };
 
-export default AuthLayuot;
+export default layout;

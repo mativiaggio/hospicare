@@ -10,7 +10,19 @@ export default {
   theme: {
     extend: {
       colors: {
-        "main-blue": "hsl(var(--main-blue))",
+        "main-100": "hsl(var(--main-100))",
+        "main-200": "hsl(var(--main-200))",
+        "main-300": "hsl(var(--main-300))",
+        "main-400": "hsl(var(--main-400))",
+        "main-500": "hsl(var(--main-500))",
+        "main-600": "hsl(var(--main-600))",
+        "main-700": "hsl(var(--main-700))",
+        "main-800": "hsl(var(--main-800))",
+        "main-900": "hsl(var(--main-900))",
+        "main-1000": "hsl(var(--main-1000))",
+        "main-primary": "hsl(var(--main-primary))",
+        "main-primary-foreground": "hsl(var(--main-primary-foreground))",
+
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {

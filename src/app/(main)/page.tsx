@@ -1,8 +1,7 @@
-"use client";
 import React from "react";
 
-const HomePage = () => {
-  return <div>Inicio</div>;
+const MainPage = () => {
+  return <div>MainPage</div>;
 };
 
-export default HomePage;
+export default MainPage;
