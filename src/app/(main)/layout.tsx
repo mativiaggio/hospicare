@@ -11,7 +11,7 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import AutoBreadcrumb from "@/components/auto-breadcrumb";
 import { Toaster } from "@/components/ui/toaster";
-import { Notifications } from "@/components/notifications";
+import { Notifications } from "@/modules/notifications/frontend/notifications";
 
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (

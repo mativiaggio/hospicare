@@ -1,4 +1,5 @@
 import {
+  BellDot,
   BookUser,
   Hospital,
   Inbox,
@@ -9,7 +10,7 @@ import {
 } from "lucide-react";
 
 // Menu items.
-export const items = [
+export const navbarItems = [
   {
     title: "Dashboard",
     url: "/",
@@ -39,6 +40,11 @@ export const items = [
     title: "Mensajes",
     url: "/mensajes",
     icon: Inbox,
+  },
+  {
+    title: "Notificaciones",
+    url: "/notifications",
+    icon: BellDot,
   },
   {
     title: "Configuración",

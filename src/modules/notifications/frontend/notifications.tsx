@@ -8,11 +8,11 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { getAll } from "@/modules/notifications/backend/queries";
-import { Bell } from "lucide-react";
-import ErrorPage from "./pages/error";
+import { BellDot } from "lucide-react";
+import ErrorPage from "@/components/pages/error";
 import { clerkClient } from "@clerk/nextjs/server";
 import Image from "next/image";
-import { ScrollArea } from "./ui/scroll-area";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { formatRelativeTime } from "@/lib/utils";
 
 export const Notifications = async () => {
@@ -45,14 +45,14 @@ export const Notifications = async () => {
         <Button
           variant="primary-outline"
           className="!aspect-square p-0 rounded-full">
-          <Bell />
+          <BellDot />
         </Button>
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
           <SheetTitle className="text-bold">Notificaciones</SheetTitle>
           <SheetDescription>
-            Acá podés encontrar los últimos movimientos del sistema.
+            Acá podés encontrar los últimos 20 movimientos del sistema.
           </SheetDescription>
         </SheetHeader>
         <ScrollArea className="h-[calc(100vh-8rem)] mt-4">

@@ -9,7 +9,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { items } from "@/utils/constants";
+import { navbarItems } from "@/utils/constants";
 
 import { currentUser } from "@clerk/nextjs/server";
 import Image from "next/image";
@@ -48,7 +48,7 @@ export async function AppSidebar() {
           <SidebarGroupLabel>Módulos</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item) => (
+              {navbarItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <Link href={item.url}>

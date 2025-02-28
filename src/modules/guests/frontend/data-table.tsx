@@ -35,11 +35,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Medications } from "../types";
-import { formatRouteOfAdministration } from "@/utils/formatter";
+import { Guests } from "../types";
 import Link from "next/link";
 
-export const columns: ColumnDef<Medications>[] = [
+export const columns: ColumnDef<Guests>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -63,7 +62,7 @@ export const columns: ColumnDef<Medications>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "name",
+    accessorKey: "firstNames",
     header: ({ column }) => {
       return (
         <Button
@@ -74,45 +73,30 @@ export const columns: ColumnDef<Medications>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => <div className="lowercase">{row.getValue("name")}</div>,
+    cell: ({ row }) => (
+      <div className="lowercase">{row.getValue("firstNames")}</div>
+    ),
   },
   {
-    accessorKey: "manufacterer",
+    accessorKey: "lastNames",
     header: ({ column }) => {
       return (
         <Button
           variant="data-table-filter"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-          Fabricante
+          Apellido
           <ArrowUpDown />
         </Button>
       );
     },
     cell: ({ row }) => (
-      <div className="lowercase">{row.getValue("manufacterer")}</div>
+      <div className="lowercase">{row.getValue("lastNames")}</div>
     ),
-  },
-  {
-    accessorKey: "routeOfAdministration",
-    header: ({ column }) => (
-      <Button
-        variant="data-table-filter"
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-        Administración
-        <ArrowUpDown />
-      </Button>
-    ),
-    cell: ({ row }) => {
-      const route = row.getValue("routeOfAdministration");
-      return <div>{formatRouteOfAdministration(route as string)}</div>;
-    },
   },
   {
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const payment = row.original;
-
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -122,14 +106,16 @@ export const columns: ColumnDef<Medications>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}>
-              Copy payment ID
+            <DropdownMenuLabel>Acciones</DropdownMenuLabel>
+            <DropdownMenuItem className="p-0">
+              <Link
+                href={`/huespedes/${row.original.id}`}
+                className="px-2 py-1.5  w-full">
+                Editar
+              </Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
+            <DropdownMenuItem>Eliminar</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );
@@ -138,7 +124,7 @@ export const columns: ColumnDef<Medications>[] = [
 ];
 
 interface DataTableProps {
-  data: Medications[];
+  data: Guests[];
 }
 
 export function DataTable({ data }: DataTableProps) {
@@ -174,9 +160,11 @@ export function DataTable({ data }: DataTableProps) {
       <div className="flex items-center gap-2 py-4">
         <Input
           placeholder="Filtrar por nombre..."
-          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+          value={
+            (table.getColumn("firstNames")?.getFilterValue() as string) ?? ""
+          }
           onChange={(event) =>
-            table.getColumn("name")?.setFilterValue(event.target.value)
+            table.getColumn("firstNames")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
@@ -205,7 +193,7 @@ export function DataTable({ data }: DataTableProps) {
               })}
           </DropdownMenuContent>
         </DropdownMenu>
-        <Link href="/medicamentos/nuevo">
+        <Link href="/huespedes/nuevo">
           <Button variant="primary">
             <Plus />
             <span className="hidden md:block">Nuevo</span>

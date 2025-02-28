@@ -10,7 +10,8 @@ export const getAll = async () => {
     return await db
       .select()
       .from(notifications)
-      .orderBy(desc(notifications.createdAt));
+      .orderBy(desc(notifications.createdAt))
+      .limit(20);
   } catch (error) {
     console.log(error);
     return null;

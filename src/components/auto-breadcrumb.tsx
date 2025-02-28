@@ -20,7 +20,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
-import { items } from "@/utils/constants";
+import { navbarItems } from "@/utils/constants";
 import Link from "next/link";
 
 // Función para capitalizar la primera letra de cada segmento
@@ -54,7 +54,7 @@ const AutoBreadcrumb = () => {
               <span className="sr-only">Toggle menu</span>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start">
-              {items.map(
+              {navbarItems.map(
                 (item) =>
                   paths[0] !== item.url && (
                     <DropdownMenuItem key={item.title}>
