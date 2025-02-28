@@ -173,8 +173,8 @@ export const guests = pgTable("guests", {
   id: uuid("id").primaryKey().defaultRandom(),
   admissionDate: timestamp("admission_date").notNull(),
   hospitalizationDate: timestamp("hospitalization_date"),
-  firstNames: text("first_names").notNull(),
-  lastNames: text("last_names").notNull(),
+  firstName: text("first_name").notNull(),
+  lastName: text("last_name").notNull(),
   birthdate: timestamp("birthdate").notNull(),
   dni: integer("dni").notNull().unique(),
   country: text("country"),
@@ -274,8 +274,8 @@ export const guestsContacts = pgTable(
 // CONTACTS
 export const contacts = pgTable("contacts", {
   id: uuid("id").primaryKey().defaultRandom(),
-  firstNames: text("first_names").notNull(),
-  lastNames: text("last_names").notNull(),
+  firstName: text("first_name").notNull(),
+  lastName: text("last_name").notNull(),
   email: text("email"),
   phone: text("phone"),
   bondWithGuest: text("bond_with_guest"),
@@ -431,8 +431,8 @@ export const users = pgTable(
   {
     id: uuid("id").primaryKey().defaultRandom(),
     clerkId: text("clerk_id"),
-    firstNames: text("first_names").notNull(),
-    lastNames: text("last_names").notNull(),
+    firstName: text("first_name").notNull(),
+    lastName: text("last_name").notNull(),
     email: text("email").unique(),
     imageUrl: text("image_url"),
 
@@ -449,6 +449,10 @@ export const notifications = pgTable(
     id: uuid("id").primaryKey().defaultRandom(),
     notification: text("notification").notNull(),
     clerkId: text("clerk_id").notNull(),
+    firstName: text("first_name"),
+    lastName: text("last_name"),
+    imageUrl: text("image_url"),
+    email: text("email"),
 
     createdAt: timestamp("created_at").defaultNow().notNull(),
     updatedAt: timestamp("updated_at").defaultNow().notNull(),

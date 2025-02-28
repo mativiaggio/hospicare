@@ -4,7 +4,7 @@ import { guests } from "@/database/schema";
 import { Guests } from "../types";
 import { create as createNotifications } from "@/modules/notifications/backend/queries";
 import { v4 } from "uuid";
-import { auth } from "@clerk/nextjs/server";
+import { currentUser } from "@clerk/nextjs/server";
 import { eq } from "drizzle-orm";
 
 export const getAll = async () => {
@@ -29,8 +29,8 @@ export const findById = async (guestId: string) => {
 
 export const create = async (data: Guests) => {
   try {
-    const { userId } = await auth();
-    if (!userId) throw new Error("El usuario no existe");
+    const user = await currentUser();
+    if (!user) throw new Error("El usuario no existe");
 
     const record = await db.insert(guests).values({ ...data });
 
@@ -39,7 +39,11 @@ export const create = async (data: Guests) => {
     await createNotifications({
       id: v4(),
       notification: "Cargó un nuevo huésped",
-      clerkId: userId,
+      clerkId: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      imageUrl: user.imageUrl,
+      email: user.emailAddresses[0].emailAddress,
       createdAt: new Date(),
       updatedAt: new Date(),
     });
@@ -53,8 +57,8 @@ export const create = async (data: Guests) => {
 
 export const update = async (data: Guests) => {
   try {
-    const { userId } = await auth();
-    if (!userId) throw new Error("El usuario no existe");
+    const user = await currentUser();
+    if (!user) throw new Error("El usuario no existe");
 
     const record = await db
       .update(guests)
@@ -65,8 +69,12 @@ export const update = async (data: Guests) => {
 
     await createNotifications({
       id: v4(),
-      notification: `Actualizó el huésped ${data.firstNames} ${data.lastNames}`,
-      clerkId: userId,
+      notification: `Actualizó el huésped ${data.firstName} ${data.lastName}`,
+      clerkId: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      imageUrl: user.imageUrl,
+      email: user.emailAddresses[0].emailAddress,
       createdAt: new Date(),
       updatedAt: new Date(),
     });
@@ -77,3 +85,31 @@ export const update = async (data: Guests) => {
     return null;
   }
 };
+
+export const deleteGuest = async (guest : Guests) => {
+  try {
+    const user = await currentUser()
+
+    if (!user) throw new Error("El usuario no existe");
+
+    await db.delete(guests).where(eq(guests.id, guest.id));
+
+    await createNotifications({
+      id: v4(),
+      notification: `Eliminó el huésped ${guest.firstName} ${guest.lastName}`,
+      clerkId: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      imageUrl: user.imageUrl,
+      email: user.emailAddresses[0].emailAddress,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
+
+    return { status: 200, message: "Registro eliminado con éxito" };
+
+  } catch (error) {
+    console.log(error);
+    return null
+  }
+}

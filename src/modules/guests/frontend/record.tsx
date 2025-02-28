@@ -32,10 +32,10 @@ import { Textarea } from "@/components/ui/textarea";
 const formSchema = z.object({
   admissionDate: z.coerce.date().default(new Date()),
   hospitalizationDate: z.coerce.date().nullable(),
-  firstNames: z
+  firstName: z
     .string()
     .min(2, "El nombre del medicamento debe tener al menos 2 caracteres."),
-  lastNames: z
+  lastName: z
     .string()
     .min(2, "El nombre del medicamento debe tener al menos 2 caracteres."),
   birthdate: z.coerce.date(),
@@ -105,8 +105,8 @@ const Record = ({ details }: RecordProps) => {
     defaultValues: {
       admissionDate: details?.admissionDate || new Date(),
       hospitalizationDate: details?.hospitalizationDate || null,
-      firstNames: details?.firstNames || "",
-      lastNames: details?.lastNames || "",
+      firstName: details?.firstName || "",
+      lastName: details?.lastName || "",
       birthdate: details?.birthdate,
       dni: details?.dni || 0,
       country: details?.country || "Argentina",
@@ -188,14 +188,16 @@ const Record = ({ details }: RecordProps) => {
       toast({
         variant: "destructive",
         title: "Oops!",
-        description: "Ocurrió un error al crear la agencia.",
+        description: "Ocurrió un error al crear el huésped.",
       });
     }
   };
 
   return (
     <Form {...form}>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="grid grid-cols-1 xl:grid-cols-2 gap-4">
         <FormField
           control={control}
           name="admissionDate"
@@ -248,7 +250,7 @@ const Record = ({ details }: RecordProps) => {
         />
         <FormField
           control={control}
-          name="firstNames"
+          name="firstName"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Nombres</FormLabel>
@@ -261,7 +263,7 @@ const Record = ({ details }: RecordProps) => {
         />
         <FormField
           control={control}
-          name="lastNames"
+          name="lastName"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Apellidos</FormLabel>

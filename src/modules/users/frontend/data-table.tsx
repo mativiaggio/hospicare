@@ -65,7 +65,7 @@ export const columns: ColumnDef<Users>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "firstNames",
+    accessorKey: "firstName",
     header: ({ column }) => {
       return (
         <Button
@@ -77,11 +77,11 @@ export const columns: ColumnDef<Users>[] = [
       );
     },
     cell: ({ row }) => (
-      <div className="lowercase">{row.getValue("firstNames")}</div>
+      <div className="lowercase">{row.getValue("firstName")}</div>
     ),
   },
   {
-    accessorKey: "lastNames",
+    accessorKey: "lastName",
     header: ({ column }) => {
       return (
         <Button
@@ -93,7 +93,7 @@ export const columns: ColumnDef<Users>[] = [
       );
     },
     cell: ({ row }) => (
-      <div className="lowercase">{row.getValue("lastNames")}</div>
+      <div className="lowercase">{row.getValue("lastName")}</div>
     ),
   },
   {
@@ -179,10 +179,10 @@ export function DataTable({ data }: DataTableProps) {
         <Input
           placeholder="Filtrar por nombre..."
           value={
-            (table.getColumn("firstNames")?.getFilterValue() as string) ?? ""
+            (table.getColumn("firstName")?.getFilterValue() as string) ?? ""
           }
           onChange={(event) =>
-            table.getColumn("firstNames")?.setFilterValue(event.target.value)
+            table.getColumn("firstName")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />

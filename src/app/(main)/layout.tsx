@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  SignInButton,
-  SignUpButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
-} from "@clerk/nextjs";
+import { SignedIn, UserButton } from "@clerk/nextjs";
 import { ModeToggle } from "@/components/mode-toggle";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
@@ -21,10 +15,6 @@ const layout = ({ children }: { children: React.ReactNode }) => {
         <header className="flex justify-between items-center px-4 py-2 w-full border-b bg-primary-foreground">
           <SidebarTrigger className="border text-muted-foreground hover:text-primary" />
           <div className="flex items-center gap-4">
-            <SignedOut>
-              <SignInButton />
-              <SignUpButton />
-            </SignedOut>
             <SignedIn>
               <UserButton />
             </SignedIn>

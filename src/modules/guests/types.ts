@@ -6,8 +6,8 @@ export type Guests = InferSelectModel<typeof guests>;
 export interface GuestFormValues {
   admissionDate: Date;
   hospitalizationDate: Date | null;
-  firstNames: string;
-  lastNames: string;
+  firstName: string;
+  lastName: string;
   birthdate: Date;
   dni: number;
   country: string | null;

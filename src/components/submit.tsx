@@ -8,12 +8,27 @@ import { Button } from "./ui/button";
 interface SubmitProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   isLoading: boolean;
   title?: string;
+  variant?:
+    | "default"
+    | "primary"
+    | "destructive"
+    | "outline"
+    | "secondary"
+    | "ghost"
+    | "link"
+    | "data-table-filter";
 }
 
-export function Submit({ isLoading, title, className, ...props }: SubmitProps) {
+export function Submit({
+  isLoading,
+  title,
+  variant = "primary",
+  className,
+  ...props
+}: SubmitProps) {
   return (
     <Button
-      variant="primary"
+      variant={variant || "primary"}
       disabled={isLoading}
       className={cn(
         "w-28", // Ancho fijo

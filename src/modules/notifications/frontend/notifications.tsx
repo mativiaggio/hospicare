@@ -10,39 +10,21 @@ import {
 import { getAll } from "@/modules/notifications/backend/queries";
 import { BellDot } from "lucide-react";
 import ErrorPage from "@/components/pages/error";
-import { clerkClient } from "@clerk/nextjs/server";
 import Image from "next/image";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { formatRelativeTime } from "@/lib/utils";
 
 export const Notifications = async () => {
   const notifications = await getAll();
-  const client = await clerkClient();
+  // const client = await clerkClient();
 
   if (notifications === null) return <ErrorPage />;
-
-  const notificationsWithUser = await Promise.all(
-    notifications.map(async (notification) => {
-      try {
-        const user = await client.users.getUser(notification.clerkId);
-        return { ...notification, user };
-      } catch (error) {
-        console.log(error);
-        return null;
-      }
-    })
-  );
-
-  // Filtramos las notificaciones nulas
-  const validNotifications = notificationsWithUser.filter(
-    (notification): notification is NonNullable<typeof notification> =>
-      notification !== null
-  );
 
   return (
     <Sheet>
       <SheetTrigger asChild>
         <Button
+          size="icon"
           variant="primary-outline"
           className="!aspect-square p-0 rounded-full">
           <BellDot />
@@ -57,13 +39,14 @@ export const Notifications = async () => {
         </SheetHeader>
         <ScrollArea className="h-[calc(100vh-8rem)] mt-4">
           <div className="grid gap-4 pr-4">
-            {validNotifications.map((notification) => (
+            {notifications.map((notification) => (
               <div key={notification.id} className="p-2 border-b flex gap-2">
-                <div className="w-[42px] h-[42px] aspect-square relative rounded-full overflow-hidden flex-shrink-0">
+                <div className="aspect-square relative rounded-full overflow-hidden flex-shrink-0">
                   <Image
-                    src={notification.user.imageUrl || "/placeholder.svg"}
-                    fill
-                    alt={`Foto de perfil de ${notification.user.firstName} ${notification.user.lastName}`}
+                    src={notification.imageUrl || "/placeholder.svg"}
+                    width={42}
+                    height={42}
+                    alt={`Foto de perfil de ${notification.firstName} ${notification.lastName}`}
                     className="aspect-square object-cover"
                     unoptimized
                   />
@@ -71,7 +54,7 @@ export const Notifications = async () => {
                 <div className="flex-grow">
                   <div className="flex items-center gap-2">
                     <p className="font-bold">
-                      {notification.user.firstName} {notification.user.lastName}
+                      {notification.firstName} {notification.lastName}
                     </p>
                     <p className="text-xs text-muted-foreground">
                       {formatRelativeTime(notification.createdAt)}

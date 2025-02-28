@@ -60,8 +60,8 @@ export async function POST(req: Request) {
 
     await db.insert(users).values({
       clerkId: data.id,
-      firstNames: `${data.first_name || ""}`,
-      lastNames: `${data.last_name || ""}`,
+      firstName: `${data.first_name || ""}`,
+      lastName: `${data.last_name || ""}`,
       email: data.email_addresses[0].email_address,
       imageUrl: data.image_url,
     });
@@ -83,8 +83,8 @@ export async function POST(req: Request) {
     await db
       .update(users)
       .set({
-        firstNames: `${data.first_name || ""}`,
-        lastNames: `${data.last_name || ""}`,
+        firstName: `${data.first_name || ""}`,
+        lastName: `${data.last_name || ""}`,
         imageUrl: data.image_url,
       })
       .where(eq(users.clerkId, data.id));

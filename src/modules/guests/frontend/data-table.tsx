@@ -2,10 +2,10 @@
 
 import * as React from "react";
 import {
-  ColumnDef,
-  ColumnFiltersState,
-  SortingState,
-  VisibilityState,
+  type ColumnDef,
+  type ColumnFiltersState,
+  type SortingState,
+  type VisibilityState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
@@ -13,7 +13,14 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { ArrowUpDown, ChevronDown, MoreHorizontal, Plus } from "lucide-react";
+import {
+  ArrowUpDown,
+  ChevronDown,
+  Edit,
+  MoreHorizontal,
+  Plus,
+  Trash,
+} from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -35,93 +42,21 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Guests } from "../types";
+import {
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import type { Guests } from "../types";
 import Link from "next/link";
-
-export const columns: ColumnDef<Guests>[] = [
-  {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    accessorKey: "firstNames",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="data-table-filter"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-          Nombre
-          <ArrowUpDown />
-        </Button>
-      );
-    },
-    cell: ({ row }) => (
-      <div className="lowercase">{row.getValue("firstNames")}</div>
-    ),
-  },
-  {
-    accessorKey: "lastNames",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="data-table-filter"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-          Apellido
-          <ArrowUpDown />
-        </Button>
-      );
-    },
-    cell: ({ row }) => (
-      <div className="lowercase">{row.getValue("lastNames")}</div>
-    ),
-  },
-  {
-    id: "actions",
-    enableHiding: false,
-    cell: ({ row }) => {
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Acciones</DropdownMenuLabel>
-            <DropdownMenuItem className="p-0">
-              <Link
-                href={`/huespedes/${row.original.id}`}
-                className="px-2 py-1.5  w-full">
-                Editar
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Eliminar</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    },
-  },
-];
+import { deleteGuest } from "../backend/queries";
+import { useRouter } from "next/navigation";
+import { useToast } from "@/hooks/use-toast";
+import { Submit } from "@/components/submit";
 
 interface DataTableProps {
   data: Guests[];
@@ -135,6 +70,142 @@ export function DataTable({ data }: DataTableProps) {
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
+  const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
+  const [guestToDelete, setGuestToDelete] = React.useState<Guests | null>(null);
+  const [isLoading, setIsLoading] = React.useState(false);
+  const router = useRouter();
+  const { toast } = useToast();
+
+  const handleDelete = (guest: Guests) => {
+    setGuestToDelete(guest);
+    setDeleteDialogOpen(true);
+  };
+
+  const confirmDelete = async () => {
+    setIsLoading(true);
+    try {
+      if (guestToDelete) {
+        const response = await deleteGuest(guestToDelete);
+
+        if (response === null) throw new Error("Ocurrió un error");
+
+        toast({
+          title: "Éxito",
+          description: response.message,
+          variant: "success",
+        });
+
+        router.refresh();
+        setDeleteDialogOpen(false);
+        setGuestToDelete(null);
+        setIsLoading(false);
+      }
+    } catch (error) {
+      console.log(error);
+      toast({
+        variant: "destructive",
+        title: "Oops!",
+        description: "Ocurrió un error al eliminar el huésped.",
+      });
+      setDeleteDialogOpen(false);
+      setGuestToDelete(null);
+      setIsLoading(false);
+    }
+  };
+
+  const columns: ColumnDef<Guests>[] = [
+    {
+      id: "select",
+      header: ({ table }) => (
+        <Checkbox
+          checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomePageRowsSelected() && "indeterminate")
+          }
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="Select all"
+        />
+      ),
+      cell: ({ row }) => (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label="Select row"
+        />
+      ),
+      enableSorting: false,
+      enableHiding: false,
+    },
+    {
+      accessorKey: "firstName",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="data-table-filter"
+            onClick={() =>
+              column.toggleSorting(column.getIsSorted() === "asc")
+            }>
+            Nombre
+            <ArrowUpDown />
+          </Button>
+        );
+      },
+      cell: ({ row }) => (
+        <div className="capitalize">{row.getValue("firstName")}</div>
+      ),
+    },
+    {
+      accessorKey: "lastName",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="data-table-filter"
+            onClick={() =>
+              column.toggleSorting(column.getIsSorted() === "asc")
+            }>
+            Apellido
+            <ArrowUpDown />
+          </Button>
+        );
+      },
+      cell: ({ row }) => (
+        <div className="capitalize">{row.getValue("lastName")}</div>
+      ),
+    },
+    {
+      id: "actions",
+      enableHiding: false,
+      cell: ({ row }) => {
+        const guest = row.original;
+
+        return (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Open menu</span>
+                <MoreHorizontal />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Acciones</DropdownMenuLabel>
+              <DropdownMenuItem className="p-0">
+                <Link
+                  href={`/huespedes/${guest.id}`}
+                  className="px-2 py-1.5 w-full flex items-center">
+                  <Edit className="mr-2 h-4 w-4" /> Editar
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={() => handleDelete(guest)}>
+                <Trash className="mr-2 h-4 w-4" />
+                Eliminar
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        );
+      },
+    },
+  ];
 
   const table = useReactTable({
     data,
@@ -161,10 +232,10 @@ export function DataTable({ data }: DataTableProps) {
         <Input
           placeholder="Filtrar por nombre..."
           value={
-            (table.getColumn("firstNames")?.getFilterValue() as string) ?? ""
+            (table.getColumn("firstName")?.getFilterValue() as string) ?? ""
           }
           onChange={(event) =>
-            table.getColumn("firstNames")?.setFilterValue(event.target.value)
+            table.getColumn("firstName")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
@@ -272,6 +343,33 @@ export function DataTable({ data }: DataTableProps) {
           </Button>
         </div>
       </div>
+
+      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>¿Está seguro?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Esta acción no se puede deshacer. Esto eliminará permanentemente
+              al huésped
+              {guestToDelete &&
+                ` ${guestToDelete.firstName} ${guestToDelete.lastName}`}{" "}
+              y eliminará sus datos de nuestros servidores.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+
+            <Submit
+              title="Eliminar"
+              variant="destructive"
+              className="!bg-destructive hover:!bg-destructive/90"
+              onClick={confirmDelete}
+              isLoading={isLoading}>
+              Eliminar
+            </Submit>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
